@@ -290,7 +290,7 @@ function HeroSlider() {
 
       {/* Text — bottom-left DJI style */}
       <div
-        className="absolute bottom-0 left-0 right-0 px-10 sm:px-16 lg:px-24 pb-28"
+        className="absolute bottom-0 left-0 right-0 px-10 sm:px-16 lg:px-24 pb-14"
         style={{ opacity: animating ? 0 : 1, transition: 'opacity 0.4s ease' }}
       >
         <p
@@ -442,9 +442,9 @@ function ProductShowcase() {
   }
 
   return (
-    <section className="bg-[#050508] py-20 overflow-hidden">
+    <section className="bg-[#050508] py-10 overflow-hidden">
       {/* Header */}
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 flex items-end justify-between mb-10">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 flex items-end justify-between mb-5">
         <div>
           <span
             className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#00f0ff]"
@@ -605,9 +605,9 @@ function ProductShowcase() {
 // ── Use Cases Section ─────────────────────────────────────────────────────
 function UseCasesSection() {
   return (
-    <section className="bg-[#030508] py-24">
+    <section className="bg-[#030508] py-12">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16">
-        <div className="text-center mb-14">
+        <div className="text-center mb-8">
           <span
             className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#4ae176]"
             style={{ fontFamily: 'JetBrains Mono, monospace' }}
@@ -705,9 +705,9 @@ function Home() {
       <UseCasesSection />
 
       {/* ── CATEGORIES ──────────────────────────────────────────────────── */}
-      <section className="bg-[#07090e] py-20">
+      <section className="bg-[#07090e] py-10">
         <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="text-center mb-12">
+          <div className="text-center mb-6">
             <span
               className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#00f0ff]"
               style={{ fontFamily: 'JetBrains Mono, monospace' }}
@@ -747,9 +747,9 @@ function Home() {
       </section>
 
       {/* ── FEATURED DRONES ─────────────────────────────────────────────── */}
-      <section className="bg-[#050508] py-20">
+      <section className="bg-[#050508] py-10">
         <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="flex items-end justify-between gap-4 mb-10">
+          <div className="flex items-end justify-between gap-4 mb-5">
             <div>
               <span
                 className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#00f0ff]"
@@ -782,9 +782,9 @@ function Home() {
       </section>
 
       {/* ── HOW IT WORKS ────────────────────────────────────────────────── */}
-      <section className="bg-[#07090e] py-20">
+      <section className="bg-[#07090e] py-10">
         <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="text-center mb-12">
+          <div className="text-center mb-6">
             <span
               className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#00f0ff]"
               style={{ fontFamily: 'JetBrains Mono, monospace' }}
@@ -830,7 +830,7 @@ function Home() {
       </section>
 
       {/* ── STATS BANNER ────────────────────────────────────────────────── */}
-      <section className="border-y border-white/5 py-16" style={{ background: 'linear-gradient(135deg, #07090e 0%, #0a0d15 100%)' }}>
+      <section className="border-y border-white/5 py-8" style={{ background: 'linear-gradient(135deg, #07090e 0%, #0a0d15 100%)' }}>
         <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             {statsData.map((stat, i) => (
@@ -854,9 +854,9 @@ function Home() {
       </section>
 
       {/* ── WHY CHOOSE US ───────────────────────────────────────────────── */}
-      <section className="bg-[#050508] py-20">
+      <section className="bg-[#050508] py-10">
         <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="text-center mb-12">
+          <div className="text-center mb-6">
             <span
               className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#4ae176]"
               style={{ fontFamily: 'JetBrains Mono, monospace' }}
@@ -895,9 +895,9 @@ function Home() {
       </section>
 
       {/* ── FEATURED SHOPS ──────────────────────────────────────────────── */}
-      <section id="shops" className="bg-[#07090e] py-20">
+      <section id="shops" className="bg-[#07090e] py-10">
         <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="flex items-end justify-between gap-4 mb-10">
+          <div className="flex items-end justify-between gap-4 mb-5">
             <div>
               <span
                 className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#aac7ff]"
@@ -930,7 +930,7 @@ function Home() {
       </section>
 
       {/* ── CTA SECTION ─────────────────────────────────────────────────── */}
-      <section className="relative py-28 overflow-hidden bg-[#050508]">
+      <section className="relative py-14 overflow-hidden bg-[#050508]">
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] rounded-full blur-[150px] pointer-events-none"
           style={{ background: 'radial-gradient(ellipse, rgba(0,240,255,0.08) 0%, transparent 70%)' }}
@@ -953,7 +953,7 @@ function Home() {
             </span>{' '}
             Today
           </h2>
-          <p className="text-[16px] text-white/35 leading-relaxed mb-10 max-w-2xl mx-auto">
+          <p className="text-[16px] text-white/35 leading-relaxed mb-5 max-w-2xl mx-auto">
             Join thousands of pilots and businesses discovering top drone technology through DroneHub.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
