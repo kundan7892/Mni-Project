@@ -10,16 +10,16 @@ function Navbar() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20)
+    const handleScroll = () => setIsScrolled(window.scrollY > 10)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const navItems = [
-    { name: 'Store', path: '/drones', icon: 'storefront' },
-    { name: 'How It Works', path: '/how-it-works', icon: 'radar' },
-    { name: 'About', path: '/about', icon: 'info' },
-    { name: 'Contact', path: '/contact', icon: 'mail' },
+    { name: 'Products', path: '/drones' },
+    { name: 'How It Works', path: '/how-it-works' },
+    { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' },
   ]
 
   const getDashboardPath = () => {
@@ -43,94 +43,94 @@ function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#0a0e16]/95 backdrop-blur-xl shadow-[0_2px_30px_rgba(0,0,0,0.8)] border-b border-[#3b494b]/30'
-          : 'bg-transparent border-b border-transparent'
+          ? 'bg-[#0a0c10]/98 backdrop-blur-2xl border-b border-white/5'
+          : 'bg-transparent'
       }`}
     >
-      <div className="h-16 max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 flex items-center justify-between">
+      <div className="h-14 max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between">
 
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#00dbe9] to-[#3e90ff] flex items-center justify-center glow-primary group-hover:scale-105 transition-transform">
+        <Link to="/" className="flex items-center gap-3 group shrink-0">
+          <div
+            className="w-8 h-8 rounded-lg flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, #00f0ff 0%, #0066ff 100%)' }}
+          >
             <span
-              className="material-symbols-outlined text-[#002022]"
-              style={{ fontSize: '18px', fontVariationSettings: "'FILL' 1" }}
+              className="material-symbols-outlined text-[#001a2e]"
+              style={{ fontSize: '16px', fontVariationSettings: "'FILL' 1" }}
             >
               flight_takeoff
             </span>
           </div>
-          <div className="flex flex-col leading-none">
-            <div className="flex items-center gap-1.5">
-              <span style={{ fontFamily: 'Space Grotesk, sans-serif' }} className="font-bold text-[18px] text-[#00f0ff] tracking-tight">
-                DroneHub
-              </span>
-              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#00f0ff]/10 text-[#00f0ff] font-bold uppercase tracking-wide border border-[#00f0ff]/20" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-                v2.0
-              </span>
-            </div>
-            <span className="text-[10px] text-[#b9cacb] leading-3 mt-0.5" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-              Rent. Fly. Track.
-            </span>
-          </div>
+          <span
+            className="font-bold text-[17px] text-white tracking-tight"
+            style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+          >
+            DroneHub
+          </span>
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-1">
+        {/* Desktop Nav — DJI-style minimal, no icons */}
+        <nav className="hidden md:flex items-center gap-0.5 absolute left-1/2 -translate-x-1/2">
           {navItems.map((item) => (
             <NavLink
               key={item.name}
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center gap-1.5 px-3 py-2 rounded-xl text-[13px] font-medium transition-all ${
+                `px-4 py-2 text-[13px] font-medium transition-colors rounded-md ${
                   isActive
-                    ? 'text-[#00f0ff] bg-[#00f0ff]/10 font-semibold'
-                    : 'text-[#b9cacb] hover:text-[#dfe2ee] hover:bg-[#1c2028]'
+                    ? 'text-white'
+                    : 'text-white/60 hover:text-white/90'
                 }`
               }
             >
-              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>{item.icon}</span>
               {item.name}
             </NavLink>
           ))}
         </nav>
 
         {/* Right side */}
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-3">
           {isAuthenticated ? (
             <div className="relative">
               <button
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                className="flex items-center gap-2 bg-[#1c2028] hover:bg-[#262a33] border border-[#3b494b]/50 hover:border-[#00f0ff]/30 p-1.5 pr-3 rounded-full transition-all cursor-pointer"
+                className="flex items-center gap-2 cursor-pointer group"
               >
-                <div className="relative">
-                  <img
-                    src={currentUser?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80'}
-                    alt="Profile"
-                    className="w-7 h-7 rounded-full object-cover ring-1 ring-[#00f0ff]/30"
-                  />
-                  <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-[#4ae176] rounded-full border-2 border-[#1c2028]" />
-                </div>
-                <div className="text-left">
-                  <div className="text-[12px] font-semibold text-[#dfe2ee] leading-4 max-w-[90px] truncate">{currentUser?.name}</div>
-                  <div className="text-[10px] text-[#00f0ff] font-semibold uppercase" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{getRoleLabel()}</div>
-                </div>
+                <img
+                  src={currentUser?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80'}
+                  alt="Profile"
+                  className="w-7 h-7 rounded-full object-cover ring-1 ring-white/20"
+                />
+                <span className="text-[13px] text-white/70 group-hover:text-white transition-colors">
+                  {currentUser?.name?.split(' ')[0]}
+                </span>
+                <span className="material-symbols-outlined text-white/40" style={{ fontSize: '16px' }}>
+                  expand_more
+                </span>
               </button>
 
               {isProfileDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-52 bg-[#1c2028] border border-[#3b494b]/50 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden py-1 z-50">
+                <div className="absolute right-0 top-full mt-2 w-52 bg-[#111318] border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+                  <div className="px-4 py-3 border-b border-white/5">
+                    <div className="text-[13px] font-semibold text-white">{currentUser?.name}</div>
+                    <div className="text-[11px] text-[#00f0ff] uppercase mt-0.5" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                      {getRoleLabel()}
+                    </div>
+                  </div>
                   <Link
                     to={getDashboardPath()}
                     onClick={() => setIsProfileDropdownOpen(false)}
-                    className="flex items-center gap-2 px-4 py-2.5 text-[13px] text-[#b9cacb] hover:bg-[#262a33] hover:text-[#00f0ff] transition-colors"
+                    className="flex items-center gap-2 px-4 py-2.5 text-[13px] text-white/70 hover:text-white hover:bg-white/5 transition-colors"
                   >
-                    <span className="material-symbols-outlined text-[#00f0ff]" style={{ fontSize: '16px' }}>dashboard</span>
+                    <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>dashboard</span>
                     Dashboard
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-2 px-4 py-2.5 text-[13px] text-[#ffb4ab] hover:bg-[#93000a]/20 transition-colors cursor-pointer text-left"
+                    className="w-full flex items-center gap-2 px-4 py-2.5 text-[13px] text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer text-left"
                   >
                     <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>logout</span>
                     Sign Out
@@ -142,15 +142,15 @@ function Navbar() {
             <>
               <Link
                 to="/auth/login"
-                className="text-[13px] text-[#b9cacb] hover:text-[#dfe2ee] px-3 py-2 rounded-xl transition-colors hover:bg-[#1c2028]"
+                className="text-[13px] text-white/60 hover:text-white px-3 py-1.5 transition-colors"
               >
                 Login
               </Link>
               <Link
                 to="/auth/register"
-                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full bg-[#00f0ff] text-[#002022] text-[13px] font-bold transition-all hover:bg-[#7df4ff] glow-primary active:scale-95 cursor-pointer"
+                className="inline-flex items-center gap-1.5 h-8 px-5 rounded-full text-[13px] font-semibold text-[#001a2e] transition-all hover:opacity-90 active:scale-95"
+                style={{ background: 'linear-gradient(90deg, #00f0ff, #0066ff)' }}
               >
-                <span className="material-symbols-outlined" style={{ fontSize: '16px', fontVariationSettings: "'FILL' 1" }}>bolt</span>
                 Get Started
               </Link>
             </>
@@ -160,7 +160,7 @@ function Navbar() {
         {/* Mobile hamburger */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden w-10 h-10 flex items-center justify-center rounded-full bg-[#1c2028] border border-[#3b494b]/40 text-[#b9cacb] hover:text-[#00f0ff] hover:border-[#00f0ff]/30 transition-colors"
+          className="md:hidden w-9 h-9 flex items-center justify-center rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
         >
           <span className="material-symbols-outlined" style={{ fontSize: '22px' }}>
             {isMobileMenuOpen ? 'close' : 'menu'}
@@ -170,49 +170,48 @@ function Navbar() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-[#3b494b]/30 bg-[#0a0e16]/95 backdrop-blur-xl px-4 pt-3 pb-5 space-y-1">
+        <div className="md:hidden border-t border-white/5 bg-[#0a0c10]/98 backdrop-blur-2xl px-6 pt-4 pb-6 space-y-1">
           {navItems.map((item) => (
             <NavLink
               key={item.name}
               to={item.path}
               onClick={() => setIsMobileMenuOpen(false)}
               className={({ isActive }) =>
-                `flex items-center gap-2 px-3 py-2.5 rounded-xl text-[14px] font-medium transition-colors ${
+                `block px-3 py-2.5 rounded-xl text-[14px] font-medium transition-colors ${
                   isActive
-                    ? 'text-[#00f0ff] bg-[#00f0ff]/10 font-semibold'
-                    : 'text-[#b9cacb] hover:text-[#dfe2ee] hover:bg-[#1c2028]'
+                    ? 'text-white bg-white/8'
+                    : 'text-white/60 hover:text-white hover:bg-white/5'
                 }`
               }
             >
-              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>{item.icon}</span>
               {item.name}
             </NavLink>
           ))}
 
-          <div className="pt-3 border-t border-[#3b494b]/20 flex flex-col gap-2 mt-2">
+          <div className="pt-4 border-t border-white/5 flex flex-col gap-2 mt-2">
             {isAuthenticated ? (
               <>
-                <div className="p-3 bg-[#1c2028] rounded-xl flex items-center gap-3 border border-[#3b494b]/30">
+                <div className="p-3 bg-white/5 rounded-xl flex items-center gap-3">
                   <img
                     src={currentUser?.avatar}
                     alt=""
-                    className="w-9 h-9 rounded-full object-cover ring-1 ring-[#00f0ff]/30"
+                    className="w-9 h-9 rounded-full object-cover"
                   />
                   <div>
-                    <div className="text-[13px] font-semibold text-[#dfe2ee]">{currentUser?.name}</div>
+                    <div className="text-[13px] font-semibold text-white">{currentUser?.name}</div>
                     <div className="text-[10px] text-[#00f0ff] uppercase" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{getRoleLabel()}</div>
                   </div>
                 </div>
                 <Link
                   to={getDashboardPath()}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-full text-center bg-[#00f0ff] text-[#002022] py-2.5 rounded-full font-bold text-[13px] glow-primary"
+                  className="w-full text-center bg-white/10 text-white py-2.5 rounded-full font-semibold text-[13px]"
                 >
                   My Dashboard
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="w-full text-center bg-[#93000a]/20 text-[#ffb4ab] py-2.5 rounded-full font-bold text-[13px] border border-[#ffb4ab]/20 cursor-pointer"
+                  className="w-full text-center bg-red-500/10 text-red-400 py-2.5 rounded-full font-semibold text-[13px] cursor-pointer"
                 >
                   Sign Out
                 </button>
@@ -222,14 +221,15 @@ function Navbar() {
                 <Link
                   to="/auth/login"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-full text-center text-[#b9cacb] hover:bg-[#1c2028] py-2.5 rounded-full font-medium text-[13px] border border-[#3b494b]/30"
+                  className="w-full text-center text-white/60 hover:text-white py-2.5 rounded-full font-medium text-[13px] border border-white/10"
                 >
                   Login
                 </Link>
                 <Link
                   to="/auth/register"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-full text-center bg-[#00f0ff] text-[#002022] py-2.5 rounded-full font-bold text-[13px] glow-primary"
+                  className="w-full text-center text-[#001a2e] py-2.5 rounded-full font-bold text-[13px]"
+                  style={{ background: 'linear-gradient(90deg, #00f0ff, #0066ff)' }}
                 >
                   Get Started
                 </Link>
