@@ -395,14 +395,20 @@ function DroneVideoSection() {
       <div className="relative w-full" style={{ paddingBottom: '52%' }}>
         <iframe
           className="absolute inset-0 w-full h-full"
-          src="https://www.youtube.com/embed/kcfs1-ryKWE?autoplay=1&mute=1&loop=1&playlist=kcfs1-ryKWE&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1"
-          title="Drone Agriculture in Action"
+          src="https://www.youtube.com/embed/kcfs1-ryKWE?autoplay=1&mute=1&loop=1&playlist=kcfs1-ryKWE&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&start=0&end=20&disablekb=1"
+          title="Drone in Action"
           frameBorder="0"
           allow="autoplay; encrypted-media"
           allowFullScreen
         />
-        <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
+        {/* Cover top title bar */}
+        <div className="absolute top-0 left-0 right-0 h-20 bg-black z-10 pointer-events-none" />
+        {/* Cover bottom info bar */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
+        {/* Cover left side channel name */}
+        <div className="absolute top-0 left-0 bottom-0 w-10 bg-black z-10 pointer-events-none" />
+        {/* Cover right side */}
+        <div className="absolute top-0 right-0 bottom-0 w-10 bg-black z-10 pointer-events-none" />
       </div>
 
       {/* Overlay text */}
