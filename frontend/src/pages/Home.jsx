@@ -73,6 +73,18 @@ const heroSlides = [
     cta: 'View Details',
     ctaLink: '/drones',
   },
+  {
+    id: 6,
+    image: '/drone-triple-lens.jpg',
+    fallback: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=2070&q=85',
+    bgColor: '#0a1520',
+    tag: 'Triple-Lens Camera Drone',
+    title: 'CineVision Pro',
+    subtitle: 'Three Lenses. One Legend.',
+    description: 'Triple Hasselblad lenses for wide, medium and tele — capture cinematic perfection from every angle.',
+    cta: 'Rent Now',
+    ctaLink: '/drones',
+  },
 ]
 
 const categoryIcons = {
