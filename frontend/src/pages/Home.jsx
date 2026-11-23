@@ -15,7 +15,10 @@ import {
 const heroSlides = [
   {
     id: 1,
-    image: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=2070&q=90',
+    // Verified: DJI Phantom drone aerial photo
+    image: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=2070&q=85',
+    fallback: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=2070&q=85',
+    bgColor: '#0a1628',
     tag: 'Professional Aerial',
     title: 'DJI Phantom Pro',
     subtitle: 'Fly Without Limits',
@@ -25,7 +28,10 @@ const heroSlides = [
   },
   {
     id: 2,
-    image: 'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=2070&q=90',
+    // Verified: Aerial mountain landscape
+    image: 'https://images.unsplash.com/photo-1455156218388-5e61b526818b?auto=format&fit=crop&w=2070&q=85',
+    fallback: 'https://images.unsplash.com/photo-1500534314209-a157d0ee5e8f?auto=format&fit=crop&w=2070&q=85',
+    bgColor: '#0d1f1a',
     tag: 'Cinema Grade',
     title: 'FPV Racing Drone',
     subtitle: 'Speed Meets Precision',
@@ -35,7 +41,10 @@ const heroSlides = [
   },
   {
     id: 3,
-    image: 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=2070&q=90',
+    // Verified: Aerial green landscape
+    image: 'https://images.unsplash.com/photo-1500534314209-a157d0ee5e8f?auto=format&fit=crop&w=2070&q=85',
+    fallback: 'https://images.unsplash.com/photo-1455156218388-5e61b526818b?auto=format&fit=crop&w=2070&q=85',
+    bgColor: '#0a1a0f',
     tag: 'Survey & Mapping',
     title: 'AgriSense X1',
     subtitle: 'Precision Agriculture',
@@ -45,7 +54,10 @@ const heroSlides = [
   },
   {
     id: 4,
-    image: 'https://images.unsplash.com/photo-1534533983688-b2f65c76abde?auto=format&fit=crop&w=2070&q=90',
+    // Verified: Night city aerial
+    image: 'https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=2070&q=85',
+    fallback: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=2070&q=85',
+    bgColor: '#050d1a',
     tag: 'Night Operations',
     title: 'Nighthawk Elite',
     subtitle: 'Dominate the Dark',
@@ -55,7 +67,10 @@ const heroSlides = [
   },
   {
     id: 5,
-    image: 'https://images.unsplash.com/photo-1521405924368-64c7b8102d21?auto=format&fit=crop&w=2070&q=90',
+    // Verified: Mountain landscape aerial
+    image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=2070&q=85',
+    fallback: 'https://images.unsplash.com/photo-1500534314209-a157d0ee5e8f?auto=format&fit=crop&w=2070&q=85',
+    bgColor: '#101828',
     tag: 'Compact & Portable',
     title: 'Mini Scout 3',
     subtitle: 'Adventure Awaits',
@@ -93,6 +108,7 @@ const stepIcons = {
 function HeroSlider() {
   const [current, setCurrent] = useState(0)
   const [animating, setAnimating] = useState(false)
+  const [imgErrors, setImgErrors] = useState({})
   const total = heroSlides.length
 
   const goTo = useCallback((index) => {
@@ -107,78 +123,69 @@ function HeroSlider() {
   const prev = () => goTo((current - 1 + total) % total)
   const next = useCallback(() => goTo((current + 1) % total), [current, goTo, total])
 
-  // Auto-advance every 5 seconds
   useEffect(() => {
-    const timer = setInterval(next, 5000)
+    const timer = setInterval(next, 5500)
     return () => clearInterval(timer)
   }, [next])
 
   const slide = heroSlides[current]
 
   return (
-    <section className="relative w-full h-screen min-h-[600px] overflow-hidden bg-black">
-      {/* Background images — preload all, show current */}
+    <section className="relative w-full h-screen min-h-[600px] overflow-hidden">
       {heroSlides.map((s, i) => (
         <div
           key={s.id}
           className="absolute inset-0 transition-opacity duration-700 ease-in-out"
-          style={{ opacity: i === current ? 1 : 0 }}
+          style={{
+            opacity: i === current ? 1 : 0,
+            backgroundColor: s.bgColor,
+          }}
         >
           <img
-            src={s.image}
+            src={imgErrors[s.id] ? s.fallback : s.image}
             alt={s.title}
             className="w-full h-full object-cover"
             loading={i === 0 ? 'eager' : 'lazy'}
+            onError={() => setImgErrors(prev => ({ ...prev, [s.id]: true }))}
           />
-          {/* Dark gradient overlay — bottom-heavy like DJI */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
+          {/* Lighter overlay so image is visible */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-black/5" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent" />
         </div>
       ))}
 
-      {/* Content — centered like DJI */}
+      {/* Text content */}
       <div
         className="absolute inset-0 flex flex-col items-center justify-center text-center px-6"
         style={{ opacity: animating ? 0 : 1, transition: 'opacity 0.4s ease' }}
       >
-        {/* Tag */}
         <p
           className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#00f0ff] mb-3"
           style={{ fontFamily: 'JetBrains Mono, monospace' }}
         >
           {slide.tag}
         </p>
-
-        {/* Title */}
         <h1
           className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-2"
           style={{ fontFamily: 'Space Grotesk, sans-serif' }}
         >
           {slide.title}
         </h1>
-
-        {/* Subtitle */}
         <p
-          className="text-xl sm:text-2xl font-semibold text-white/80 mb-4"
+          className="text-xl sm:text-2xl font-semibold text-white/90 mb-4"
           style={{ fontFamily: 'Space Grotesk, sans-serif' }}
         >
           {slide.subtitle}
         </p>
-
-        {/* Description */}
-        <p className="text-[15px] text-white/60 max-w-md mb-8 leading-relaxed">
+        <p className="text-[15px] text-white/70 max-w-md mb-8 leading-relaxed">
           {slide.description}
         </p>
-
-        {/* CTA — DJI-style outlined pill */}
         <Link
           to={slide.ctaLink}
           className="inline-flex items-center gap-2 px-8 py-3 rounded-full border border-white/60 hover:border-white bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold text-[14px] transition-all duration-200 active:scale-95"
         >
           {slide.cta}
-          <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>
-            arrow_forward
-          </span>
+          <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>arrow_forward</span>
         </Link>
       </div>
 
@@ -200,27 +207,24 @@ function HeroSlider() {
         <span className="material-symbols-outlined" style={{ fontSize: '22px' }}>chevron_right</span>
       </button>
 
-      {/* Dot Indicators — bottom center like DJI */}
+      {/* Dot Indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
         {heroSlides.map((_, i) => (
           <button
             key={i}
             onClick={() => goTo(i)}
-            className="transition-all duration-300"
             aria-label={`Go to slide ${i + 1}`}
           >
             <span
               className={`block rounded-full transition-all duration-300 ${
-                i === current
-                  ? 'w-6 h-1.5 bg-[#00f0ff]'
-                  : 'w-1.5 h-1.5 bg-white/40 hover:bg-white/70'
+                i === current ? 'w-6 h-1.5 bg-[#00f0ff]' : 'w-1.5 h-1.5 bg-white/40 hover:bg-white/70'
               }`}
             />
           </button>
         ))}
       </div>
 
-      {/* Slide counter — bottom left like DJI */}
+      {/* Slide counter */}
       <div
         className="absolute bottom-8 left-6 sm:left-10 text-white/50 text-[12px] z-10"
         style={{ fontFamily: 'JetBrains Mono, monospace' }}
@@ -237,12 +241,64 @@ function HeroSlider() {
   )
 }
 
+// ── Drone Video Section ───────────────────────────────────────────────────────
+function DroneVideoSection() {
+  return (
+    <section className="relative bg-black overflow-hidden">
+      {/* Section label */}
+      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20">
+        <span
+          className="inline-flex items-center gap-2 bg-black/60 backdrop-blur-sm border border-[#00f0ff]/30 text-[#00f0ff] px-4 py-1.5 rounded-full text-[11px] font-semibold"
+          style={{ fontFamily: 'JetBrains Mono, monospace' }}
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-[#00f0ff] animate-pulse" />
+          LIVE DEMO — WATCH IN ACTION
+        </span>
+      </div>
+
+      {/* Video embed — 16:9 responsive */}
+      <div className="relative w-full" style={{ paddingBottom: '52%' }}>
+        <iframe
+          className="absolute inset-0 w-full h-full"
+          src="https://www.youtube.com/embed/D8oDMFQVP7Q?autoplay=1&mute=1&loop=1&playlist=D8oDMFQVP7Q&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1"
+          title="Drone in Action"
+          frameBorder="0"
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+        />
+        {/* Top & bottom gradient blends */}
+        <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
+      </div>
+
+      {/* Overlay text */}
+      <div className="absolute inset-0 flex flex-col items-center justify-end pb-10 z-20 pointer-events-none">
+        <h2
+          className="text-2xl sm:text-3xl font-bold text-white text-center tracking-tight"
+          style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+        >
+          Experience the{' '}
+          <span style={{ color: '#00f0ff', textShadow: '0 0 20px rgba(0,240,255,0.6)' }}>
+            Future of Flight
+          </span>
+        </h2>
+        <p className="text-[13px] text-white/50 mt-2" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+          AI-Powered Navigation · 4K Cinematic · Real-time Telemetry
+        </p>
+      </div>
+    </section>
+  )
+}
+
 function Home() {
   return (
     <div className="bg-[#0f131c] overflow-hidden">
 
       {/* ── HERO SLIDER ──────────────────────────────────────────── */}
       <HeroSlider />
+
+      {/* ── DRONE VIDEO ──────────────────────────────────────────── */}
+      <DroneVideoSection />
 
       {/* ── CATEGORIES ─────────────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -472,10 +528,8 @@ function Home() {
 
       {/* ── CTA SECTION ──────────────────────────────────────────────── */}
       <section className="relative py-28 overflow-hidden">
-        {/* Full-bleed dark background with cyan glow */}
         <div className="absolute inset-0 bg-[#0f131c]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#00f0ff]/8 rounded-full blur-[120px] pointer-events-none" />
-
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span
             className="inline-flex items-center gap-2 bg-[#1c2028] border border-[#00f0ff]/20 text-[#00f0ff] px-4 py-1.5 rounded-full text-[11px] font-semibold mb-6"
@@ -484,7 +538,6 @@ function Home() {
             <span className="material-symbols-outlined" style={{ fontSize: '14px', fontVariationSettings: "'FILL' 1" }}>bolt</span>
             Ready to Launch?
           </span>
-
           <h2
             className="text-[42px] sm:text-[56px] font-bold text-white tracking-tight leading-tight mb-5"
             style={{ fontFamily: 'Space Grotesk, sans-serif' }}
@@ -495,15 +548,13 @@ function Home() {
             </span>{' '}
             Today
           </h2>
-
           <p className="text-[16px] text-[#849495] leading-relaxed mb-10 max-w-2xl mx-auto">
             Join thousands of pilots and businesses discovering top drone technology through DroneHub.
           </p>
-
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               to="/drones"
-              className="inline-flex items-center gap-2 h-13 px-8 py-3.5 rounded-full bg-[#00f0ff] text-[#002022] font-bold text-[14px] transition-all hover:bg-[#7df4ff] active:scale-95"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#00f0ff] text-[#002022] font-bold text-[14px] transition-all hover:bg-[#7df4ff] active:scale-95"
               style={{ boxShadow: '0 0 30px rgba(0,240,255,0.3)' }}
             >
               <span className="material-symbols-outlined" style={{ fontSize: '18px', fontVariationSettings: "'FILL' 1" }}>flight_takeoff</span>
@@ -511,7 +562,7 @@ function Home() {
             </Link>
             <Link
               to="/auth/register"
-              className="inline-flex items-center gap-2 h-13 px-8 py-3.5 rounded-full border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white font-semibold text-[14px] transition-all active:scale-95"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white font-semibold text-[14px] transition-all active:scale-95"
             >
               Create Free Account
             </Link>
