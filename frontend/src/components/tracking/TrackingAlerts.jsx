@@ -19,7 +19,7 @@ function TrackingAlerts({ drone }) {
       icon: BatteryWarning,
       title: 'Low Battery Alert',
       message: `Drone battery level has dropped to ${drone.battery}%. Return-to-Home (RTH) advised.`,
-      color: 'bg-rose-50 border-rose-200 text-rose-800',
+      color: 'bg-rose-500/10 border-rose-500/25 text-rose-400',
       iconBg: 'bg-rose-600 text-white'
     })
   }
@@ -32,7 +32,7 @@ function TrackingAlerts({ drone }) {
       icon: AlertTriangle,
       title: 'Weak Signal Warning',
       message: `Signal strength is currently ${drone.signal}% below recommended safe threshold.`,
-      color: 'bg-amber-50 border-amber-200 text-amber-900',
+      color: 'bg-amber-500/10 border-amber-500/25 text-amber-400',
       iconBg: 'bg-amber-500 text-white'
     })
   }
@@ -45,7 +45,7 @@ function TrackingAlerts({ drone }) {
       icon: WifiOff,
       title: 'Drone Telemetry Offline',
       message: 'Drone has not reported location updates recently. Telemetry link lost.',
-      color: 'bg-rose-50 border-rose-200 text-rose-900',
+      color: 'bg-rose-500/10 border-rose-500/25 text-rose-400',
       iconBg: 'bg-rose-600 text-white'
     })
   }
@@ -60,28 +60,28 @@ function TrackingAlerts({ drone }) {
           icon: alt.type === 'critical' ? BatteryWarning : alt.type === 'warning' ? ShieldAlert : Bell,
           title: alt.title,
           message: alt.message,
-          color: alt.type === 'critical' ? 'bg-rose-50 border-rose-200 text-rose-900' : 'bg-blue-50 border-blue-200 text-blue-900',
-          iconBg: alt.type === 'critical' ? 'bg-rose-600 text-white' : 'bg-blue-600 text-white'
+          color: alt.type === 'critical' ? 'bg-rose-500/10 border-rose-500/25 text-rose-400' : 'bg-accent/10 border-accent/25 text-accent-ink',
+          iconBg: alt.type === 'critical' ? 'bg-rose-600 text-white' : 'bg-accent text-white'
         })
       }
     })
   }
 
   return (
-    <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-2xs space-y-4">
-      <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-        <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">
-          <ShieldAlert className="w-4 h-4 text-amber-600" />
+    <div className="bg-surface p-5 rounded-2xl border border-line shadow-2xs space-y-4">
+      <div className="flex items-center justify-between pb-3 border-b border-line">
+        <h4 className="text-sm font-semibold text-fg flex items-center gap-2">
+          <ShieldAlert className="w-4 h-4 text-amber-400" />
           <span>Active Telemetry & Safety Alerts</span>
         </h4>
-        <span className="text-xs font-bold text-slate-400">
+        <span className="text-xs font-bold text-subtle">
           {activeAlerts.length} Active Notice{activeAlerts.length === 1 ? '' : 's'}
         </span>
       </div>
 
       {activeAlerts.length === 0 ? (
-        <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-xs font-bold text-emerald-800 flex items-center gap-2.5">
-          <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+        <div className="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/25 text-xs font-bold text-emerald-400 flex items-center gap-2.5">
+          <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
           <span>No critical telemetry alerts. All flight parameters within normal parameters.</span>
         </div>
       ) : (
@@ -97,7 +97,7 @@ function TrackingAlerts({ drone }) {
                   <Icon className="w-4 h-4" />
                 </div>
                 <div className="space-y-0.5 min-w-0">
-                  <h5 className="text-xs font-extrabold">{alt.title}</h5>
+                  <h5 className="text-xs font-semibold">{alt.title}</h5>
                   <p className="text-[11px] opacity-90 leading-relaxed">{alt.message}</p>
                 </div>
               </div>

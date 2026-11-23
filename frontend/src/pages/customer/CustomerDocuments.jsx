@@ -11,13 +11,13 @@ function CustomerDocuments() {
   const getStatusBadgeStyle = (status) => {
     switch (status) {
       case 'Verified':
-        return 'bg-emerald-100 text-emerald-800 border-emerald-300'
+        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
       case 'Pending':
-        return 'bg-amber-100 text-amber-800 border-amber-300'
+        return 'bg-amber-500/10 text-amber-400 border-amber-500/25'
       case 'Rejected':
-        return 'bg-rose-100 text-rose-800 border-rose-300'
+        return 'bg-rose-500/10 text-rose-400 border-rose-500/25'
       default:
-        return 'bg-slate-100 text-slate-700 border-slate-300'
+        return 'bg-surface-2 text-fg-muted border-line'
     }
   }
 
@@ -60,29 +60,29 @@ function CustomerDocuments() {
       
       {/* Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-fg tracking-tight">
           Document Management
         </h1>
-        <p className="text-slate-500 text-xs sm:text-sm">
+        <p className="text-muted text-xs sm:text-sm">
           Upload and verify identification documents for commercial drone rental clearance.
         </p>
       </div>
 
       {notification && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-xs font-semibold flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="p-4 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 rounded-2xl text-xs font-semibold flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{notification}</span>
         </div>
       )}
 
       {/* UPLOAD SIMULATION AREA */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-2xs space-y-4">
+      <div className="bg-surface rounded-2xl border border-line p-6 shadow-2xs space-y-4">
         <div className="space-y-1">
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Upload className="w-5 h-5 text-blue-600" />
+          <h2 className="text-lg font-bold text-fg flex items-center gap-2">
+            <Upload className="w-5 h-5 text-accent-ink" />
             <span>Upload New Verification Document</span>
           </h2>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted">
             Upload clear copies of Aadhaar, Passport, Utility Bill, or DGCA Drone License (PDF, JPG, PNG).
           </p>
         </div>
@@ -92,13 +92,13 @@ function CustomerDocuments() {
             
             {/* Category */}
             <div className="space-y-1">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-fg-muted uppercase tracking-wider">
                 Document Category
               </label>
               <select
                 value={docCategory}
                 onChange={(e) => setDocCategory(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-300 focus:border-blue-600 rounded-xl py-2.5 px-3 text-xs font-semibold text-slate-800"
+                className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-2.5 px-3 text-xs font-semibold text-fg"
               >
                 <option value="Identity Proof">Identity Proof (Aadhaar / Passport)</option>
                 <option value="Address Proof">Address Proof (Utility Bill)</option>
@@ -109,26 +109,26 @@ function CustomerDocuments() {
 
             {/* File Input */}
             <div className="space-y-1">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-fg-muted uppercase tracking-wider">
                 Select File (PDF, JPG, PNG)
               </label>
               <input
                 type="file"
                 accept=".pdf,.jpg,.jpeg,.png"
                 onChange={handleFileSelect}
-                className="w-full bg-slate-50 border border-slate-300 focus:border-blue-600 rounded-xl py-2 px-3 text-xs font-medium text-slate-700 cursor-pointer"
+                className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-2 px-3 text-xs font-medium text-fg-muted cursor-pointer"
               />
             </div>
 
           </div>
 
           {selectedFile && (
-            <div className="p-3 bg-blue-50 rounded-xl border border-blue-200 flex items-center justify-between text-xs text-blue-900 font-medium">
-              <span>Selected: <strong className="text-slate-900">{selectedFile.name}</strong> ({(selectedFile.size / (1024 * 1024)).toFixed(1)} MB)</span>
+            <div className="p-3 bg-accent/10 rounded-xl border border-accent/25 flex items-center justify-between text-xs text-accent-ink font-medium">
+              <span>Selected: <strong className="text-fg">{selectedFile.name}</strong> ({(selectedFile.size / (1024 * 1024)).toFixed(1)} MB)</span>
               <button
                 type="button"
                 onClick={() => setSelectedFile(null)}
-                className="text-rose-600 font-bold hover:underline"
+                className="text-rose-400 font-bold hover:underline"
               >
                 Remove
               </button>
@@ -141,8 +141,8 @@ function CustomerDocuments() {
               disabled={!selectedFile}
               className={`inline-flex items-center gap-2 font-bold px-6 py-2.5 rounded-xl text-xs transition-all cursor-pointer ${
                 selectedFile
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm'
-                  : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                  ? 'bg-accent hover:bg-accent-hover text-white shadow-sm'
+                  : 'bg-surface-3 text-subtle cursor-not-allowed'
               }`}
             >
               <Upload className="w-4 h-4" />
@@ -154,23 +154,23 @@ function CustomerDocuments() {
 
       {/* VERIFIED DOCUMENTS LIST */}
       <div className="space-y-4">
-        <h2 className="text-lg font-bold text-slate-900">
+        <h2 className="text-lg font-bold text-fg">
           Your Document Clearance List
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {docsList.map((doc) => (
-            <div key={doc.id} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
+            <div key={doc.id} className="bg-surface p-5 rounded-2xl border border-line shadow-2xs space-y-4">
               
               <div className="flex items-start justify-between gap-3">
                 <div className="space-y-1">
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-accent-ink bg-accent/10 px-2 py-0.5 rounded-md">
                     {doc.type}
                   </span>
-                  <h3 className="font-bold text-slate-900 text-sm">
+                  <h3 className="font-bold text-fg text-sm">
                     {doc.title}
                   </h3>
-                  <div className="text-xs text-slate-500 font-mono">
+                  <div className="text-xs text-muted font-mono">
                     {doc.fileName} ({doc.fileSize})
                   </div>
                 </div>
@@ -180,7 +180,7 @@ function CustomerDocuments() {
                 </span>
               </div>
 
-              <div className="text-[11px] text-slate-500 flex items-center justify-between pt-2 border-t border-slate-100">
+              <div className="text-[11px] text-muted flex items-center justify-between pt-2 border-t border-line">
                 <span>Uploaded: {doc.uploadDate}</span>
                 <span className="italic">{doc.note}</span>
               </div>
@@ -189,19 +189,19 @@ function CustomerDocuments() {
               <div className="flex items-center gap-2 pt-1 text-xs">
                 <button
                   onClick={() => handleAction('View', doc)}
-                  className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 rounded-xl text-center transition-colors cursor-pointer"
+                  className="flex-1 bg-surface-2 hover:bg-surface-3 text-fg-muted font-bold py-2 rounded-xl text-center transition-colors cursor-pointer"
                 >
                   View
                 </button>
                 <button
                   onClick={() => handleAction('Download', doc)}
-                  className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 rounded-xl text-center transition-colors cursor-pointer"
+                  className="flex-1 bg-surface-2 hover:bg-surface-3 text-fg-muted font-bold py-2 rounded-xl text-center transition-colors cursor-pointer"
                 >
                   Download
                 </button>
                 <button
                   onClick={() => handleAction('Replace', doc)}
-                  className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold py-2 rounded-xl text-center transition-colors cursor-pointer"
+                  className="flex-1 bg-accent/10 hover:bg-accent/10 text-accent-ink font-bold py-2 rounded-xl text-center transition-colors cursor-pointer"
                 >
                   Replace
                 </button>

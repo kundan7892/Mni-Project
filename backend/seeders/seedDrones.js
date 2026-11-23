@@ -240,20 +240,23 @@ export const seedDrones = async () => {
       return;
     }
 
+    // Drones listed under AeroTech belong to the second demo shop owner
+    const secondOwner = (await User.findOne({ email: 'owner2@dronehub.com' })) || owner;
+
     let seededCount = 0;
     for (const droneData of initialDrones) {
       const existing = await Drone.findOne({ model: droneData.model });
       if (!existing) {
         await Drone.create({
           ...droneData,
-          ownerId: owner._id
+          ownerId: droneData.shopName?.startsWith('AeroTech') ? secondOwner._id : owner._id
         });
         seededCount++;
         console.log(`🚁 Seeded drone: ${droneData.name} (${droneData.brand})`);
       }
     }
 
-    console.log(`✅ Seeded ${seededCount} drones into MongoDB.`);
+    console.log(`Seeded ${seededCount} drones into MongoDB.`);
   } catch (error) {
     console.error('Error seeding drones:', error.message);
   }

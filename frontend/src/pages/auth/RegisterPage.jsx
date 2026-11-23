@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import AuthLayout from '../../layouts/AuthLayout'
 import { useAuth } from '../../context/AuthContext'
 
@@ -13,6 +13,8 @@ import { useAuth } from '../../context/AuthContext'
 
 function RegisterPage() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const loginHref = searchParams.get('redirect')?.startsWith('/') ? `/auth/login?redirect=${encodeURIComponent(searchParams.get('redirect'))}` : '/auth/login'
   const { register } = useAuth()
 
   const [role, setRole] = useState('customer')
@@ -27,15 +29,15 @@ function RegisterPage() {
   const [isSuccess, setIsSuccess] = useState(false)
 
   const passwordStrength = useMemo(() => {
-    if (!password) return { label: '', color: 'bg-[#262a33]', width: 'w-0', score: 0 }
+    if (!password) return { label: '', color: 'bg-surface-3', width: 'w-0', score: 0 }
     let score = 0
     if (password.length >= 8) score++
     if (/[0-9]/.test(password)) score++
     if (/[^A-Za-z0-9]/.test(password)) score++
     if (/[A-Z]/.test(password)) score++
-    if (score <= 2) return { label: 'Weak', color: 'bg-[#ffb4ab]', width: 'w-1/3' }
-    if (score === 3) return { label: 'Medium', color: 'bg-amber-400', width: 'w-2/3' }
-    return { label: 'Strong', color: 'bg-[#4ae176]', width: 'w-full' }
+    if (score <= 2) return { label: 'Weak', color: 'bg-rose-500', width: 'w-1/3' }
+    if (score === 3) return { label: 'Medium', color: 'bg-amber-500', width: 'w-2/3' }
+    return { label: 'Strong', color: 'bg-emerald-500', width: 'w-full' }
   }, [password])
 
   const handleSubmit = async (e) => {
@@ -56,27 +58,27 @@ function RegisterPage() {
     }
   }
 
-  const inputClass = "w-full h-11 bg-[#1c2028] border border-[#3b494b]/50 focus:border-[#00f0ff]/60 focus:ring-1 focus:ring-[#00f0ff]/20 focus:outline-none rounded-xl px-4 text-[14px] text-[#dfe2ee] placeholder-[#3b494b] transition-all"
-  const labelClass = "block text-[11px] font-bold text-[#b9cacb] uppercase tracking-widest mb-1"
+  const inputClass = "w-full h-11 bg-surface-2 border border-line/50 focus:border-accent/60 focus:ring-1 focus:ring-accent/20 focus:outline-none rounded-xl px-4 text-[14px] text-fg placeholder-line transition-all"
+  const labelClass = "block text-xs font-medium text-fg-muted mb-1.5"
 
   if (isSuccess) {
     return (
       <AuthLayout>
         <div className="text-center space-y-6">
-          <div className="w-16 h-16 rounded-full bg-[#4ae176]/10 border border-[#4ae176]/30 flex items-center justify-center mx-auto">
-            <span className="material-symbols-outlined text-[#4ae176]" style={{ fontSize: '36px', fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+          <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto">
+            <span className="material-symbols-outlined text-emerald-400" style={{ fontSize: '36px', fontVariationSettings: "'FILL' 1" }}>check_circle</span>
           </div>
           <div className="space-y-2">
-            <h1 className="text-[28px] font-bold text-[#dfe2ee] tracking-tight" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            <h1 className="text-[28px] font-bold text-fg tracking-tight">
               Account Created!
             </h1>
-            <p className="text-[13px] text-[#849495] max-w-sm mx-auto">
+            <p className="text-[13px] text-muted max-w-sm mx-auto">
               Your DroneHub account has been created. You can now sign in using your credentials.
             </p>
           </div>
           <Link
-            to="/auth/login"
-            className="w-full inline-flex items-center justify-center gap-2 h-12 px-8 rounded-full bg-[#00f0ff] text-[#002022] font-bold text-[14px] transition-all hover:bg-[#7df4ff] glow-primary active:scale-95"
+            to={loginHref}
+            className="w-full inline-flex items-center justify-center gap-2 h-12 px-8 rounded-lg bg-accent text-white font-bold text-[14px] transition-all hover:bg-accent-hover active:scale-95"
           >
             Go to Login
             <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>arrow_forward</span>
@@ -91,34 +93,34 @@ function RegisterPage() {
       <div className="space-y-5">
 
         <div className="space-y-1">
-          <h1 className="text-[26px] font-bold text-[#dfe2ee] tracking-tight" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+          <h1 className="text-[26px] font-bold text-fg tracking-tight">
             Create Your Account
           </h1>
-          <p className="text-[13px] text-[#849495]">Join thousands of pilots and drone rental hosts.</p>
+          <p className="text-[13px] text-muted">Join thousands of pilots and drone rental hosts.</p>
         </div>
 
         {/* Account Type */}
         <div className="space-y-2">
-          <label className={labelClass} style={{ fontFamily: 'JetBrains Mono, monospace' }}>Account Type</label>
+          <label className={labelClass}>Account Type</label>
           <div className="grid grid-cols-2 gap-3">
             {[
-              { r: 'customer', icon: 'person', label: 'Customer', desc: 'Rent drones for your projects & missions.', color: '#00f0ff' },
-              { r: 'shop-owner', icon: 'storefront', label: 'Shop Owner', desc: 'List & manage your rental fleet business.', color: '#aac7ff' },
+              { r: 'customer', icon: 'person', label: 'Customer', desc: 'Rent drones for your projects & missions.', color: '#5b5bd6' },
+              { r: 'shop-owner', icon: 'storefront', label: 'Shop Owner', desc: 'List & manage your rental fleet business.', color: '#a8aaf4' },
             ].map(({ r, icon, label, desc, color }) => (
               <button
                 key={r}
                 type="button"
                 onClick={() => setRole(r)}
                 className={`p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${role === r
-                  ? 'border-[#00f0ff]/60 bg-[#00f0ff]/8 shadow-[0_0_20px_rgba(0,240,255,0.1)]'
-                  : 'border-[#3b494b]/40 bg-[#1c2028] hover:border-[#3b494b]/70'
+                  ? 'border-accent/60 bg-accent/8 '
+                  : 'border-line/40 bg-surface-2 hover:border-line/70'
                   }`}
               >
-                <div className="flex items-center gap-2 text-[13px] font-semibold text-[#dfe2ee]">
+                <div className="flex items-center gap-2 text-[13px] font-semibold text-fg">
                   <span className="material-symbols-outlined" style={{ fontSize: '16px', color, fontVariationSettings: "'FILL' 1" }}>{icon}</span>
                   {label}
                 </div>
-                <p className="text-[11px] text-[#849495] mt-1 leading-tight">{desc}</p>
+                <p className="text-[11px] text-muted mt-1 leading-tight">{desc}</p>
               </button>
             ))}
           </div>
@@ -126,7 +128,7 @@ function RegisterPage() {
 
         {/* Error */}
         {errorMessage && (
-          <div className="p-3.5 bg-[#93000a]/20 border border-[#ffb4ab]/30 text-[#ffb4ab] rounded-2xl text-[12px] font-semibold flex items-center gap-2">
+          <div className="p-3.5 bg-rose-500/20 border border-rose-500/25 text-rose-300 rounded-2xl text-[12px] font-semibold flex items-center gap-2">
             <span className="material-symbols-outlined shrink-0" style={{ fontSize: '16px' }}>error</span>
             <span>{errorMessage}</span>
           </div>
@@ -136,42 +138,42 @@ function RegisterPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
 
           <div>
-            <label className={labelClass} style={{ fontFamily: 'JetBrains Mono, monospace' }}>Full Legal Name <span className="text-[#ffb4ab]">*</span></label>
+            <label className={labelClass}>Full Legal Name <span className="text-rose-300">*</span></label>
             <div className="relative">
               <input type="text" placeholder="e.g. Kartikey Sharma" value={fullName} onChange={(e) => setFullName(e.target.value)} className={`${inputClass} pr-10`} required />
-              <span className="material-symbols-outlined text-[#849495] absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ fontSize: '16px' }}>person</span>
+              <span className="material-symbols-outlined text-muted absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ fontSize: '16px' }}>person</span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className={labelClass} style={{ fontFamily: 'JetBrains Mono, monospace' }}>Email <span className="text-[#ffb4ab]">*</span></label>
+              <label className={labelClass}>Email <span className="text-rose-300">*</span></label>
               <div className="relative">
                 <input type="email" placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)} className={`${inputClass} pr-10`} required />
-                <span className="material-symbols-outlined text-[#849495] absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ fontSize: '16px' }}>mail</span>
+                <span className="material-symbols-outlined text-muted absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ fontSize: '16px' }}>mail</span>
               </div>
             </div>
             <div>
-              <label className={labelClass} style={{ fontFamily: 'JetBrains Mono, monospace' }}>Phone <span className="text-[#ffb4ab]">*</span></label>
+              <label className={labelClass}>Phone <span className="text-rose-300">*</span></label>
               <div className="relative">
                 <input type="tel" placeholder="+91 98765 43210" value={phone} onChange={(e) => setPhone(e.target.value)} className={`${inputClass} pr-10`} required />
-                <span className="material-symbols-outlined text-[#849495] absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ fontSize: '16px' }}>phone</span>
+                <span className="material-symbols-outlined text-muted absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ fontSize: '16px' }}>phone</span>
               </div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className={labelClass} style={{ fontFamily: 'JetBrains Mono, monospace' }}>Password <span className="text-[#ffb4ab]">*</span></label>
+              <label className={labelClass}>Password <span className="text-rose-300">*</span></label>
               <div className="relative">
                 <input type={showPassword ? 'text' : 'password'} placeholder="Min 8 chars" value={password} onChange={(e) => setPassword(e.target.value)} className={`${inputClass} pr-10`} required />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#849495] hover:text-[#00f0ff] cursor-pointer">
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted hover:text-accent cursor-pointer">
                   <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>{showPassword ? 'visibility_off' : 'visibility'}</span>
                 </button>
               </div>
             </div>
             <div>
-              <label className={labelClass} style={{ fontFamily: 'JetBrains Mono, monospace' }}>Confirm Password <span className="text-[#ffb4ab]">*</span></label>
+              <label className={labelClass}>Confirm Password <span className="text-rose-300">*</span></label>
               <input type={showPassword ? 'text' : 'password'} placeholder="Re-enter password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className={inputClass} required />
             </div>
           </div>
@@ -179,24 +181,24 @@ function RegisterPage() {
           {/* Password strength */}
           {password && (
             <div className="space-y-1 text-[11px]">
-              <div className="flex justify-between font-semibold text-[#849495]" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+              <div className="flex justify-between font-semibold text-muted">
                 <span>Password Strength:</span>
-                <span style={{ color: passwordStrength.label === 'Strong' ? '#4ae176' : passwordStrength.label === 'Medium' ? '#fbbf24' : '#ffb4ab' }}>
+                <span style={{ color: passwordStrength.label === 'Strong' ? '#34d399' : passwordStrength.label === 'Medium' ? '#fbbf24' : '#fda4af' }}>
                   {passwordStrength.label}
                 </span>
               </div>
-              <div className="w-full h-1.5 bg-[#1c2028] rounded-full overflow-hidden border border-[#3b494b]/30">
+              <div className="w-full h-1.5 bg-surface-2 rounded-full overflow-hidden border border-line/30">
                 <div className={`h-full ${passwordStrength.color} ${passwordStrength.width} transition-all duration-300 rounded-full`} />
               </div>
             </div>
           )}
 
           {/* Terms */}
-          <label className="flex items-start gap-2.5 cursor-pointer text-[12px] text-[#849495] select-none">
-            <input type="checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} className="w-4 h-4 rounded accent-[#00f0ff] bg-[#1c2028] mt-0.5" />
+          <label className="flex items-start gap-2.5 cursor-pointer text-[12px] text-muted select-none">
+            <input type="checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} className="w-4 h-4 rounded accent-[#5b5bd6] bg-surface-2 mt-0.5" />
             <span>
               I agree to the{' '}
-              <a href="#terms" onClick={(e) => { e.preventDefault(); alert('DroneHub Rental Terms & Safety Policy') }} className="text-[#00f0ff] hover:text-[#7df4ff] underline font-bold transition-colors">
+              <a href="#terms" onClick={(e) => { e.preventDefault(); alert('DroneHub Rental Terms & Safety Policy') }} className="text-accent hover:text-accent-hover underline font-bold transition-colors">
                 Terms & Conditions
               </a>
               {' '}and Drone Operating Safety Guidelines.
@@ -205,16 +207,16 @@ function RegisterPage() {
 
           <button
             type="submit"
-            className="w-full h-12 rounded-full bg-[#00f0ff] text-[#002022] font-bold text-[14px] transition-all hover:bg-[#7df4ff] glow-primary active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
+            className="w-full h-12 rounded-lg bg-accent text-white font-bold text-[14px] transition-all hover:bg-accent-hover active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
           >
             Create Account
             <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>arrow_forward</span>
           </button>
         </form>
 
-        <div className="text-center text-[12px] text-[#849495] pt-2 border-t border-[#3b494b]/30">
+        <div className="text-center text-[12px] text-muted pt-2 border-t border-line/30">
           Already have a DroneHub account?{' '}
-          <Link to="/auth/login" className="font-bold text-[#00f0ff] hover:text-[#7df4ff] transition-colors">Sign In</Link>
+          <Link to={loginHref} className="font-bold text-accent hover:text-accent-hover transition-colors">Sign In</Link>
         </div>
 
       </div>

@@ -10,15 +10,15 @@ function ReportSummary({ cards = [] }) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
       {cards.map((card, idx) => (
-        <div key={idx} className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-1">
-          <span className="text-[10px] font-bold uppercase text-slate-400 block">
+        <div key={idx} className="p-3.5 bg-surface-2 rounded-2xl border border-line space-y-1">
+          <span className="text-[10px] font-bold uppercase text-subtle block">
             {card.label}
           </span>
-          <div className="text-lg font-black text-slate-900 font-mono tracking-tight">
+          <div className="text-lg font-semibold text-fg font-mono tracking-tight">
             {card.value}
           </div>
           {card.sub && (
-            <div className="text-[10px] text-slate-500 font-medium">
+            <div className="text-[10px] text-muted font-medium">
               {card.sub}
             </div>
           )}

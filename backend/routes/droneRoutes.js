@@ -4,9 +4,10 @@ import {
   getDrones,
   getDroneById,
   updateDrone,
-  deleteDrone
+  deleteDrone,
+  getDroneAvailability
 } from '../controllers/droneController.js';
-import { protect, authorize } from '../middleware/authMiddleware.js';
+import { protect, authorize, optionalAuth } from '../middleware/authMiddleware.js';
 import {
   validateCreateDrone,
   validateUpdateDrone
@@ -17,7 +18,8 @@ const router = express.Router();
 /**
  * Public Routes: Browse and inspect drones
  */
-router.get('/', getDrones);
+router.get('/', optionalAuth, getDrones);
+router.get('/:id/availability', getDroneAvailability);
 router.get('/:id', getDroneById);
 
 /**

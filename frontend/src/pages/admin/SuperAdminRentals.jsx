@@ -67,9 +67,9 @@ function SuperAdminRentals() {
   const getStatusBadgeStyle = (status) => {
     switch (status) {
       case 'Active': return 'bg-emerald-500 text-white'
-      case 'Confirmed': return 'bg-blue-500 text-white'
+      case 'Confirmed': return 'bg-accent text-white'
       case 'Pending': return 'bg-amber-500 text-white'
-      case 'Completed': return 'bg-slate-600 text-white'
+      case 'Completed': return 'bg-surface-3 text-white'
       default: return 'bg-rose-500 text-white'
     }
   }
@@ -79,16 +79,16 @@ function SuperAdminRentals() {
       
       {/* Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-fg tracking-tight">
           Platform Rentals Master Log ({filteredRentals.length})
         </h1>
-        <p className="text-slate-500 text-xs sm:text-sm">
+        <p className="text-muted text-xs sm:text-sm">
           Overview of field rentals, Active GPS telemetry dispatches, and returned equipment checks.
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 text-xs font-bold overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-line pb-2 text-xs font-bold overflow-x-auto">
         {['All', 'Active', 'Upcoming', 'Completed', 'Cancelled'].map((tab) => (
           <button
             key={tab}
@@ -96,7 +96,7 @@ function SuperAdminRentals() {
             className={`px-4 py-2.5 rounded-xl transition-all cursor-pointer whitespace-nowrap ${
               activeTab === tab
                 ? 'bg-emerald-600 text-white shadow-sm'
-                : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                : 'bg-surface text-muted hover:bg-surface-2 border border-line'
             }`}
           >
             {tab} Rentals
@@ -107,37 +107,37 @@ function SuperAdminRentals() {
       {/* RENTALS LIST */}
       <div className="space-y-4">
         {filteredRentals.map((rental) => (
-          <div key={rental.bookingId} className="bg-white rounded-2xl border border-slate-200 p-5 shadow-2xs hover:shadow-md transition-shadow flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div key={rental.bookingId} className="bg-surface rounded-2xl border border-line p-5 shadow-2xs hover:shadow-md transition-shadow flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${getStatusBadgeStyle(rental.status)}`}>
                   {rental.status}
                 </span>
-                <span className="font-mono text-xs font-bold text-emerald-600">ID: #{rental.bookingId}</span>
-                <span className="text-xs font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md">Shop: {rental.shopName || 'SkyRent Bengaluru'}</span>
+                <span className="font-mono text-xs font-bold text-emerald-400">ID: #{rental.bookingId}</span>
+                <span className="text-xs font-bold text-accent-ink bg-accent/10 px-2 py-0.5 rounded-md">Shop: {rental.shopName || 'SkyRent Bengaluru'}</span>
               </div>
 
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-fg">
                 {rental.droneName}
               </h3>
 
-              <div className="flex items-center gap-4 text-xs text-slate-500 flex-wrap">
-                <div className="flex items-center gap-1 text-slate-700 font-semibold">
-                  <User className="w-3.5 h-3.5 text-emerald-600" />
+              <div className="flex items-center gap-4 text-xs text-muted flex-wrap">
+                <div className="flex items-center gap-1 text-fg-muted font-semibold">
+                  <User className="w-3.5 h-3.5 text-emerald-400" />
                   <span>Customer: {rental.customerName}</span>
                 </div>
                 <span>•</span>
                 <div className="flex items-center gap-1">
-                  <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                  <Calendar className="w-3.5 h-3.5 text-subtle" />
                   <span>{rental.startDate} to {rental.endDate} ({rental.durationDays}d)</span>
                 </div>
               </div>
             </div>
 
             <div className="text-left sm:text-right">
-              <div className="text-xs text-slate-400 font-medium">Rental Subtotal</div>
-              <div className="text-base font-black text-slate-900">₹{rental.amount?.toLocaleString('en-IN')}</div>
+              <div className="text-xs text-subtle font-medium">Rental Subtotal</div>
+              <div className="text-base font-semibold text-fg">₹{rental.amount?.toLocaleString('en-IN')}</div>
             </div>
 
           </div>

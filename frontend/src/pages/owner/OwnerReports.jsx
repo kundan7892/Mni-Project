@@ -84,15 +84,15 @@ function OwnerReports() {
       date: "Updated Today",
       headers: ["Customer Name", "Total Bookings", "Total Spent", "Last Active", "User Rating", "Customer Status"],
       rows: [
-        { "Customer Name": "Rahul Sharma", "Total Bookings": 12, "Total Spent": "₹48,500", "Last Active": "Today", "User Rating": "5.0 ★", "Customer Status": "VIP Renter" },
-        { "Customer Name": "Vikram Malhotra", "Total Bookings": 8, "Total Spent": "₹38,200", "Last Active": "Yesterday", "User Rating": "4.9 ★", "Customer Status": "Repeat Renter" },
-        { "Customer Name": "Ananya Deshmukh", "Total Bookings": 5, "Total Spent": "₹28,600", "Last Active": "3 Days ago", "User Rating": "4.8 ★", "Customer Status": "Active" },
-        { "Customer Name": "Siddharth Mehta", "Total Bookings": 6, "Total Spent": "₹31,400", "Last Active": "1 Week ago", "User Rating": "4.7 ★", "Customer Status": "Active" }
+        { "Customer Name": "Rahul Sharma", "Total Bookings": 12, "Total Spent": "₹48,500", "Last Active": "Today", "User Rating": "5.0 ", "Customer Status": "VIP Renter" },
+        { "Customer Name": "Vikram Malhotra", "Total Bookings": 8, "Total Spent": "₹38,200", "Last Active": "Yesterday", "User Rating": "4.9 ", "Customer Status": "Repeat Renter" },
+        { "Customer Name": "Ananya Deshmukh", "Total Bookings": 5, "Total Spent": "₹28,600", "Last Active": "3 Days ago", "User Rating": "4.8 ", "Customer Status": "Active" },
+        { "Customer Name": "Siddharth Mehta", "Total Bookings": 6, "Total Spent": "₹31,400", "Last Active": "1 Week ago", "User Rating": "4.7 ", "Customer Status": "Active" }
       ],
       summaryCards: [
         { label: "Total Customers", value: "92 Renters", sub: "Storefront users" },
         { label: "Repeat Rate", value: "48%", sub: "High loyalty" },
-        { label: "Customer Rating", value: "4.9 ★★★★★", sub: "Storefront avg" },
+        { label: "Customer Rating", value: "4.9 / 5", sub: "Storefront avg" },
         { label: "New Customers", value: "+12 this month", sub: "Growth" }
       ]
     }
@@ -111,17 +111,17 @@ function OwnerReports() {
     <div className="space-y-6 max-w-7xl mx-auto">
       
       {/* HEADER */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-2xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface p-6 rounded-2xl border border-line shadow-2xs">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-semibold text-fg tracking-tight">
               Shop Reports
             </h1>
-            <span className="text-[10px] font-extrabold text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-200 uppercase">
+            <span className="text-[10px] font-semibold text-accent-ink bg-accent/10 px-2.5 py-0.5 rounded-full border border-accent/25 uppercase">
               Storefront Audit
             </span>
           </div>
-          <p className="text-slate-500 text-xs sm:text-sm mt-1">
+          <p className="text-muted text-xs sm:text-sm mt-1">
             Generate and export store financial audits, booking logs, customer directories, and drone utilization reports.
           </p>
         </div>
@@ -129,7 +129,7 @@ function OwnerReports() {
         <button
           type="button"
           onClick={() => setIsGeneratorOpen(true)}
-          className="inline-flex items-center gap-1.5 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md cursor-pointer shrink-0 self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 bg-accent hover:bg-accent-hover text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md cursor-pointer shrink-0 self-start sm:self-auto"
         >
           <FileText className="w-4 h-4" />
           <span>Custom Report Generator</span>

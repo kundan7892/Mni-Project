@@ -15,10 +15,10 @@ function SuperAdminPayments() {
       
       {/* Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-fg tracking-tight">
           Platform Global Financial Ledger
         </h1>
-        <p className="text-slate-500 text-xs sm:text-sm">
+        <p className="text-muted text-xs sm:text-sm">
           Platform-wide transaction processing, commission split audit, and shop payouts.
         </p>
       </div>
@@ -70,19 +70,19 @@ function SuperAdminPayments() {
       </div>
 
       {/* PAYMENTS TABLE */}
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-2xs space-y-4 p-6">
+      <div className="bg-surface rounded-2xl border border-line shadow-2xs space-y-4 p-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-slate-900">
+          <h2 className="text-lg font-bold text-fg">
             Platform Transactions Audit Log
           </h2>
-          <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+          <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/25">
             10% Platform Commission Split Applied
           </span>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-200">
+            <thead className="bg-surface-2 text-muted font-bold uppercase tracking-wider border-b border-line">
               <tr>
                 <th className="py-3.5 px-4">Transaction ID</th>
                 <th className="py-3.5 px-4">Booking ID</th>
@@ -96,20 +96,20 @@ function SuperAdminPayments() {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+            <tbody className="divide-y divide-line font-medium text-fg-muted">
               {platformPayments.map((p) => (
-                <tr key={p.txnId} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="py-3.5 px-4 font-mono font-bold text-slate-900">{p.txnId}</td>
-                  <td className="py-3.5 px-4 font-mono text-emerald-600 font-bold">{p.bookingId}</td>
-                  <td className="py-3.5 px-4 font-bold text-slate-900">{p.customerName}</td>
-                  <td className="py-3.5 px-4 font-bold text-purple-700">{p.shopName}</td>
-                  <td className="py-3.5 px-4 font-black text-slate-900">₹{p.amount.toLocaleString('en-IN')}</td>
-                  <td className="py-3.5 px-4 font-bold text-emerald-600">₹{p.commission.toLocaleString('en-IN')}</td>
-                  <td className="py-3.5 px-4 font-bold text-purple-600">₹{p.shopAmount.toLocaleString('en-IN')}</td>
-                  <td className="py-3.5 px-4 text-slate-500">{p.date}</td>
+                <tr key={p.txnId} className="hover:bg-surface-2 transition-colors">
+                  <td className="py-3.5 px-4 font-mono font-bold text-fg">{p.txnId}</td>
+                  <td className="py-3.5 px-4 font-mono text-emerald-400 font-bold">{p.bookingId}</td>
+                  <td className="py-3.5 px-4 font-bold text-fg">{p.customerName}</td>
+                  <td className="py-3.5 px-4 font-bold text-accent-ink">{p.shopName}</td>
+                  <td className="py-3.5 px-4 font-semibold text-fg">₹{p.amount.toLocaleString('en-IN')}</td>
+                  <td className="py-3.5 px-4 font-bold text-emerald-400">₹{p.commission.toLocaleString('en-IN')}</td>
+                  <td className="py-3.5 px-4 font-bold text-accent-ink">₹{p.shopAmount.toLocaleString('en-IN')}</td>
+                  <td className="py-3.5 px-4 text-muted">{p.date}</td>
                   <td className="py-3.5 px-4">
                     <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border ${
-                      p.status === 'Paid' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-amber-100 text-amber-800 border-amber-300'
+                      p.status === 'Paid' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25' : 'bg-amber-500/10 text-amber-400 border-amber-500/25'
                     }`}>
                       {p.status}
                     </span>

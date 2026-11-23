@@ -70,35 +70,27 @@ function ShopOwnerTracking() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       
-      {/* SECURITY NOTICE BANNER */}
-      <div className="bg-purple-950 text-purple-200 p-3 rounded-2xl border border-purple-800 text-[11px] font-mono flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-purple-400 animate-ping" />
-          <span>🏢 <strong>SHOP DISPATCH ISOLATED STREAM:</strong> Monitoring shop #{shopId} ({currentUser?.shopName || "SkyRent Hub"}).</span>
-        </div>
-        <span className="text-purple-400 hidden sm:inline">{shopDrones.length} Fleet Units Tracked</span>
-      </div>
 
       {/* HEADER SECTION */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-2xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface p-6 rounded-2xl border border-line shadow-2xs">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-fg tracking-tight">
             My Shop — Live Drone Tracking
           </h1>
-          <p className="text-slate-500 text-xs sm:text-sm mt-1">
-            Real-time GPS monitoring and telemetry hub for drones dispatched from <strong className="text-purple-700">{currentUser?.shopName || "SkyRent Bengaluru"}</strong>
+          <p className="text-muted text-xs sm:text-sm mt-1">
+            Real-time GPS monitoring and telemetry hub for drones dispatched from <strong className="text-accent-ink">{currentUser?.shopName || "SkyRent Bengaluru"}</strong>
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 flex items-center gap-2">
-            <RefreshCw className="w-3.5 h-3.5 text-purple-600 animate-spin" style={{ animationDuration: '8s' }} />
+          <div className="bg-surface-2 px-3.5 py-2 rounded-xl border border-line text-xs font-bold text-fg-muted flex items-center gap-2">
+            <RefreshCw className="w-3.5 h-3.5 text-accent-ink animate-spin" style={{ animationDuration: '8s' }} />
             <span>Synced: {lastSyncSeconds}s ago</span>
           </div>
 
           <button
             onClick={() => setShowEmergencyModal(true)}
-            className="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+            className="bg-rose-600 hover:bg-rose-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
           >
             <ShieldAlert className="w-4 h-4" />
             <span>Emergency Alert</span>
@@ -123,10 +115,10 @@ function ShopOwnerTracking() {
         {/* Left Column: Active Drone Cards List (4 cols desktop) */}
         <div className="lg:col-span-4 space-y-3">
           <div className="flex items-center justify-between px-1">
-            <h3 className="text-xs font-black uppercase text-slate-500 tracking-wider">
+            <h3 className="text-xs font-semibold uppercase text-muted tracking-wider">
               Dispatched Fleet ({filteredShopDrones.length})
             </h3>
-            <span className="text-[11px] font-bold text-purple-600">Click to focus map</span>
+            <span className="text-[11px] font-bold text-accent-ink">Click to focus map</span>
           </div>
 
           <TrackingDroneList

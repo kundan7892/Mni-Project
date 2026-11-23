@@ -37,17 +37,17 @@ function CustomerProfile() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-fg tracking-tight">
             Customer Profile
           </h1>
-          <p className="text-slate-500 text-xs sm:text-sm">
+          <p className="text-muted text-xs sm:text-sm">
             Manage your personal identity, contact details, and default delivery address.
           </p>
         </div>
 
         <button
           onClick={() => setIsEditing(!isEditing)}
-          className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-sm transition-all cursor-pointer"
+          className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-sm transition-all cursor-pointer"
         >
           <Edit className="w-4 h-4" />
           <span>{isEditing ? 'Cancel Edit' : 'Edit Profile'}</span>
@@ -56,32 +56,32 @@ function CustomerProfile() {
 
       {/* SUCCESS NOTIFICATION */}
       {successMsg && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-xs font-bold flex items-center gap-2 animate-in fade-in duration-200">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="p-4 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 rounded-2xl text-xs font-bold flex items-center gap-2 animate-in fade-in duration-200">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{successMsg}</span>
         </div>
       )}
 
       {/* PROFILE CARD */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-2xs space-y-8">
+      <div className="bg-surface rounded-2xl border border-line p-6 sm:p-10 shadow-2xs space-y-8">
         
         {/* User Banner Header */}
-        <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-200/80">
+        <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-surface-2 rounded-2xl border border-line">
           <img
             src={currentUser?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}
             alt={profileData.fullName}
-            className="w-24 h-24 rounded-3xl object-cover border-2 border-white shadow-md shrink-0"
+            className="w-24 h-24 rounded-2xl object-cover border-2 border-white shadow-md shrink-0"
           />
           
           <div className="space-y-1 text-center sm:text-left">
-            <div className="inline-flex items-center gap-1.5 bg-blue-100 text-blue-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-blue-200">
-              <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+            <div className="inline-flex items-center gap-1.5 bg-accent/10 text-accent-ink text-[10px] font-semibold px-2.5 py-0.5 rounded-full border border-accent/25">
+              <ShieldCheck className="w-3.5 h-3.5 text-accent-ink" />
               <span>Verified Customer Account</span>
             </div>
 
-            <h2 className="text-2xl font-black text-slate-900">{profileData.fullName}</h2>
-            <p className="text-slate-500 text-xs">{profileData.email}</p>
-            <p className="text-xs text-slate-400 font-medium">Member Since: {profileData.memberSince}</p>
+            <h2 className="text-2xl font-semibold text-fg">{profileData.fullName}</h2>
+            <p className="text-muted text-xs">{profileData.email}</p>
+            <p className="text-xs text-subtle font-medium">Member Since: {profileData.memberSince}</p>
           </div>
         </div>
 
@@ -92,7 +92,7 @@ function CustomerProfile() {
             
             {/* Full Name */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-fg-muted uppercase tracking-wider">
                 Full Legal Name
               </label>
               {isEditing ? (
@@ -100,11 +100,11 @@ function CustomerProfile() {
                   type="text"
                   value={profileData.fullName}
                   onChange={(e) => handleChange('fullName', e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-300 focus:border-blue-600 rounded-xl py-3 px-4 text-sm font-semibold text-slate-800"
+                  className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-3 px-4 text-sm font-semibold text-fg"
                   required
                 />
               ) : (
-                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 font-bold text-slate-900 text-sm">
+                <div className="p-3.5 bg-surface-2 rounded-xl border border-line font-bold text-fg text-sm">
                   {profileData.fullName}
                 </div>
               )}
@@ -112,17 +112,17 @@ function CustomerProfile() {
 
             {/* Email */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-fg-muted uppercase tracking-wider">
                 Email Address
               </label>
-              <div className="p-3.5 bg-slate-100 rounded-xl border border-slate-200 font-medium text-slate-500 text-sm">
+              <div className="p-3.5 bg-surface-2 rounded-xl border border-line font-medium text-muted text-sm">
                 {profileData.email} (Primary Login)
               </div>
             </div>
 
             {/* Phone */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-fg-muted uppercase tracking-wider">
                 Phone Number
               </label>
               {isEditing ? (
@@ -130,11 +130,11 @@ function CustomerProfile() {
                   type="tel"
                   value={profileData.phone}
                   onChange={(e) => handleChange('phone', e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-300 focus:border-blue-600 rounded-xl py-3 px-4 text-sm font-semibold text-slate-800"
+                  className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-3 px-4 text-sm font-semibold text-fg"
                   required
                 />
               ) : (
-                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 font-bold text-slate-900 text-sm">
+                <div className="p-3.5 bg-surface-2 rounded-xl border border-line font-bold text-fg text-sm">
                   {profileData.phone}
                 </div>
               )}
@@ -142,7 +142,7 @@ function CustomerProfile() {
 
             {/* Street Address */}
             <div className="space-y-1.5 sm:col-span-2">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-fg-muted uppercase tracking-wider">
                 Street Address
               </label>
               {isEditing ? (
@@ -150,11 +150,11 @@ function CustomerProfile() {
                   type="text"
                   value={profileData.address}
                   onChange={(e) => handleChange('address', e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-300 focus:border-blue-600 rounded-xl py-3 px-4 text-sm font-semibold text-slate-800"
+                  className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-3 px-4 text-sm font-semibold text-fg"
                   required
                 />
               ) : (
-                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 font-bold text-slate-900 text-sm">
+                <div className="p-3.5 bg-surface-2 rounded-xl border border-line font-bold text-fg text-sm">
                   {profileData.address}
                 </div>
               )}
@@ -162,7 +162,7 @@ function CustomerProfile() {
 
             {/* City */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-fg-muted uppercase tracking-wider">
                 City
               </label>
               {isEditing ? (
@@ -170,11 +170,11 @@ function CustomerProfile() {
                   type="text"
                   value={profileData.city}
                   onChange={(e) => handleChange('city', e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-300 focus:border-blue-600 rounded-xl py-3 px-4 text-sm font-semibold text-slate-800"
+                  className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-3 px-4 text-sm font-semibold text-fg"
                   required
                 />
               ) : (
-                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 font-bold text-slate-900 text-sm">
+                <div className="p-3.5 bg-surface-2 rounded-xl border border-line font-bold text-fg text-sm">
                   {profileData.city}
                 </div>
               )}
@@ -183,7 +183,7 @@ function CustomerProfile() {
             {/* State & PIN Code Grid */}
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                <label className="block text-xs font-bold text-fg-muted uppercase tracking-wider">
                   State
                 </label>
                 {isEditing ? (
@@ -191,18 +191,18 @@ function CustomerProfile() {
                     type="text"
                     value={profileData.state}
                     onChange={(e) => handleChange('state', e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-300 focus:border-blue-600 rounded-xl py-3 px-4 text-sm font-semibold text-slate-800"
+                    className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-3 px-4 text-sm font-semibold text-fg"
                     required
                   />
                 ) : (
-                  <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 font-bold text-slate-900 text-sm">
+                  <div className="p-3.5 bg-surface-2 rounded-xl border border-line font-bold text-fg text-sm">
                     {profileData.state}
                   </div>
                 )}
               </div>
 
               <div className="space-y-1.5">
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                <label className="block text-xs font-bold text-fg-muted uppercase tracking-wider">
                   PIN Code
                 </label>
                 {isEditing ? (
@@ -210,11 +210,11 @@ function CustomerProfile() {
                     type="text"
                     value={profileData.pinCode}
                     onChange={(e) => handleChange('pinCode', e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-300 focus:border-blue-600 rounded-xl py-3 px-4 text-sm font-semibold text-slate-800"
+                    className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-3 px-4 text-sm font-semibold text-fg"
                     required
                   />
                 ) : (
-                  <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 font-bold text-slate-900 text-sm">
+                  <div className="p-3.5 bg-surface-2 rounded-xl border border-line font-bold text-fg text-sm">
                     {profileData.pinCode}
                   </div>
                 )}
@@ -228,7 +228,7 @@ function CustomerProfile() {
             <div className="pt-4 flex justify-end">
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-7 py-3 rounded-xl text-xs shadow-md transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-600 text-white font-bold px-7 py-3 rounded-xl text-xs shadow-md transition-all cursor-pointer"
               >
                 <Save className="w-4 h-4" />
                 <span>Save Changes</span>

@@ -168,8 +168,8 @@ export const initialTelemetryMap = {
 }
 
 export const mapThemes = [
-  { id: "dark", label: "Dark Tactical", bg: "#0f172a", gridColor: "#38bdf8", accent: "#0284c7" },
-  { id: "satellite", label: "Satellite Hybrid", bg: "#051622", gridColor: "#10b981", accent: "#059669" },
-  { id: "topographic", label: "Topo Contour", bg: "#1e1b4b", gridColor: "#a855f7", accent: "#7c3aed" },
-  { id: "light", label: "Daylight Contrast", bg: "#f1f5f9", gridColor: "#64748b", accent: "#2563eb" }
+  { id: "dark", label: "Dark Tactical", bg: "#111113", gridColor: "#38bdf8", accent: "#0284c7" },
+  { id: "satellite", label: "Satellite Hybrid", bg: "#051622", gridColor: "#34d399", accent: "#059669" },
+  { id: "topographic", label: "Topo Contour", bg: "#1e1b4b", gridColor: "#c4c5f7", accent: "#8b8ce8" },
+  { id: "light", label: "Daylight Contrast", bg: "#26262b", gridColor: "#9898a2", accent: "#5b5bd6" }
 ]

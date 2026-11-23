@@ -51,7 +51,7 @@ function CustomerReports() {
         { label: "Total Rental Days", value: "24 Days", sub: "Flight duration" },
         { label: "Avg Rental Duration", value: "3 Days", sub: "Per mission" },
         { label: "Top Category", value: "Camera Drone", sub: "50% usage" },
-        { label: "Satisfaction", value: "5.0 ★★★★★", sub: "User rating" }
+        { label: "Satisfaction", value: "5.0 / 5", sub: "User rating" }
       ]
     },
     {
@@ -89,17 +89,17 @@ function CustomerReports() {
     <div className="space-y-6 max-w-7xl mx-auto">
       
       {/* HEADER */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-2xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface p-6 rounded-2xl border border-line shadow-2xs">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-semibold text-fg tracking-tight">
               My Reports
             </h1>
-            <span className="text-[10px] font-extrabold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200 uppercase">
+            <span className="text-[10px] font-semibold text-accent-ink bg-accent/10 px-2.5 py-0.5 rounded-full border border-accent/25 uppercase">
               Official Statements
             </span>
           </div>
-          <p className="text-slate-500 text-xs sm:text-sm mt-1">
+          <p className="text-muted text-xs sm:text-sm mt-1">
             Download or view verified booking receipts, rental usage summaries, and billing statements.
           </p>
         </div>
@@ -107,7 +107,7 @@ function CustomerReports() {
         <button
           type="button"
           onClick={() => setIsGeneratorOpen(true)}
-          className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md cursor-pointer shrink-0 self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 bg-accent hover:bg-accent-hover text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md cursor-pointer shrink-0 self-start sm:self-auto"
         >
           <FileText className="w-4 h-4" />
           <span>Custom Report Generator</span>

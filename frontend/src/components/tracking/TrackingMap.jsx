@@ -10,9 +10,9 @@ import {
  * Visually striking CSS/SVG map container simulating real-time GPS telemetry.
  * Displays:
  *   - Grid & road-like terrain layout
- *   - Shop Marker (🏪 + Tooltip)
- *   - Pulsing Drone Marker (🚁 + LIVE indicator with Framer Motion)
- *   - Destination Marker (📍 + Tooltip)
+ *   - Shop Marker (+ Tooltip)
+ *   - Pulsing Drone Marker (+ LIVE indicator with Framer Motion)
+ *   - Destination Marker (+ Tooltip)
  *   - SVG Flight Route path
  *   - Interactive controls (Zoom +, Zoom -, Reset View, Locate Drone)
  */
@@ -46,7 +46,7 @@ function TrackingMap({
   const destY = activeDrone?.mapCoords?.destY ?? 72
 
   return (
-    <div className="relative w-full h-[420px] sm:h-[480px] rounded-3xl overflow-hidden shadow-xl border border-slate-800 bg-slate-950 text-white select-none">
+    <div className="relative w-full h-[420px] sm:h-[480px] rounded-2xl overflow-hidden shadow-lg border border-line bg-canvas text-white select-none">
       
       {/* MAP BACKGROUND TERRAIN GRID */}
       <div 
@@ -68,10 +68,10 @@ function TrackingMap({
 
         {/* Simulated Road & Sector Lines */}
         <svg className="absolute inset-0 w-full h-full opacity-15 pointer-events-none">
-          <path d="M 0,120 Q 200,80 400,200 T 800,250" fill="none" stroke="#60A5FA" strokeWidth="6" strokeDasharray="8,8" />
-          <path d="M 100,0 L 500,500" fill="none" stroke="#94A3B8" strokeWidth="4" />
+          <path d="M 0,120 Q 200,80 400,200 T 800,250" fill="none" stroke="#a8aaf4" strokeWidth="6" strokeDasharray="8,8" />
+          <path d="M 100,0 L 500,500" fill="none" stroke="#9898a2" strokeWidth="4" />
           <path d="M 0,350 Q 300,320 600,420 T 1000,380" fill="none" stroke="#38BDF8" strokeWidth="5" />
-          <circle cx="20%" cy="30%" r="80" fill="none" stroke="#3B82F6" strokeWidth="1" strokeDasharray="4,4" />
+          <circle cx="20%" cy="30%" r="80" fill="none" stroke="#5b5bd6" strokeWidth="1" strokeDasharray="4,4" />
           <circle cx="82%" cy="72%" r="60" fill="none" stroke="#E11D48" strokeWidth="1" strokeDasharray="4,4" />
         </svg>
 
@@ -79,9 +79,9 @@ function TrackingMap({
         <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
           <defs>
             <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.9" />
-              <stop offset="50%" stopColor="#10B981" stopOpacity="1" />
-              <stop offset="100%" stopColor="#F43F5E" stopOpacity="0.9" />
+              <stop offset="0%" stopColor="#5b5bd6" stopOpacity="0.9" />
+              <stop offset="50%" stopColor="#34d399" stopOpacity="1" />
+              <stop offset="100%" stopColor="#fb7185" stopOpacity="0.9" />
             </linearGradient>
           </defs>
 
@@ -103,55 +103,55 @@ function TrackingMap({
             y1={`${droneY}%`}
             x2={`${destX}%`}
             y2={`${destY}%`}
-            stroke="#94A3B8"
+            stroke="#9898a2"
             strokeWidth="2"
             strokeDasharray="4,4"
             opacity="0.6"
           />
         </svg>
 
-        {/* 🏪 SHOP MARKER */}
+        {/* SHOP MARKER */}
         <div
           className="absolute z-20 -translate-x-1/2 -translate-y-1/2 group cursor-pointer"
           style={{ left: `${shopX}%`, top: `${shopY}%` }}
         >
           <div className="relative flex flex-col items-center">
             {/* Tooltip on hover */}
-            <div className="opacity-90 group-hover:opacity-100 transition-opacity bg-slate-900/90 text-white text-[10px] font-bold px-2 py-1 rounded-md border border-blue-500/40 whitespace-nowrap mb-1 shadow-lg">
-              🏪 {activeDrone?.shopName || "SkyRent Hub"}
+            <div className="opacity-90 group-hover:opacity-100 transition-opacity bg-black/90 text-white text-[10px] font-bold px-2 py-1 rounded-md border border-accent/40 whitespace-nowrap mb-1 shadow-lg">
+              {activeDrone?.shopName || "SkyRent Hub"}
             </div>
             
-            <div className="w-9 h-9 rounded-2xl bg-blue-600/90 text-white flex items-center justify-center shadow-lg border border-blue-400/50 group-hover:scale-110 transition-transform">
+            <div className="w-9 h-9 rounded-2xl bg-accent/90 text-white flex items-center justify-center shadow-lg border border-accent/50 transition-transform">
               <Building2 className="w-5 h-5" />
             </div>
 
-            <span className="text-[9px] font-mono text-blue-300 font-bold mt-1 bg-slate-950/80 px-1.5 py-0.5 rounded-sm">
+            <span className="text-[9px] font-mono text-accent-ink font-bold mt-1 bg-black/80 px-1.5 py-0.5 rounded-sm">
               SHOP HUB
             </span>
           </div>
         </div>
 
-        {/* 📍 DESTINATION MARKER */}
+        {/* DESTINATION MARKER */}
         <div
           className="absolute z-20 -translate-x-1/2 -translate-y-1/2 group cursor-pointer"
           style={{ left: `${destX}%`, top: `${destY}%` }}
         >
           <div className="relative flex flex-col items-center">
-            <div className="opacity-90 group-hover:opacity-100 transition-opacity bg-slate-900/90 text-white text-[10px] font-bold px-2 py-1 rounded-md border border-rose-500/40 whitespace-nowrap mb-1 shadow-lg">
-              📍 {activeDrone?.destination || "Rental Destination"}
+            <div className="opacity-90 group-hover:opacity-100 transition-opacity bg-black/90 text-white text-[10px] font-bold px-2 py-1 rounded-md border border-rose-500/40 whitespace-nowrap mb-1 shadow-lg">
+              {activeDrone?.destination || "Rental Destination"}
             </div>
 
-            <div className="w-9 h-9 rounded-2xl bg-rose-600/90 text-white flex items-center justify-center shadow-lg border border-rose-400/50 group-hover:scale-110 transition-transform">
+            <div className="w-9 h-9 rounded-2xl bg-rose-500/90 text-white flex items-center justify-center shadow-lg border border-rose-500/50 transition-transform">
               <MapPin className="w-5 h-5" />
             </div>
 
-            <span className="text-[9px] font-mono text-rose-300 font-bold mt-1 bg-slate-950/80 px-1.5 py-0.5 rounded-sm">
+            <span className="text-[9px] font-mono text-rose-300 font-bold mt-1 bg-black/80 px-1.5 py-0.5 rounded-sm">
               DESTINATION
             </span>
           </div>
         </div>
 
-        {/* 🚁 DRONE MARKER (PULSING ANIMATION WITH FRAMER MOTION) */}
+        {/* DRONE MARKER (PULSING ANIMATION WITH FRAMER MOTION) */}
         {activeDrone && (
           <div
             className="absolute z-30 -translate-x-1/2 -translate-y-1/2 group cursor-pointer"
@@ -160,15 +160,15 @@ function TrackingMap({
             <div className="relative flex flex-col items-center">
               
               {/* Drone Info Tooltip HUD */}
-              <div className="bg-slate-900/95 text-white p-2 rounded-xl border border-emerald-500/50 shadow-2xl mb-1 text-center min-w-[120px]">
+              <div className="bg-black/95 text-white p-2 rounded-xl border border-emerald-500/50 shadow-lg mb-1 text-center min-w-[120px]">
                 <div className="flex items-center justify-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                  <span className="text-[10px] font-black tracking-wider text-emerald-400 uppercase">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                  <span className="text-[10px] font-semibold tracking-wider text-emerald-400 uppercase">
                     {activeDrone.status === 'in-flight' ? 'LIVE TRACKING' : activeDrone.status.toUpperCase()}
                   </span>
                 </div>
-                <div className="text-xs font-black truncate text-white">{activeDrone.droneName}</div>
-                <div className="text-[10px] text-slate-300 font-mono">
+                <div className="text-xs font-semibold truncate text-white">{activeDrone.droneName}</div>
+                <div className="text-[10px] text-fg-muted font-mono">
                   Alt: {activeDrone.altitude}m • Speed: {activeDrone.speed}km/h
                 </div>
               </div>
@@ -177,21 +177,21 @@ function TrackingMap({
               <div className="relative flex items-center justify-center">
                 {/* Outer Ring Pulse 1 */}
                 <motion.div
-                  className="absolute w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-400/50"
+                  className="absolute w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/50"
                   animate={{ scale: [1, 1.8, 1], opacity: [0.6, 0, 0.6] }}
                   transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
                 />
 
                 {/* Outer Ring Pulse 2 */}
                 <motion.div
-                  className="absolute w-12 h-12 rounded-full bg-cyan-500/30 border border-cyan-400/60"
+                  className="absolute w-12 h-12 rounded-full bg-accent/30 border border-accent/60"
                   animate={{ scale: [1, 1.4, 1], opacity: [0.8, 0.2, 0.8] }}
                   transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
                 />
 
                 {/* Center Drone Icon Badge */}
                 <motion.div
-                  className="relative w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center shadow-lg border-2 border-white shadow-emerald-500/50 z-10"
+                  className="relative w-11 h-11 rounded-2xl bg-surface text-white flex items-center justify-center shadow-lg border-2 border-white z-10"
                   animate={{ y: [0, -3, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                 >
@@ -215,10 +215,10 @@ function TrackingMap({
               className="absolute z-20 -translate-x-1/2 -translate-y-1/2 cursor-pointer group"
               style={{ left: `${oX}%`, top: `${oY}%` }}
             >
-              <div className="w-8 h-8 rounded-xl bg-slate-800 text-cyan-400 hover:bg-cyan-600 hover:text-white flex items-center justify-center shadow-md border border-cyan-500/40 transition-colors">
+              <div className="w-8 h-8 rounded-xl bg-surface-2 text-accent-ink hover:bg-accent-hover hover:text-white flex items-center justify-center shadow-md border border-accent/40 transition-colors">
                 <Navigation className="w-4 h-4 transform rotate-45" />
               </div>
-              <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-full left-1/2 -translate-x-1/2 mb-1 bg-slate-900 text-white text-[9px] font-bold px-2 py-0.5 rounded-md whitespace-nowrap border border-slate-700 shadow-md">
+              <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-full left-1/2 -translate-x-1/2 mb-1 bg-surface text-white text-[9px] font-bold px-2 py-0.5 rounded-md whitespace-nowrap border border-line shadow-md">
                 {otherDrone.droneName}
               </div>
             </div>
@@ -231,13 +231,13 @@ function TrackingMap({
       <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none z-30">
         
         {/* Live Tracking Status Pill */}
-        <div className="pointer-events-auto bg-slate-900/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-slate-700/80 shadow-lg flex items-center gap-2.5">
+        <div className="pointer-events-auto bg-black/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-line shadow-lg flex items-center gap-2.5">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-          <span className="text-xs font-black text-white tracking-wider uppercase">
-            🟢 LIVE TRACKING
+          <span className="text-xs font-semibold text-white tracking-wider uppercase">
+            LIVE TRACKING
           </span>
-          <span className="text-slate-500 text-[10px]">|</span>
-          <span className="text-[10px] text-slate-300 font-mono">
+          <span className="text-muted text-[10px]">|</span>
+          <span className="text-[10px] text-fg-muted font-mono">
             {activeDrone?.droneName || "No Drone Selected"}
           </span>
         </div>
@@ -246,7 +246,7 @@ function TrackingMap({
         {onEmergencyClick && (
           <button
             onClick={onEmergencyClick}
-            className="pointer-events-auto bg-rose-600/90 hover:bg-rose-600 text-white text-xs font-extrabold px-3.5 py-1.5 rounded-full border border-rose-400/50 shadow-lg hover:shadow-rose-600/30 transition-all flex items-center gap-1.5 cursor-pointer"
+            className="pointer-events-auto bg-rose-500/90 hover:bg-rose-600 text-white text-xs font-semibold px-3.5 py-1.5 rounded-full border border-rose-500/50 shadow-lg transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <ShieldAlert className="w-4 h-4" />
             <span>EMERGENCY ALERT</span>
@@ -259,44 +259,44 @@ function TrackingMap({
       <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between pointer-events-none z-30">
         
         {/* Location & Sector Coordinates HUD */}
-        <div className="bg-slate-900/90 backdrop-blur-md p-3 rounded-2xl border border-slate-800 text-xs space-y-1 shadow-lg pointer-events-auto">
-          <div className="flex items-center gap-2 font-mono text-[10px] text-cyan-400 font-bold">
+        <div className="bg-black/90 backdrop-blur-md p-3 rounded-2xl border border-line text-xs space-y-1 shadow-lg pointer-events-auto">
+          <div className="flex items-center gap-2 font-mono text-[10px] text-accent-ink font-bold">
             <Compass className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '10s' }} />
             <span>LAT: {activeDrone?.latitude || 12.9716}° N</span>
             <span>LNG: {activeDrone?.longitude || 77.5946}° E</span>
           </div>
-          <div className="text-[10px] text-slate-300 font-semibold">
+          <div className="text-[10px] text-fg-muted font-semibold">
             Route: <span className="text-white">{activeDrone?.startLocation || "Shop"}</span> → <span className="text-rose-400">{activeDrone?.destination || "Destination"}</span>
           </div>
         </div>
 
         {/* Map Control Buttons */}
-        <div className="pointer-events-auto flex items-center gap-2 bg-slate-900/90 backdrop-blur-md p-1.5 rounded-2xl border border-slate-800 shadow-xl">
+        <div className="pointer-events-auto flex items-center gap-2 bg-black/90 backdrop-blur-md p-1.5 rounded-2xl border border-line shadow-lg">
           <button
             onClick={handleZoomIn}
             title="Zoom In"
-            className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-2 rounded-xl text-fg-muted hover:text-white hover:bg-surface-2 transition-colors cursor-pointer"
           >
             <Plus className="w-4 h-4" />
           </button>
           <button
             onClick={handleZoomOut}
             title="Zoom Out"
-            className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-2 rounded-xl text-fg-muted hover:text-white hover:bg-surface-2 transition-colors cursor-pointer"
           >
             <Minus className="w-4 h-4" />
           </button>
           <button
             onClick={handleResetView}
             title="Reset View"
-            className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-2 rounded-xl text-fg-muted hover:text-white hover:bg-surface-2 transition-colors cursor-pointer"
           >
             <RotateCcw className={`w-4 h-4 ${isCentering ? 'animate-spin' : ''}`} />
           </button>
           <button
             onClick={handleResetView}
             title="Locate Drone"
-            className="p-2 rounded-xl text-emerald-400 hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-2 rounded-xl text-emerald-400 hover:bg-surface-2 transition-colors cursor-pointer"
           >
             <Crosshair className="w-4 h-4" />
           </button>

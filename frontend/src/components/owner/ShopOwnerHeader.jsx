@@ -23,14 +23,14 @@ function ShopOwnerHeader({ onMobileMenuToggle }) {
   }
 
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-30 py-3.5 px-4 sm:px-6 lg:px-8">
+    <header className="bg-surface border-b border-line sticky top-0 z-30 py-3.5 px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between gap-4">
         
         {/* Left Side: Mobile Menu Trigger & Greeting */}
         <div className="flex items-center gap-3">
           <button
             onClick={onMobileMenuToggle}
-            className="lg:hidden p-2 rounded-xl text-slate-700 hover:text-purple-600 bg-slate-100 transition-colors cursor-pointer"
+            className="lg:hidden p-2 rounded-xl text-fg-muted hover:text-accent-ink bg-surface-2 transition-colors cursor-pointer"
             aria-label="Open Navigation Menu"
           >
             <Menu className="w-5 h-5" />
@@ -38,15 +38,15 @@ function ShopOwnerHeader({ onMobileMenuToggle }) {
 
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 leading-snug">
-                {greeting}, {currentUser?.name?.split(' ')[0] || 'Owner'} 👋
+              <h1 className="text-lg sm:text-xl font-semibold text-fg leading-snug">
+                {greeting}, {currentUser?.name?.split(' ')[0] || 'Owner'} 
               </h1>
-              <span className="hidden md:inline-flex items-center gap-1 bg-purple-50 text-purple-700 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-purple-200">
-                <ShieldCheck className="w-3 h-3 text-purple-600" />
+              <span className="hidden md:inline-flex items-center gap-1 bg-accent/10 text-accent-ink text-[10px] font-semibold px-2.5 py-0.5 rounded-full border border-accent/25">
+                <ShieldCheck className="w-3 h-3 text-accent-ink" />
                 <span>{shop.name}</span>
               </span>
             </div>
-            <p className="text-xs text-slate-500 hidden sm:block">
+            <p className="text-xs text-muted hidden sm:block">
               Manage your fleet inventory, rental bookings, and shop performance.
             </p>
           </div>
@@ -65,53 +65,53 @@ function ShopOwnerHeader({ onMobileMenuToggle }) {
           <div className="relative">
             <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="flex items-center gap-2.5 bg-slate-50 hover:bg-slate-100 p-1.5 pr-3 rounded-2xl border border-slate-200 transition-all cursor-pointer"
+              className="flex items-center gap-2.5 bg-surface-2 hover:bg-surface-2 p-1.5 pr-3 rounded-2xl border border-line transition-all cursor-pointer"
             >
               <img
                 src={currentUser?.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80'}
                 alt={currentUser?.name}
-                className="w-8 h-8 rounded-xl object-cover border border-slate-200"
+                className="w-8 h-8 rounded-xl object-cover border border-line"
               />
               <div className="text-left text-xs hidden sm:block">
-                <div className="font-extrabold text-slate-900 truncate max-w-[120px]">
+                <div className="font-semibold text-fg truncate max-w-[120px]">
                   {currentUser?.name}
                 </div>
-                <div className="text-[10px] text-purple-600 font-bold uppercase tracking-wider">
+                <div className="text-[10px] text-accent-ink font-bold uppercase tracking-wider">
                   Shop Owner
                 </div>
               </div>
-              <ChevronDown className="w-4 h-4 text-slate-400" />
+              <ChevronDown className="w-4 h-4 text-subtle" />
             </button>
 
             {isProfileOpen && (
-              <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl border border-slate-200 shadow-xl py-2 z-50 text-xs space-y-1 animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="px-4 py-2 border-b border-slate-100 space-y-0.5">
-                  <div className="font-bold text-slate-900">{currentUser?.name}</div>
-                  <div className="text-slate-500 text-[11px] truncate">{currentUser?.email}</div>
-                  <div className="text-[10px] text-purple-600 font-bold">Shop ID: #{shopId}</div>
+              <div className="absolute right-0 mt-2 w-56 bg-surface rounded-2xl border border-line shadow-lg py-2 z-50 text-xs space-y-1 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="px-4 py-2 border-b border-line space-y-0.5">
+                  <div className="font-bold text-fg">{currentUser?.name}</div>
+                  <div className="text-muted text-[11px] truncate">{currentUser?.email}</div>
+                  <div className="text-[10px] text-accent-ink font-bold">Shop ID: #{shopId}</div>
                 </div>
 
                 <Link
                   to="/owner/shop-profile"
                   onClick={() => setIsProfileOpen(false)}
-                  className="flex items-center gap-2.5 px-4 py-2.5 text-slate-700 hover:bg-purple-50 hover:text-purple-600 font-bold transition-colors"
+                  className="flex items-center gap-2.5 px-4 py-2.5 text-fg-muted hover:bg-accent/10 hover:text-accent-ink font-bold transition-colors"
                 >
-                  <Store className="w-4 h-4 text-purple-600" />
+                  <Store className="w-4 h-4 text-accent-ink" />
                   <span>Shop Storefront</span>
                 </Link>
 
                 <Link
                   to="/owner/settings"
                   onClick={() => setIsProfileOpen(false)}
-                  className="flex items-center gap-2.5 px-4 py-2.5 text-slate-700 hover:bg-purple-50 hover:text-purple-600 font-bold transition-colors"
+                  className="flex items-center gap-2.5 px-4 py-2.5 text-fg-muted hover:bg-accent/10 hover:text-accent-ink font-bold transition-colors"
                 >
-                  <Settings className="w-4 h-4 text-purple-600" />
+                  <Settings className="w-4 h-4 text-accent-ink" />
                   <span>Shop Settings</span>
                 </Link>
 
                 <button
                   onClick={handleLogout}
-                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-rose-600 hover:bg-rose-50 font-bold transition-colors cursor-pointer text-left border-t border-slate-100"
+                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-rose-400 hover:bg-rose-500/10 font-bold transition-colors cursor-pointer text-left border-t border-line"
                 >
                   <LogOut className="w-4 h-4" />
                   <span>Sign Out</span>

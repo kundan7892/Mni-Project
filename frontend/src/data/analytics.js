@@ -17,11 +17,11 @@ export const monthlyRevenue = [
 ]
 
 export const categoryPerformance = [
-  { category: "Camera Drone", revenue: 845000, rentals: 240, utilization: 88, color: "#3B82F6" },
-  { category: "Survey & Mapping", revenue: 680000, rentals: 142, utilization: 82, color: "#10B981" },
-  { category: "Agricultural Spraying", revenue: 520000, rentals: 98, utilization: 75, color: "#8B5CF6" },
-  { category: "FPV & Cinematic", revenue: 410000, rentals: 186, utilization: 91, color: "#F59E0B" },
-  { category: "Industrial Heavy Lift", revenue: 395000, rentals: 64, utilization: 68, color: "#EC4899" }
+  { category: "Camera Drone", revenue: 845000, rentals: 240, utilization: 88, color: "#5b5bd6" },
+  { category: "Survey & Mapping", revenue: 680000, rentals: 142, utilization: 82, color: "#34d399" },
+  { category: "Agricultural Spraying", revenue: 520000, rentals: 98, utilization: 75, color: "#8b8ce8" },
+  { category: "FPV & Cinematic", revenue: 410000, rentals: 186, utilization: 91, color: "#fbbf24" },
+  { category: "Industrial Heavy Lift", revenue: 395000, rentals: 64, utilization: 68, color: "#c4c5f7" }
 ]
 
 export const shopPerformance = [
@@ -56,11 +56,11 @@ export const customerGrowthData = [
 ]
 
 export const bookingStatusData = [
-  { status: "Completed", count: 4120, percentage: 64, color: "#10B981" },
-  { status: "Active", count: 184, percentage: 3, color: "#3B82F6" },
-  { status: "Confirmed", count: 1240, percentage: 19, color: "#8B5CF6" },
-  { status: "Pending", count: 560, percentage: 9, color: "#F59E0B" },
-  { status: "Cancelled", count: 316, percentage: 5, color: "#EF4444" }
+  { status: "Completed", count: 4120, percentage: 64, color: "#34d399" },
+  { status: "Active", count: 184, percentage: 3, color: "#5b5bd6" },
+  { status: "Confirmed", count: 1240, percentage: 19, color: "#8b8ce8" },
+  { status: "Pending", count: 560, percentage: 9, color: "#fbbf24" },
+  { status: "Cancelled", count: 316, percentage: 5, color: "#fb7185" }
 ]
 
 export const paymentStatsData = {
@@ -95,15 +95,15 @@ export const customerAnalyticsData = {
     { month: "Oct", amount: 8000, rentals: 2 }
   ],
   durationDistribution: [
-    { duration: "1-2 Days", count: 5, color: "#3B82F6" },
-    { duration: "3-5 Days", count: 4, color: "#10B981" },
-    { duration: "1 Week", count: 2, color: "#8B5CF6" },
-    { duration: "2+ Weeks", count: 1, color: "#F59E0B" }
+    { duration: "1-2 Days", count: 5, color: "#5b5bd6" },
+    { duration: "3-5 Days", count: 4, color: "#34d399" },
+    { duration: "1 Week", count: 2, color: "#8b8ce8" },
+    { duration: "2+ Weeks", count: 1, color: "#fbbf24" }
   ],
   categoryDistribution: [
-    { category: "Camera Drone", count: 6, percentage: 50, color: "#3B82F6" },
-    { category: "FPV & Cinematic", count: 4, percentage: 33, color: "#F59E0B" },
-    { category: "Survey Drone", count: 2, percentage: 17, color: "#10B981" }
+    { category: "Camera Drone", count: 6, percentage: 50, color: "#5b5bd6" },
+    { category: "FPV & Cinematic", count: 4, percentage: 33, color: "#fbbf24" },
+    { category: "Survey Drone", count: 2, percentage: 17, color: "#34d399" }
   ],
   rentalPerformance: [
     { id: "RNT-101", drone: "DJI Mavic 3 Pro", category: "Camera Drone", date: "15 Oct 2026", duration: "3 Days", amount: 7500, status: "Active" },
@@ -139,10 +139,10 @@ export const ownerAnalyticsData = {
     { name: "Matrice 300 RTK", rentals: 22, hours: 180, utilization: 72 }
   ],
   categoryRevenue: [
-    { category: "Camera Drone", revenue: 165000, percentage: 43, color: "#3B82F6" },
-    { category: "FPV & Cinematic", revenue: 110000, percentage: 28, color: "#F59E0B" },
-    { category: "Survey & Mapping", revenue: 70000, percentage: 18, color: "#10B981" },
-    { category: "Agricultural Spraying", revenue: 40000, percentage: 11, color: "#8B5CF6" }
+    { category: "Camera Drone", revenue: 165000, percentage: 43, color: "#5b5bd6" },
+    { category: "FPV & Cinematic", revenue: 110000, percentage: 28, color: "#fbbf24" },
+    { category: "Survey & Mapping", revenue: 70000, percentage: 18, color: "#34d399" },
+    { category: "Agricultural Spraying", revenue: 40000, percentage: 11, color: "#8b8ce8" }
   ],
   dronePerformanceTable: [
     { id: "DRN-101", drone: "DJI Mavic 3 Pro", category: "Camera Drone", totalRentals: 68, rentalHours: 410, revenue: 170000, utilization: 94, rating: 4.9, status: "Active" },

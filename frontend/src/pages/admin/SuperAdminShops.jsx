@@ -54,18 +54,18 @@ function SuperAdminShops() {
 
   const getStatusBadgeStyle = (status) => {
     switch (status) {
-      case 'Active': return 'bg-emerald-100 text-emerald-800 border-emerald-300'
-      case 'Pending': return 'bg-amber-100 text-amber-800 border-amber-300'
-      case 'Suspended': return 'bg-rose-100 text-rose-800 border-rose-300'
-      default: return 'bg-slate-100 text-slate-700 border-slate-300'
+      case 'Active': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
+      case 'Pending': return 'bg-amber-500/10 text-amber-400 border-amber-500/25'
+      case 'Suspended': return 'bg-rose-500/10 text-rose-400 border-rose-500/25'
+      default: return 'bg-surface-2 text-fg-muted border-line'
     }
   }
 
   const getVerificationBadgeStyle = (ver) => {
     switch (ver) {
-      case 'Verified': return 'bg-purple-100 text-purple-800 border-purple-300'
-      case 'Pending': return 'bg-amber-100 text-amber-800 border-amber-300'
-      default: return 'bg-rose-100 text-rose-800 border-rose-300'
+      case 'Verified': return 'bg-accent/10 text-accent-ink border-accent/25'
+      case 'Pending': return 'bg-amber-500/10 text-amber-400 border-amber-500/25'
+      default: return 'bg-rose-500/10 text-rose-400 border-rose-500/25'
     }
   }
 
@@ -116,17 +116,17 @@ function SuperAdminShops() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-fg tracking-tight">
             Shop Storefront Directory ({filteredShops.length})
           </h1>
-          <p className="text-slate-500 text-xs sm:text-sm">
+          <p className="text-muted text-xs sm:text-sm">
             Approve partner applications, suspend policy violators, and manage platform shop listings.
           </p>
         </div>
 
         <button
           onClick={() => { setShopToEdit(null); setIsFormOpen(true); }}
-          className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-3 rounded-xl text-xs shadow-md transition-all cursor-pointer self-start sm:self-auto"
+          className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-600 text-white font-bold px-5 py-3 rounded-xl text-xs shadow-md transition-all cursor-pointer self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>+ Add Partner Shop</span>
@@ -134,14 +134,14 @@ function SuperAdminShops() {
       </div>
 
       {toastMessage && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-xs font-bold flex items-center gap-2 animate-in fade-in duration-200">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="p-4 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 rounded-2xl text-xs font-bold flex items-center gap-2 animate-in fade-in duration-200">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
 
       {/* SEARCH & FILTERS BAR */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-surface p-4 rounded-2xl border border-line shadow-2xs flex flex-wrap items-center justify-between gap-4">
         
         <div className="relative flex-1 min-w-[220px]">
           <input
@@ -149,9 +149,9 @@ function SuperAdminShops() {
             placeholder="Search by Shop Name, Owner, City, Email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-300 focus:border-emerald-600 focus:bg-white rounded-xl py-2.5 pl-9 pr-4 text-xs font-medium text-slate-800 transition-all"
+            className="w-full bg-surface-2 border border-line focus:border-emerald-500/40 focus:bg-surface rounded-xl py-2.5 pl-9 pr-4 text-xs font-medium text-fg transition-all"
           />
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-4 h-4 text-subtle absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
 
         <div className="flex items-center gap-3">
@@ -159,7 +159,7 @@ function SuperAdminShops() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-slate-50 border border-slate-300 focus:border-emerald-600 rounded-xl py-2 px-3 text-xs font-semibold text-slate-700 cursor-pointer"
+            className="bg-surface-2 border border-line focus:border-emerald-500/40 rounded-xl py-2 px-3 text-xs font-semibold text-fg-muted cursor-pointer"
           >
             <option value="All">All Statuses</option>
             <option value="Active">Active</option>
@@ -171,7 +171,7 @@ function SuperAdminShops() {
           <select
             value={verificationFilter}
             onChange={(e) => setVerificationFilter(e.target.value)}
-            className="bg-slate-50 border border-slate-300 focus:border-emerald-600 rounded-xl py-2 px-3 text-xs font-semibold text-slate-700 cursor-pointer"
+            className="bg-surface-2 border border-line focus:border-emerald-500/40 rounded-xl py-2 px-3 text-xs font-semibold text-fg-muted cursor-pointer"
           >
             <option value="All">All Verifications</option>
             <option value="Verified">Verified</option>
@@ -184,11 +184,11 @@ function SuperAdminShops() {
       </div>
 
       {/* SHOPS TABLE */}
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-2xs overflow-hidden">
+      <div className="bg-surface rounded-2xl border border-line shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             
-            <thead className="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-200">
+            <thead className="bg-surface-2 text-muted font-bold uppercase tracking-wider border-b border-line">
               <tr>
                 <th className="py-4 px-4">Shop</th>
                 <th className="py-4 px-4">Owner</th>
@@ -202,32 +202,32 @@ function SuperAdminShops() {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+            <tbody className="divide-y divide-line font-medium text-fg-muted">
               {filteredShops.length > 0 ? (
                 filteredShops.map((shop) => (
-                  <tr key={shop.shopId} className="hover:bg-slate-50/80 transition-colors">
+                  <tr key={shop.shopId} className="hover:bg-surface-2 transition-colors">
                     
-                    <td className="py-3.5 px-4 font-bold text-slate-900 flex items-center gap-3">
+                    <td className="py-3.5 px-4 font-bold text-fg flex items-center gap-3">
                       <img
                         src={shop.logo}
                         alt={shop.name}
-                        className="w-10 h-10 rounded-xl object-cover border border-slate-200 shrink-0"
+                        className="w-10 h-10 rounded-xl object-cover border border-line shrink-0"
                       />
                       <div>
-                        <div className="font-bold text-slate-900 text-sm">{shop.name}</div>
-                        <div className="text-[10px] text-slate-400 font-mono">ID: #{shop.shopId}</div>
+                        <div className="font-bold text-fg text-sm">{shop.name}</div>
+                        <div className="text-[10px] text-subtle font-mono">ID: #{shop.shopId}</div>
                       </div>
                     </td>
 
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-slate-800">{shop.ownerName}</div>
-                      <div className="text-[11px] text-slate-400 font-normal">{shop.ownerEmail}</div>
+                      <div className="font-bold text-fg">{shop.ownerName}</div>
+                      <div className="text-[11px] text-subtle font-normal">{shop.ownerEmail}</div>
                     </td>
 
-                    <td className="py-3.5 px-4 text-slate-600">{shop.city}</td>
-                    <td className="py-3.5 px-4 font-bold text-slate-900">{shop.dronesCount || 18}</td>
-                    <td className="py-3.5 px-4 text-emerald-700 font-bold">{shop.activeRentalsCount || 4} live</td>
-                    <td className="py-3.5 px-4 font-black text-slate-900">₹{((shop.revenue || 1420000)/1000).toFixed(0)}k</td>
+                    <td className="py-3.5 px-4 text-muted">{shop.city}</td>
+                    <td className="py-3.5 px-4 font-bold text-fg">{shop.dronesCount || 18}</td>
+                    <td className="py-3.5 px-4 text-emerald-400 font-bold">{shop.activeRentalsCount || 4} live</td>
+                    <td className="py-3.5 px-4 font-semibold text-fg">₹{((shop.revenue || 1420000)/1000).toFixed(0)}k</td>
 
                     <td className="py-3.5 px-4">
                       <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border ${getStatusBadgeStyle(shop.status)}`}>
@@ -245,7 +245,7 @@ function SuperAdminShops() {
                     <td className="py-3.5 px-4 text-right space-x-1">
                       <button
                         onClick={() => setSelectedShopModal(shop)}
-                        className="p-1.5 text-slate-500 hover:text-emerald-600 bg-slate-100 hover:bg-emerald-50 rounded-xl transition-colors cursor-pointer"
+                        className="p-1.5 text-muted hover:text-emerald-400 bg-surface-2 hover:bg-emerald-500/10 rounded-xl transition-colors cursor-pointer"
                         title="View Details & Clearances"
                       >
                         <Eye className="w-4 h-4" />
@@ -253,7 +253,7 @@ function SuperAdminShops() {
 
                       <button
                         onClick={() => { setShopToEdit(shop); setIsFormOpen(true); }}
-                        className="p-1.5 text-slate-500 hover:text-purple-600 bg-slate-100 hover:bg-purple-50 rounded-xl transition-colors cursor-pointer"
+                        className="p-1.5 text-muted hover:text-accent-ink bg-surface-2 hover:bg-accent/10 rounded-xl transition-colors cursor-pointer"
                         title="Edit Shop"
                       >
                         <Edit className="w-4 h-4" />
@@ -261,7 +261,7 @@ function SuperAdminShops() {
 
                       <button
                         onClick={() => setShopToDelete(shop)}
-                        className="p-1.5 text-slate-500 hover:text-rose-600 bg-slate-100 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
+                        className="p-1.5 text-muted hover:text-rose-400 bg-surface-2 hover:bg-rose-500/10 rounded-xl transition-colors cursor-pointer"
                         title="Delete Shop"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -272,7 +272,7 @@ function SuperAdminShops() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={9} className="py-12 text-center text-slate-400 italic">
+                  <td colSpan={9} className="py-12 text-center text-subtle italic">
                     No shops found matching your search and filter criteria.
                   </td>
                 </tr>

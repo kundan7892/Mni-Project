@@ -80,11 +80,11 @@ function ShopOwnerOverview() {
 
   const getStatusBadgeStyle = (status) => {
     switch (status) {
-      case 'Active': return 'bg-emerald-100 text-emerald-800 border-emerald-300'
-      case 'Confirmed': return 'bg-blue-100 text-blue-800 border-blue-300'
-      case 'Pending': return 'bg-amber-100 text-amber-800 border-amber-300'
-      case 'Completed': return 'bg-slate-100 text-slate-700 border-slate-300'
-      default: return 'bg-rose-100 text-rose-800 border-rose-300'
+      case 'Active': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
+      case 'Confirmed': return 'bg-accent/10 text-accent-ink border-accent/25'
+      case 'Pending': return 'bg-amber-500/10 text-amber-400 border-amber-500/25'
+      case 'Completed': return 'bg-surface-2 text-fg-muted border-line'
+      default: return 'bg-rose-500/10 text-rose-400 border-rose-500/25'
     }
   }
 
@@ -92,33 +92,33 @@ function ShopOwnerOverview() {
     <div className="space-y-8">
       
       {/* 1. SHOP HEADER CARD */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div className="bg-surface rounded-2xl border border-line p-6 sm:p-8 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-5">
           <img
             src={shop.logo}
             alt={shop.name}
-            className="w-20 h-20 rounded-2xl object-cover border border-slate-200 shrink-0"
+            className="w-20 h-20 rounded-2xl object-cover border border-line shrink-0"
           />
           <div className="space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-2xl font-black text-slate-900">{shop.name}</h1>
+              <h1 className="text-2xl font-semibold text-fg">{shop.name}</h1>
               {shop.verified && (
-                <span className="inline-flex items-center gap-1 bg-purple-50 text-purple-700 text-xs font-bold px-2.5 py-0.5 rounded-full border border-purple-200">
-                  <ShieldCheck className="w-3.5 h-3.5 text-purple-600" />
+                <span className="inline-flex items-center gap-1 bg-accent/10 text-accent-ink text-xs font-bold px-2.5 py-0.5 rounded-full border border-accent/25">
+                  <ShieldCheck className="w-3.5 h-3.5 text-accent-ink" />
                   Verified Storefront
                 </span>
               )}
             </div>
             
-            <div className="flex items-center gap-3 text-xs text-slate-500">
+            <div className="flex items-center gap-3 text-xs text-muted">
               <div className="flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                <MapPin className="w-3.5 h-3.5 text-subtle" />
                 <span>{shop.location}</span>
               </div>
               <span>•</span>
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span className="font-bold text-emerald-700">Status: {shop.status}</span>
+                <span className="font-bold text-emerald-400">Status: {shop.status}</span>
               </div>
             </div>
           </div>
@@ -127,13 +127,13 @@ function ShopOwnerOverview() {
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <Link
             to="/owner/shop-profile"
-            className="flex-1 sm:flex-initial text-center bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold px-5 py-2.5 rounded-xl text-xs border border-purple-200 transition-colors"
+            className="flex-1 sm:flex-initial text-center bg-accent/10 hover:bg-accent/10 text-accent-ink font-bold px-5 py-2.5 rounded-xl text-xs border border-accent/25 transition-colors"
           >
             Edit Shop
           </Link>
           <Link
             to={`/drones`}
-            className="flex-1 sm:flex-initial text-center bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-sm transition-all"
+            className="flex-1 sm:flex-initial text-center bg-accent hover:bg-accent-hover text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-sm transition-all"
           >
             View Marketplace
           </Link>
@@ -190,15 +190,15 @@ function ShopOwnerOverview() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* REVENUE CHART (8 Cols) */}
-        <div className="lg:col-span-8 bg-white rounded-3xl border border-slate-200 p-6 shadow-2xs space-y-4">
+        <div className="lg:col-span-8 bg-surface rounded-2xl border border-line p-6 shadow-2xs space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-bold text-slate-900">
+              <h3 className="text-lg font-bold text-fg">
                 Monthly Revenue Performance
               </h3>
-              <p className="text-xs text-slate-500">6-month rental earnings for {shop.name}</p>
+              <p className="text-xs text-muted">6-month rental earnings for {shop.name}</p>
             </div>
-            <TrendingUp className="w-5 h-5 text-purple-600" />
+            <TrendingUp className="w-5 h-5 text-accent-ink" />
           </div>
 
           <div className="h-64 w-full pt-2">
@@ -210,11 +210,11 @@ function ShopOwnerOverview() {
                     <stop offset="95%" stopColor="#9333ea" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="month" tickLine={false} tick={{ fontSize: 11, fill: '#64748b' }} />
-                <YAxis tickLine={false} tick={{ fontSize: 11, fill: '#64748b' }} formatter={(v) => `₹${v/1000}k`} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#26262b" />
+                <XAxis dataKey="month" tickLine={false} tick={{ fontSize: 11, fill: '#9898a2' }} />
+                <YAxis tickLine={false} tick={{ fontSize: 11, fill: '#9898a2' }} formatter={(v) => `₹${v/1000}k`} />
                 <Tooltip
-                  contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', fontSize: '12px' }}
+                  contentStyle={{ borderRadius: '12px', border: '1px solid #26262b', fontSize: '12px' }}
                   formatter={(val) => [`₹${val.toLocaleString('en-IN')}`, 'Revenue']}
                 />
                 <Area type="monotone" dataKey="revenue" stroke="#9333ea" strokeWidth={3} fillOpacity={1} fill="url(#revenueGradient)" />
@@ -224,35 +224,35 @@ function ShopOwnerOverview() {
         </div>
 
         {/* LOW AVAILABILITY ALERT CARD (4 Cols) */}
-        <div className="lg:col-span-4 bg-amber-50/80 rounded-3xl border border-amber-200/80 p-6 space-y-4 text-amber-900 shadow-2xs">
+        <div className="lg:col-span-4 bg-amber-500/10 rounded-2xl border border-amber-500/25 p-6 space-y-4 text-amber-400 shadow-2xs">
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-xl bg-amber-100 text-amber-700">
+            <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400">
               <AlertTriangle className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-bold text-sm text-slate-900">Low Availability Alert</h3>
-              <span className="text-[11px] text-amber-800 font-medium">Inventory Stock Warning</span>
+              <h3 className="font-bold text-sm text-fg">Low Availability Alert</h3>
+              <span className="text-[11px] text-amber-400 font-medium">Inventory Stock Warning</span>
             </div>
           </div>
 
-          <p className="text-xs leading-relaxed text-slate-700">
+          <p className="text-xs leading-relaxed text-fg-muted">
             Some high-demand camera drones have limited available stock in your shop:
           </p>
 
-          <div className="bg-white p-3.5 rounded-2xl border border-amber-200 text-xs font-bold text-slate-900 space-y-1">
+          <div className="bg-surface p-3.5 rounded-2xl border border-amber-500/25 text-xs font-bold text-fg space-y-1">
             <div className="flex justify-between items-center">
               <span>DJI Mavic 3 Pro</span>
-              <span className="text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">1 Available</span>
+              <span className="text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/25">1 Available</span>
             </div>
-            <div className="flex justify-between items-center pt-1 border-t border-slate-100 text-slate-500 font-normal">
+            <div className="flex justify-between items-center pt-1 border-t border-line text-muted font-normal">
               <span>Avata 2 FPV Kit</span>
-              <span className="text-rose-600 font-bold">0 Available (Rented)</span>
+              <span className="text-rose-400 font-bold">0 Available (Rented)</span>
             </div>
           </div>
 
           <Link
             to="/owner/drones"
-            className="w-full inline-flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-xl text-xs shadow-xs transition-colors"
+            className="w-full inline-flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-600 text-white font-bold py-3 rounded-xl text-xs shadow-xs transition-colors"
           >
             <span>Manage Fleet Drones</span>
             <ArrowRight className="w-4 h-4" />
@@ -262,19 +262,19 @@ function ShopOwnerOverview() {
       </div>
 
       {/* 4. RECENT BOOKING OVERVIEW TABLE */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-2xs space-y-4">
+      <div className="bg-surface rounded-2xl border border-line p-6 shadow-2xs space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold text-slate-900">
+          <h3 className="text-lg font-bold text-fg">
             Recent Booking Requests ({shopBookings.length})
           </h3>
-          <Link to="/owner/bookings" className="text-xs font-bold text-purple-600 hover:underline">
+          <Link to="/owner/bookings" className="text-xs font-bold text-accent-ink hover:underline">
             View All Bookings
           </Link>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-200">
+            <thead className="bg-surface-2 text-muted font-bold uppercase tracking-wider border-b border-line">
               <tr>
                 <th className="py-3 px-4">Booking ID</th>
                 <th className="py-3 px-4">Customer</th>
@@ -285,14 +285,14 @@ function ShopOwnerOverview() {
                 <th className="py-3 px-4 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+            <tbody className="divide-y divide-line font-medium text-fg-muted">
               {shopBookings.map((b) => (
-                <tr key={b.bookingId} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="py-3 px-4 font-mono font-bold text-purple-600">{b.bookingId}</td>
-                  <td className="py-3 px-4 font-bold text-slate-900">{b.customerName}</td>
-                  <td className="py-3 px-4 text-slate-800">{b.droneName}</td>
-                  <td className="py-3 px-4 text-slate-600">{b.startDate} to {b.endDate}</td>
-                  <td className="py-3 px-4 font-bold text-slate-900">₹{b.amount.toLocaleString('en-IN')}</td>
+                <tr key={b.bookingId} className="hover:bg-surface-2 transition-colors">
+                  <td className="py-3 px-4 font-mono font-bold text-accent-ink">{b.bookingId}</td>
+                  <td className="py-3 px-4 font-bold text-fg">{b.customerName}</td>
+                  <td className="py-3 px-4 text-fg">{b.droneName}</td>
+                  <td className="py-3 px-4 text-muted">{b.startDate} to {b.endDate}</td>
+                  <td className="py-3 px-4 font-bold text-fg">₹{b.amount.toLocaleString('en-IN')}</td>
                   <td className="py-3 px-4">
                     <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border ${getStatusBadgeStyle(b.status)}`}>
                       {b.status}
@@ -301,7 +301,7 @@ function ShopOwnerOverview() {
                   <td className="py-3 px-4 text-right">
                     <button
                       onClick={() => setSelectedBookingModal(b)}
-                      className="p-1.5 text-slate-500 hover:text-purple-600 bg-slate-100 hover:bg-purple-50 rounded-xl transition-colors cursor-pointer"
+                      className="p-1.5 text-muted hover:text-accent-ink bg-surface-2 hover:bg-accent/10 rounded-xl transition-colors cursor-pointer"
                       title="View Details"
                     >
                       <Eye className="w-4 h-4" />

@@ -1,377 +1,194 @@
-import React, { useState, useMemo, useEffect } from 'react'
-import { Filter, SlidersHorizontal, Sparkles, RefreshCw } from 'lucide-react'
-
-// Data & Components
-import { dronesData } from '../data/drones'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { Search, SlidersHorizontal, X, PackageSearch } from 'lucide-react'
 import droneService from '../services/droneService'
-import SearchBar from '../components/SearchBar'
-import FilterSidebar from '../components/FilterSidebar'
-import FilterDrawer from '../components/FilterDrawer'
-import SortDropdown from '../components/SortDropdown'
-import ViewToggle from '../components/ViewToggle'
 import DroneCard from '../components/DroneCard'
-import DroneListItem from '../components/DroneListItem'
-import EmptyState from '../components/EmptyState'
-import Toast from '../components/Toast'
+import { Spinner, ErrorNote, Empty, Button, inputClass } from '../components/manage/ui'
+import { normalizeDrone } from '../lib/format'
 
-// Initial Filter State object
-const initialFilters = {
-  category: 'All Categories',
-  brand: 'All Brands',
-  maxPrice: 15000,
-  camera: 'All Resolutions',
-  flightTime: 'All Flight Times',
-  availability: 'All Statuses',
-  minRating: 0
-}
+const SORTS = [
+  { value: 'recommended', label: 'Recommended' },
+  { value: 'price-asc', label: 'Price: low to high' },
+  { value: 'price-desc', label: 'Price: high to low' },
+  { value: 'flight-desc', label: 'Longest flight time' },
+  { value: 'newest', label: 'Newest' }
+]
 
-// DroneMarketplace Component: Complete drone catalog page
+const PRICE_STEPS = [0, 2000, 3000, 5000, 8000]
+
+/** Public catalogue of drones available to rent. */
 function DroneMarketplace() {
-  // Live Drone Data State (initialized with mock drones for immediate display)
-  const [dronesList, setDronesList] = useState(dronesData)
-  const [isLoadingApi, setIsLoadingApi] = useState(false)
+  const [drones, setDrones] = useState(null)
+  const [error, setError] = useState(null)
+  const [search, setSearch] = useState('')
+  const [searchParams] = useSearchParams()
+  const [category, setCategory] = useState(() => searchParams.get('category') || 'all')
+  const [brand, setBrand] = useState('all')
+  const [maxPrice, setMaxPrice] = useState(0)
+  const [onlyAvailable, setOnlyAvailable] = useState(false)
+  const [sort, setSort] = useState('recommended')
+  const [filtersOpen, setFiltersOpen] = useState(false)
 
-  // Fetch live drones from backend API on mount
   useEffect(() => {
-    let isMounted = true
-    setIsLoadingApi(true)
-
+    let alive = true
     droneService
-      .getDrones({ limit: 100 })
-      .then((data) => {
-        if (isMounted && data?.drones && data.drones.length > 0) {
-          const formatted = data.drones.map((d) => ({
-            id: d._id || d.id,
-            name: d.name,
-            brand: d.brand,
-            model: d.model,
-            category: d.category || 'Photography',
-            pricePerDay: d.pricePerDay || (d.pricePerHour ? d.pricePerHour * 8 : 2500),
-            pricePerHour: d.pricePerHour,
-            securityDeposit: d.securityDeposit || 5000,
-            rating: d.rating || 4.8,
-            reviews: d.reviews || 0,
-            camera: d.specifications?.camera || d.camera || '4K',
-            flightTime: Number(d.specifications?.flightTime || d.flightTime || 35),
-            gps: d.specifications?.gps ?? d.gps ?? true,
-            availability:
-              d.availability ||
-              (d.status
-                ? d.status.charAt(0).toUpperCase() + d.status.slice(1)
-                : 'Available'),
-            status: d.status || 'available',
-            shopName: d.shopName || 'SkyRent Bengaluru',
-            location: d.location || 'Bengaluru',
-            image: d.image,
-            popular: d.popular ?? true,
-            recommended: d.recommended ?? true
-          }))
-          setDronesList(formatted)
-        }
-      })
-      .catch((err) => {
-        console.warn('Live API fetch unavailable, displaying marketplace inventory:', err.message)
-      })
-      .finally(() => {
-        if (isMounted) setIsLoadingApi(false)
-      })
-
+      .getDrones({ limit: 200 })
+      .then((res) => alive && setDrones((res?.drones || []).map(normalizeDrone)))
+      .catch((err) => alive && setError(err.message))
     return () => {
-      isMounted = false
+      alive = false
     }
   }, [])
 
-  // State 1: Search Query string
-  const [searchTerm, setSearchTerm] = useState('')
+  const categories = useMemo(() => [...new Set((drones || []).map((d) => d.category))].filter(Boolean).sort(), [drones])
+  const brands = useMemo(() => [...new Set((drones || []).map((d) => d.brand))].filter(Boolean).sort(), [drones])
 
-  // State 2: Active Filters object
-  const [filters, setFilters] = useState(initialFilters)
-
-  // State 3: Active Sorting Option
-  const [sortOption, setSortOption] = useState('recommended')
-
-  // State 4: Layout View Mode ('grid' or 'list')
-  const [viewMode, setViewMode] = useState('grid')
-
-  // State 5: Wishlist Drone IDs Array
-  const [wishlist, setWishlist] = useState([1, 8])
-
-  // State 6: Mobile Filter Drawer Open/Close toggle
-  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false)
-
-  // State 7: Pagination Visible Items Count
-  const [visibleCount, setVisibleCount] = useState(9)
-
-  // State 8: Notification Toast Message
-  const [toastMessage, setToastMessage] = useState(null)
-
-  // Wishlist Toggle Handler
-  const handleToggleWishlist = (drone) => {
-    const isCurrentlyWishlisted = wishlist.includes(drone.id)
-    if (isCurrentlyWishlisted) {
-      setWishlist((prev) => prev.filter((id) => id !== drone.id))
-      setToastMessage({ text: `${drone.name} removed from wishlist`, type: 'info' })
-    } else {
-      setWishlist((prev) => [...prev, drone.id])
-      setToastMessage({ text: `${drone.name} added to your wishlist!`, type: 'wishlist' })
+  const results = useMemo(() => {
+    const q = search.trim().toLowerCase()
+    const list = (drones || []).filter(
+      (d) =>
+        (!q || [d.name, d.brand, d.model, d.category].some((v) => v?.toLowerCase().includes(q))) &&
+        (category === 'all' || d.category === category) &&
+        (brand === 'all' || d.brand === brand) &&
+        (!maxPrice || d.pricePerDay <= maxPrice) &&
+        (!onlyAvailable || d.status === 'available')
+    )
+    const sorters = {
+      'price-asc': (a, b) => a.pricePerDay - b.pricePerDay,
+      'price-desc': (a, b) => b.pricePerDay - a.pricePerDay,
+      'flight-desc': (a, b) => b.flightTime - a.flightTime,
+      newest: (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+      recommended: (a, b) =>
+        Number(b.status === 'available') - Number(a.status === 'available') ||
+        Number(Boolean(b.recommended)) - Number(Boolean(a.recommended)) ||
+        b.rating - a.rating
     }
+    return [...list].sort(sorters[sort])
+  }, [drones, search, category, brand, maxPrice, onlyAvailable, sort])
 
-    // Auto-hide toast notification after 4 seconds
-    setTimeout(() => {
-      setToastMessage(null)
-    }, 4000)
+  const activeFilters = [category !== 'all', brand !== 'all', maxPrice > 0, onlyAvailable].filter(Boolean).length
+
+  const reset = () => {
+    setSearch('')
+    setCategory('all')
+    setBrand('all')
+    setMaxPrice(0)
+    setOnlyAvailable(false)
   }
 
-  // Reset all filters and search query
-  const handleResetFilters = () => {
-    setSearchTerm('')
-    setFilters(initialFilters)
-    setSortOption('recommended')
-    setVisibleCount(9)
-  }
+  const filterControls = (
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <div className="text-xs font-medium text-fg-muted">Category</div>
+        <div className="flex flex-wrap lg:flex-col gap-1">
+          {['all', ...categories].map((c) => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => setCategory(c)}
+              className={`text-left text-sm px-2.5 py-1.5 rounded-md transition-colors cursor-pointer ${category === c ? 'bg-surface-3 text-fg' : 'text-muted hover:text-fg hover:bg-surface-2'}`}
+            >
+              {c === 'all' ? 'All categories' : c}
+            </button>
+          ))}
+        </div>
+      </div>
 
-  // Count how many non-default filters are active
-  const activeFiltersCount = useMemo(() => {
-    let count = 0
-    if (filters.category !== 'All Categories') count++
-    if (filters.brand !== 'All Brands') count++
-    if (filters.maxPrice < 15000) count++
-    if (filters.camera !== 'All Resolutions') count++
-    if (filters.flightTime !== 'All Flight Times') count++
-    if (filters.availability !== 'All Statuses') count++
-    if (filters.minRating > 0) count++
-    return count
-  }, [filters])
+      <label className="block space-y-2">
+        <span className="text-xs font-medium text-fg-muted">Brand</span>
+        <select className={inputClass} value={brand} onChange={(e) => setBrand(e.target.value)}>
+          <option value="all">All brands</option>
+          {brands.map((b) => <option key={b}>{b}</option>)}
+        </select>
+      </label>
 
-  // Process data pipeline: Original -> Search -> Filters -> Sorting
-  const filteredAndSortedDrones = useMemo(() => {
-    return dronesList
-      // 1. Search Query Filter
-      .filter((drone) => {
-        if (!searchTerm.trim()) return true
-        const query = searchTerm.toLowerCase()
-        return (
-          drone.name.toLowerCase().includes(query) ||
-          drone.brand.toLowerCase().includes(query) ||
-          drone.model.toLowerCase().includes(query) ||
-          drone.category.toLowerCase().includes(query)
-        )
-      })
-      // 2. Category Filter
-      .filter((drone) => {
-        if (filters.category === 'All Categories') return true
-        return drone.category === filters.category
-      })
-      // 3. Brand Filter
-      .filter((drone) => {
-        if (filters.brand === 'All Brands') return true
-        return drone.brand === filters.brand
-      })
-      // 4. Maximum Price Filter (in ₹)
-      .filter((drone) => drone.pricePerDay <= filters.maxPrice)
-      // 5. Camera Spec Filter
-      .filter((drone) => {
-        if (filters.camera === 'All Resolutions') return true
-        return drone.camera === filters.camera
-      })
-      // 6. Flight Time Filter
-      .filter((drone) => {
-        if (filters.flightTime === 'All Flight Times') return true
-        if (filters.flightTime === 'Under 30 mins') return drone.flightTime < 30
-        if (filters.flightTime === '30–40 mins') return drone.flightTime >= 30 && drone.flightTime <= 40
-        if (filters.flightTime === 'Above 40 mins') return drone.flightTime > 40
-        return true
-      })
-      // 7. Availability Filter
-      .filter((drone) => {
-        if (filters.availability === 'All Statuses') return true
-        return drone.availability === filters.availability
-      })
-      // 8. Minimum Rating Filter
-      .filter((drone) => drone.rating >= filters.minRating)
-      // 9. Sorting Logic
-      .sort((a, b) => {
-        if (sortOption === 'price-asc') return a.pricePerDay - b.pricePerDay
-        if (sortOption === 'price-desc') return b.pricePerDay - a.pricePerDay
-        if (sortOption === 'rating-desc') return b.rating - a.rating
-        if (sortOption === 'popular-desc') return b.reviews - a.reviews
-        // Default 'recommended': sort recommended first then by rating
-        if (a.recommended && !b.recommended) return -1
-        if (!a.recommended && b.recommended) return 1
-        return b.rating - a.rating
-      })
-  }, [searchTerm, filters, sortOption])
+      <label className="block space-y-2">
+        <span className="text-xs font-medium text-fg-muted">Price per day</span>
+        <select className={inputClass} value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))}>
+          {PRICE_STEPS.map((p) => <option key={p} value={p}>{p ? `Up to ₹${p.toLocaleString('en-IN')}` : 'Any price'}</option>)}
+        </select>
+      </label>
 
-  // Paginated visible list slice
-  const visibleDrones = useMemo(() => {
-    return filteredAndSortedDrones.slice(0, visibleCount)
-  }, [filteredAndSortedDrones, visibleCount])
+      <label className="flex items-center gap-2.5 text-sm text-fg cursor-pointer">
+        <input type="checkbox" className="w-4 h-4 accent-accent" checked={onlyAvailable} onChange={(e) => setOnlyAvailable(e.target.checked)} />
+        Available now
+      </label>
+
+      {activeFilters > 0 && (
+        <button type="button" onClick={reset} className="text-sm text-muted hover:text-fg cursor-pointer">Clear filters</button>
+      )}
+    </div>
+  )
 
   return (
-    <div className="space-y-10 pb-24 bg-[#050508]">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 space-y-8">
+      <header className="space-y-2 max-w-2xl">
+        <h1 className="text-3xl sm:text-4xl font-semibold text-fg tracking-tight">Rent a drone</h1>
+        <p className="text-muted">
+          Professional drones for photography, film, survey and agriculture work. Pick your dates, send a request, and collect once it's confirmed.
+        </p>
+      </header>
 
-      {/* 1. PAGE HEADER */}
-      <section className="relative overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0d18] to-[#050508]" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] rounded-full blur-[120px] pointer-events-none opacity-30"
-          style={{ background: 'radial-gradient(ellipse, rgba(0,240,255,0.15) 0%, rgba(100,0,255,0.08) 50%, transparent 70%)' }}
-        />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12 space-y-6">
-          <div className="text-center max-w-3xl mx-auto space-y-4">
-            <span
-              className="inline-flex items-center gap-2 border border-white/10 text-white/50 px-4 py-1.5 rounded-full text-[11px] font-semibold"
-              style={{ fontFamily: 'JetBrains Mono, monospace' }}
-            >
-              <Sparkles className="w-3 h-3 text-[#00f0ff]" />
-              Drone Fleet Marketplace
-            </span>
-
-            <h1
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight"
-              style={{ fontFamily: 'Space Grotesk, sans-serif' }}
-            >
-              Explore{' '}
-              <span style={{ color: '#00f0ff', textShadow: '0 0 40px rgba(0,240,255,0.4)' }}>
-                Drones
-              </span>
-            </h1>
-
-            <p className="text-white/40 text-[15px] max-w-xl mx-auto leading-relaxed">
-              Find the perfect drone for photography, agriculture, surveying, filmmaking, and more.
-            </p>
-          </div>
-
-          {/* Search Bar Container */}
-          <div className="max-w-2xl mx-auto pt-2">
-            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-          </div>
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1">
+          <Search className="w-4 h-4 text-subtle absolute left-3 top-1/2 -translate-y-1/2" />
+          <input className={`${inputClass} h-10 pl-9`} placeholder="Search by name, brand or use" value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
-      </section>
+        <div className="flex gap-3">
+          <Button className="lg:hidden h-10" onClick={() => setFiltersOpen(true)}>
+            <SlidersHorizontal className="w-4 h-4" /> Filters{activeFilters ? ` (${activeFilters})` : ''}
+          </Button>
+          <select className={`${inputClass} h-10 sm:w-56`} value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort">
+            {SORTS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+          </select>
+        </div>
+      </div>
 
-      {/* 2. MAIN MARKETPLACE CONTENT */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid lg:grid-cols-[200px_1fr] gap-8 items-start">
+        <aside className="hidden lg:block sticky top-24">{filterControls}</aside>
 
-          {/* Desktop Filter Sidebar (Hidden on mobile) */}
-          <aside className="hidden lg:block lg:col-span-3 sticky top-24">
-            <FilterSidebar
-              filters={filters}
-              setFilters={setFilters}
-              onResetFilters={handleResetFilters}
-              totalResults={filteredAndSortedDrones.length}
-            />
-          </aside>
-
-          {/* Main Results Column */}
-          <main className="lg:col-span-9 space-y-6">
-
-            {/* Results Control Header Bar */}
-            <div className="bg-black/60 border border-purple-500/20 backdrop-blur-sm p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4">
-
-              {/* Results Count & Mobile Filter Trigger */}
-              <div className="flex items-center gap-3">
-
-                {/* Mobile Filter Button */}
-                <button
-                  onClick={() => setIsMobileDrawerOpen(true)}
-                  className="lg:hidden inline-flex items-center gap-2 bg-purple-900/20 hover:bg-purple-900/40 text-slate-300 text-xs font-bold px-3.5 py-2.5 rounded-xl border border-purple-500/20 transition-colors cursor-pointer"
-                >
-                  <SlidersHorizontal className="w-4 h-4 text-purple-400" />
-                  <span>Filters</span>
-                  {activeFiltersCount > 0 && (
-                    <span className="bg-purple-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-extrabold">
-                      {activeFiltersCount}
-                    </span>
-                  )}
-                </button>
-
-                <div className="text-sm font-extrabold text-white">
-                  Showing <span className="text-cyan-400">{filteredAndSortedDrones.length}</span> drones
+        <section className="space-y-4">
+          <ErrorNote>{error && `Couldn't load drones: ${error}`}</ErrorNote>
+          {!drones && !error && <Spinner label="Loading drones…" />}
+          {drones && (
+            <>
+              <div className="text-sm text-muted">
+                {results.length} drone{results.length === 1 ? '' : 's'}
+              </div>
+              {results.length === 0 ? (
+                <Empty
+                  icon={PackageSearch}
+                  title="No drones match"
+                  description="Try removing a filter or searching for something else."
+                  action={<Button onClick={reset}>Clear filters</Button>}
+                />
+              ) : (
+                <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                  {results.map((d) => <DroneCard key={d._id} drone={d} />)}
                 </div>
+              )}
+            </>
+          )}
+        </section>
+      </div>
 
-              </div>
-
-              {/* Controls: Sorting Dropdown & View Toggle */}
-              <div className="flex items-center gap-3 ml-auto">
-                <SortDropdown sortOption={sortOption} setSortOption={setSortOption} />
-                <ViewToggle viewMode={viewMode} setViewMode={setViewMode} />
-              </div>
-
+      {filtersOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex justify-end">
+          <div className="absolute inset-0 bg-black/70" onClick={() => setFiltersOpen(false)} />
+          <div className="relative w-80 max-w-full h-full bg-surface border-l border-line p-5 overflow-y-auto animate-fadeIn">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-base font-medium text-fg">Filters</h2>
+              <button type="button" onClick={() => setFiltersOpen(false)} className="p-1 text-muted hover:text-fg cursor-pointer" aria-label="Close filters">
+                <X className="w-5 h-5" />
+              </button>
             </div>
-
-            {/* Drone Listings Display */}
-            {visibleDrones.length > 0 ? (
-              <>
-                {viewMode === 'grid' ? (
-                  /* Grid View Layout */
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {visibleDrones.map((drone) => (
-                      <DroneCard
-                        key={drone.id}
-                        drone={drone}
-                        isWishlisted={wishlist.includes(drone.id)}
-                        onToggleWishlist={handleToggleWishlist}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  /* List View Layout */
-                  <div className="space-y-4">
-                    {visibleDrones.map((drone) => (
-                      <DroneListItem
-                        key={drone.id}
-                        drone={drone}
-                        isWishlisted={wishlist.includes(drone.id)}
-                        onToggleWishlist={handleToggleWishlist}
-                      />
-                    ))}
-                  </div>
-                )}
-
-                {/* Load More Pagination Button */}
-                {visibleCount < filteredAndSortedDrones.length && (
-                  <div className="pt-8 text-center">
-                    <button
-                      onClick={() => setVisibleCount((prev) => prev + 6)}
-                      className="inline-flex items-center gap-2 bg-black/60 hover:bg-purple-900/20 text-slate-300 hover:text-purple-400 font-bold px-8 py-3.5 rounded-xl border border-purple-500/30 hover:border-purple-400/50 transition-all cursor-pointer text-sm backdrop-blur-sm"
-                    >
-                      <RefreshCw className="w-4 h-4 text-cyan-400" />
-                      <span>Load More Drones ({filteredAndSortedDrones.length - visibleCount} remaining)</span>
-                    </button>
-                  </div>
-                )}
-              </>
-            ) : (
-              /* Empty State View */
-              <EmptyState onResetFilters={handleResetFilters} />
-            )}
-
-          </main>
-
+            {filterControls}
+            <Button variant="primary" className="w-full mt-8" onClick={() => setFiltersOpen(false)}>
+              Show {results.length} drone{results.length === 1 ? '' : 's'}
+            </Button>
+          </div>
         </div>
-      </section>
-
-      {/* Mobile Filter Drawer Modal */}
-      <FilterDrawer
-        isOpen={isMobileDrawerOpen}
-        onClose={() => setIsMobileDrawerOpen(false)}
-        filters={filters}
-        setFilters={setFilters}
-        onResetFilters={handleResetFilters}
-        totalResults={filteredAndSortedDrones.length}
-      />
-
-      {/* Toast Notification Popup */}
-      {toastMessage && (
-        <Toast
-          message={toastMessage.text}
-          type={toastMessage.type}
-          onClose={() => setToastMessage(null)}
-        />
       )}
-
     </div>
   )
 }

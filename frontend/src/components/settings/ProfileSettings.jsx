@@ -47,31 +47,31 @@ function ProfileSettings({ role = 'customer', onSaved }) {
   }
 
   return (
-    <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-2xs space-y-6">
+    <div className="bg-surface p-6 sm:p-8 rounded-2xl border border-line shadow-2xs space-y-6">
       
       {/* Toast Feedback */}
       {toastMsg && (
-        <div className="bg-emerald-50 text-emerald-800 p-3 rounded-2xl border border-emerald-200 text-xs font-bold flex items-center gap-2 animate-fadeIn">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="bg-emerald-500/10 text-emerald-400 p-3 rounded-2xl border border-emerald-500/25 text-xs font-bold flex items-center gap-2 animate-fadeIn">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{toastMsg}</span>
         </div>
       )}
 
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+      <div className="flex items-center justify-between pb-4 border-b border-line">
         <div>
-          <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-            <User className="w-4 h-4 text-blue-600" />
+          <h3 className="text-base font-semibold text-fg flex items-center gap-2">
+            <User className="w-4 h-4 text-accent-ink" />
             <span>Personal Profile & Contact Information</span>
           </h3>
-          <p className="text-xs text-slate-400 font-medium">Update your account name, contact email, phone, and delivery address.</p>
+          <p className="text-xs text-subtle font-medium">Update your account name, contact email, phone, and delivery address.</p>
         </div>
 
         {!isEditing && (
           <button
             type="button"
             onClick={() => setIsEditing(true)}
-            className="px-4 py-2 rounded-xl text-xs font-extrabold text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-xl text-xs font-semibold text-accent-ink bg-accent/10 hover:bg-accent/10 transition-colors cursor-pointer"
           >
             Edit Profile
           </button>
@@ -83,73 +83,73 @@ function ProfileSettings({ role = 'customer', onSaved }) {
           
           {/* Full Name */}
           <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-700">Full Name</label>
+            <label className="text-xs font-bold text-fg-muted">Full Name</label>
             <div className="relative">
-              <User className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <User className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-subtle" />
               <input
                 type="text"
                 name="name"
                 disabled={!isEditing}
                 value={formData.name || ''}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 border rounded-xl text-xs font-semibold text-slate-900 transition-all outline-hidden ${
-                  errors.name ? 'border-rose-400 bg-rose-50' : 'border-slate-200 focus:border-blue-600'
+                className={`w-full pl-10 pr-4 py-2.5 bg-surface-2 border rounded-xl text-xs font-semibold text-fg transition-all outline-hidden ${
+                  errors.name ? 'border-rose-500/40 bg-rose-500/10' : 'border-line focus:border-accent'
                 } ${!isEditing ? 'opacity-80 cursor-not-allowed' : ''}`}
               />
             </div>
-            {errors.name && <p className="text-[11px] font-bold text-rose-600 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.name}</p>}
+            {errors.name && <p className="text-[11px] font-bold text-rose-400 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.name}</p>}
           </div>
 
           {/* Email Address */}
           <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-700">Email Address</label>
+            <label className="text-xs font-bold text-fg-muted">Email Address</label>
             <div className="relative">
-              <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-subtle" />
               <input
                 type="email"
                 name="email"
                 disabled={!isEditing}
                 value={formData.email || ''}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 border rounded-xl text-xs font-semibold text-slate-900 transition-all outline-hidden ${
-                  errors.email ? 'border-rose-400 bg-rose-50' : 'border-slate-200 focus:border-blue-600'
+                className={`w-full pl-10 pr-4 py-2.5 bg-surface-2 border rounded-xl text-xs font-semibold text-fg transition-all outline-hidden ${
+                  errors.email ? 'border-rose-500/40 bg-rose-500/10' : 'border-line focus:border-accent'
                 } ${!isEditing ? 'opacity-80 cursor-not-allowed' : ''}`}
               />
             </div>
-            {errors.email && <p className="text-[11px] font-bold text-rose-600 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.email}</p>}
+            {errors.email && <p className="text-[11px] font-bold text-rose-400 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.email}</p>}
           </div>
 
           {/* Phone Number */}
           <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-700">Phone Number</label>
+            <label className="text-xs font-bold text-fg-muted">Phone Number</label>
             <div className="relative">
-              <Phone className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <Phone className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-subtle" />
               <input
                 type="text"
                 name="phone"
                 disabled={!isEditing}
                 value={formData.phone || ''}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 border rounded-xl text-xs font-semibold text-slate-900 transition-all outline-hidden ${
-                  errors.phone ? 'border-rose-400 bg-rose-50' : 'border-slate-200 focus:border-blue-600'
+                className={`w-full pl-10 pr-4 py-2.5 bg-surface-2 border rounded-xl text-xs font-semibold text-fg transition-all outline-hidden ${
+                  errors.phone ? 'border-rose-500/40 bg-rose-500/10' : 'border-line focus:border-accent'
                 } ${!isEditing ? 'opacity-80 cursor-not-allowed' : ''}`}
               />
             </div>
-            {errors.phone && <p className="text-[11px] font-bold text-rose-600 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.phone}</p>}
+            {errors.phone && <p className="text-[11px] font-bold text-rose-400 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.phone}</p>}
           </div>
 
           {/* Delivery / Office Address */}
           <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-700">Address</label>
+            <label className="text-xs font-bold text-fg-muted">Address</label>
             <div className="relative">
-              <MapPin className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <MapPin className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-subtle" />
               <input
                 type="text"
                 name="address"
                 disabled={!isEditing}
                 value={formData.address || ''}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 focus:border-blue-600 rounded-xl text-xs font-semibold text-slate-900 transition-all outline-hidden ${
+                className={`w-full pl-10 pr-4 py-2.5 bg-surface-2 border border-line focus:border-accent rounded-xl text-xs font-semibold text-fg transition-all outline-hidden ${
                   !isEditing ? 'opacity-80 cursor-not-allowed' : ''
                 }`}
               />
@@ -160,17 +160,17 @@ function ProfileSettings({ role = 'customer', onSaved }) {
 
         {/* Buttons */}
         {isEditing && (
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-line">
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer"
+              className="px-4 py-2.5 rounded-xl text-xs font-bold text-muted bg-surface-2 hover:bg-surface-3 transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-md cursor-pointer flex items-center gap-1.5"
+              className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-accent hover:bg-accent-hover transition-all shadow-md cursor-pointer flex items-center gap-1.5"
             >
               <Save className="w-4 h-4" />
               <span>Save Changes</span>

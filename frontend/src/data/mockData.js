@@ -8,8 +8,8 @@ export const categoriesData = [
     iconName: 'Camera',
     description: 'High-resolution sensor drones designed for breathtaking landscapes and architectural imagery.',
     droneCount: '120+ Models',
-    bgGradient: 'from-blue-500/10 to-indigo-500/10',
-    iconColor: 'text-blue-600'
+    bgGradient: ' ',
+    iconColor: 'text-accent-ink'
   },
   {
     id: 'video',
@@ -17,8 +17,8 @@ export const categoriesData = [
     iconName: 'Video',
     description: 'Cinematic FPV and gimbal-stabilized rigs equipped with 4K/8K ProRes recording support.',
     droneCount: '95+ Models',
-    bgGradient: 'from-purple-500/10 to-pink-500/10',
-    iconColor: 'text-purple-600'
+    bgGradient: ' ',
+    iconColor: 'text-accent-ink'
   },
   {
     id: 'agri',
@@ -26,8 +26,8 @@ export const categoriesData = [
     iconName: 'Sprout',
     description: 'Multispectral payload drones for crop health analysis, multispectral scanning, and field spraying.',
     droneCount: '45+ Models',
-    bgGradient: 'from-emerald-500/10 to-teal-500/10',
-    iconColor: 'text-emerald-600'
+    bgGradient: ' ',
+    iconColor: 'text-emerald-400'
   },
   {
     id: 'survey',
@@ -35,8 +35,8 @@ export const categoriesData = [
     iconName: 'Map',
     description: 'High-accuracy RTK/PPK surveying drones for boundary mapping, land development, and GIS integration.',
     droneCount: '60+ Models',
-    bgGradient: 'from-amber-500/10 to-orange-500/10',
-    iconColor: 'text-amber-600'
+    bgGradient: ' ',
+    iconColor: 'text-amber-400'
   },
   {
     id: 'mapping',
@@ -44,8 +44,8 @@ export const categoriesData = [
     iconName: 'Layers',
     description: '3D photogrammetry and topographic mapping systems producing millimeter-precise spatial models.',
     droneCount: '50+ Models',
-    bgGradient: 'from-cyan-500/10 to-blue-500/10',
-    iconColor: 'text-cyan-600'
+    bgGradient: ' ',
+    iconColor: 'text-accent-ink'
   },
   {
     id: 'inspect',
@@ -53,8 +53,8 @@ export const categoriesData = [
     iconName: 'ShieldAlert',
     description: 'Thermal and LiDAR inspection drones built for power lines, wind turbines, and infrastructure checks.',
     droneCount: '40+ Models',
-    bgGradient: 'from-rose-500/10 to-red-500/10',
-    iconColor: 'text-rose-600'
+    bgGradient: ' ',
+    iconColor: 'text-rose-400'
   }
 ]
 

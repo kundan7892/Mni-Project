@@ -27,9 +27,9 @@ function ShopOwnerDocuments() {
 
   const getStatusBadgeStyle = (status) => {
     switch (status) {
-      case 'Verified': return 'bg-emerald-100 text-emerald-800 border-emerald-300'
-      case 'Pending': return 'bg-amber-100 text-amber-800 border-amber-300'
-      default: return 'bg-rose-100 text-rose-800 border-rose-300'
+      case 'Verified': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
+      case 'Pending': return 'bg-amber-500/10 text-amber-400 border-amber-500/25'
+      default: return 'bg-rose-500/10 text-rose-400 border-rose-500/25'
     }
   }
 
@@ -49,38 +49,38 @@ function ShopOwnerDocuments() {
       
       {/* Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-fg tracking-tight">
           Shop Operations & Clearance Documents
         </h1>
-        <p className="text-slate-500 text-xs sm:text-sm">
+        <p className="text-muted text-xs sm:text-sm">
           Manage trade licenses, operating permits, and verify customer identification files.
         </p>
       </div>
 
       {toastMessage && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-xs font-bold flex items-center gap-2 animate-in fade-in duration-200">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="p-4 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 rounded-2xl text-xs font-bold flex items-center gap-2 animate-in fade-in duration-200">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
 
       {/* SECTION 1: SHOP OPERATING PERMITS */}
       <div className="space-y-4">
-        <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-purple-600" />
+        <h2 className="text-lg font-bold text-fg flex items-center gap-2">
+          <ShieldCheck className="w-5 h-5 text-accent-ink" />
           <span>Shop Operating Permits & Certificates</span>
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {shopDocs.map((doc) => (
-            <div key={doc.id} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
+            <div key={doc.id} className="bg-surface p-5 rounded-2xl border border-line shadow-2xs space-y-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-600 bg-purple-50 px-2 py-0.5 rounded-md">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-accent-ink bg-accent/10 px-2 py-0.5 rounded-md">
                     {doc.type}
                   </span>
-                  <h3 className="font-bold text-slate-900 text-sm mt-1">{doc.title}</h3>
-                  <div className="text-xs text-slate-500 font-mono mt-0.5">{doc.fileName}</div>
+                  <h3 className="font-bold text-fg text-sm mt-1">{doc.title}</h3>
+                  <div className="text-xs text-muted font-mono mt-0.5">{doc.fileName}</div>
                 </div>
 
                 <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border shrink-0 ${getStatusBadgeStyle(doc.status)}`}>
@@ -88,22 +88,22 @@ function ShopOwnerDocuments() {
                 </span>
               </div>
 
-              <div className="flex items-center gap-2 pt-2 border-t border-slate-100 text-xs">
+              <div className="flex items-center gap-2 pt-2 border-t border-line text-xs">
                 <button
                   onClick={() => handleAction('View', doc.fileName)}
-                  className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 rounded-xl text-center transition-colors cursor-pointer"
+                  className="flex-1 bg-surface-2 hover:bg-surface-3 text-fg-muted font-bold py-2 rounded-xl text-center transition-colors cursor-pointer"
                 >
                   View File
                 </button>
                 <button
                   onClick={() => handleAction('Download', doc.fileName)}
-                  className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 rounded-xl text-center transition-colors cursor-pointer"
+                  className="flex-1 bg-surface-2 hover:bg-surface-3 text-fg-muted font-bold py-2 rounded-xl text-center transition-colors cursor-pointer"
                 >
                   Download
                 </button>
                 <button
                   onClick={() => handleAction('Replace', doc.fileName)}
-                  className="flex-1 bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold py-2 rounded-xl text-center transition-colors cursor-pointer"
+                  className="flex-1 bg-accent/10 hover:bg-accent/10 text-accent-ink font-bold py-2 rounded-xl text-center transition-colors cursor-pointer"
                 >
                   Replace
                 </button>
@@ -115,15 +115,15 @@ function ShopOwnerDocuments() {
 
       {/* SECTION 2: CUSTOMER RENTAL CLEARANCE DOCUMENTS */}
       <div className="space-y-4">
-        <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-          <FileText className="w-5 h-5 text-blue-600" />
+        <h2 className="text-lg font-bold text-fg flex items-center gap-2">
+          <FileText className="w-5 h-5 text-accent-ink" />
           <span>Customer ID Verification Clearance</span>
         </h2>
 
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-2xs overflow-hidden">
+        <div className="bg-surface rounded-2xl border border-line shadow-2xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-200">
+              <thead className="bg-surface-2 text-muted font-bold uppercase tracking-wider border-b border-line">
                 <tr>
                   <th className="py-4 px-4">Customer</th>
                   <th className="py-4 px-4">Document Type</th>
@@ -133,13 +133,13 @@ function ShopOwnerDocuments() {
                   <th className="py-4 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+              <tbody className="divide-y divide-line font-medium text-fg-muted">
                 {customerDocs.map((doc) => (
-                  <tr key={doc.id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="py-3.5 px-4 font-bold text-slate-900">{doc.customerName}</td>
-                    <td className="py-3.5 px-4 font-semibold text-slate-800">{doc.docType}</td>
-                    <td className="py-3.5 px-4 text-slate-500 font-mono">{doc.fileName}</td>
-                    <td className="py-3.5 px-4 text-slate-500">{doc.uploadDate}</td>
+                  <tr key={doc.id} className="hover:bg-surface-2 transition-colors">
+                    <td className="py-3.5 px-4 font-bold text-fg">{doc.customerName}</td>
+                    <td className="py-3.5 px-4 font-semibold text-fg">{doc.docType}</td>
+                    <td className="py-3.5 px-4 text-muted font-mono">{doc.fileName}</td>
+                    <td className="py-3.5 px-4 text-muted">{doc.uploadDate}</td>
                     <td className="py-3.5 px-4">
                       <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border ${getStatusBadgeStyle(doc.status)}`}>
                         {doc.status}
@@ -150,13 +150,13 @@ function ShopOwnerDocuments() {
                         <>
                           <button
                             onClick={() => handleVerifyCustomerDoc(doc.id, 'Verified')}
-                            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-xl text-xs transition-colors cursor-pointer"
+                            className="bg-emerald-600 hover:bg-emerald-600 text-white font-bold px-3 py-1.5 rounded-xl text-xs transition-colors cursor-pointer"
                           >
                             Approve
                           </button>
                           <button
                             onClick={() => handleVerifyCustomerDoc(doc.id, 'Rejected')}
-                            className="bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold px-3 py-1.5 rounded-xl text-xs transition-colors cursor-pointer"
+                            className="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold px-3 py-1.5 rounded-xl text-xs transition-colors cursor-pointer"
                           >
                             Reject
                           </button>
@@ -164,7 +164,7 @@ function ShopOwnerDocuments() {
                       ) : (
                         <button
                           onClick={() => handleAction('Download', doc.fileName)}
-                          className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3 py-1.5 rounded-xl text-xs transition-colors cursor-pointer"
+                          className="bg-surface-2 hover:bg-surface-3 text-fg-muted font-bold px-3 py-1.5 rounded-xl text-xs transition-colors cursor-pointer"
                         >
                           Download
                         </button>

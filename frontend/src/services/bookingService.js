@@ -17,6 +17,22 @@ export const bookingService = {
   },
 
   /**
+   * Price a rental and check whether the dates are free
+   */
+  async getQuote({ droneId, startDate, endDate, selectedAddons = [] }) {
+    const response = await apiClient.post('/bookings/quote', { droneId, startDate, endDate, selectedAddons });
+    return response.data;
+  },
+
+  /**
+   * Record payment state (shop owner or admin)
+   */
+  async updatePaymentStatus(id, paymentStatus) {
+    const response = await apiClient.patch(`/bookings/${id}/payment`, { paymentStatus });
+    return response.data?.booking;
+  },
+
+  /**
    * Get list of bookings scoped by user role (Customer, Shop Owner, or Admin)
    */
   async getBookings(params = {}) {
@@ -29,6 +45,7 @@ export const bookingService = {
     if (params.droneId) queryParams.append('droneId', params.droneId);
     if (params.customerId) queryParams.append('customerId', params.customerId);
     if (params.ownerId) queryParams.append('ownerId', params.ownerId);
+    if (params.paymentStatus) queryParams.append('paymentStatus', params.paymentStatus);
     if (params.page) queryParams.append('page', params.page);
     if (params.limit) queryParams.append('limit', params.limit);
 
@@ -50,10 +67,10 @@ export const bookingService = {
   /**
    * Approve or reject a booking (Shop Owner or Admin)
    */
-  async updateBookingStatus(id, status, rejectionReason = '') {
+  async updateBookingStatus(id, status, note = '') {
     const response = await apiClient(`/bookings/${id}/status`, {
       method: 'PATCH',
-      body: { status, rejectionReason }
+      body: { status, rejectionReason: note, note }
     });
     return response.data?.booking;
   },

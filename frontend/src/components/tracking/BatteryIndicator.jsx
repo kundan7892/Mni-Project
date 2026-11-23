@@ -18,27 +18,27 @@ function BatteryIndicator({ battery = 100, showDetails = true, size = "md" }) {
   const getColorClasses = () => {
     if (isCritical) {
       return {
-        text: 'text-rose-600',
+        text: 'text-rose-400',
         bg: 'bg-rose-500',
-        border: 'border-rose-300',
-        badgeBg: 'bg-rose-100 text-rose-800 border-rose-300',
+        border: 'border-rose-500/25',
+        badgeBg: 'bg-rose-500/10 text-rose-400 border-rose-500/25',
         statusLabel: 'CRITICAL'
       }
     }
     if (isWarning) {
       return {
-        text: 'text-amber-600',
+        text: 'text-amber-400',
         bg: 'bg-amber-500',
-        border: 'border-amber-300',
-        badgeBg: 'bg-amber-100 text-amber-800 border-amber-300',
+        border: 'border-amber-500/25',
+        badgeBg: 'bg-amber-500/10 text-amber-400 border-amber-500/25',
         statusLabel: 'WARNING'
       }
     }
     return {
-      text: 'text-emerald-600',
+      text: 'text-emerald-400',
       bg: 'bg-emerald-500',
-      border: 'border-emerald-300',
-      badgeBg: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+      border: 'border-emerald-500/25',
+      badgeBg: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25',
       statusLabel: 'HEALTHY'
     }
   }
@@ -54,20 +54,20 @@ function BatteryIndicator({ battery = 100, showDetails = true, size = "md" }) {
           ) : (
             <Battery className={`w-4 h-4 ${styles.text}`} />
           )}
-          <span className={`text-sm font-extrabold ${styles.text}`}>
+          <span className={`text-sm font-semibold ${styles.text}`}>
             {battery}%
           </span>
         </div>
 
         {showDetails && (
-          <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full border ${styles.badgeBg}`}>
+          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${styles.badgeBg}`}>
             {styles.statusLabel}
           </span>
         )}
       </div>
 
       {/* Battery Gauge Bar */}
-      <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden p-0.5 border border-slate-300/60">
+      <div className="w-full h-2.5 bg-surface-3 rounded-full overflow-hidden p-0.5 border border-line">
         <div
           className={`h-full rounded-full transition-all duration-500 ${styles.bg} ${
             isCritical ? 'animate-pulse' : ''

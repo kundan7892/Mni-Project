@@ -70,35 +70,27 @@ function SuperAdminTracking() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       
-      {/* SECURITY NOTICE BANNER */}
-      <div className="bg-slate-900 text-emerald-300 p-3 rounded-2xl border border-slate-800 text-[11px] font-mono flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-          <span>👑 <strong>SUPER ADMIN PLATFORM COMMAND STREAM:</strong> Nationwide telemetry monitoring active across all storefronts.</span>
-        </div>
-        <span className="text-slate-400 hidden sm:inline">{drones.length} Total Units Online</span>
-      </div>
 
       {/* HEADER SECTION */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-2xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface p-6 rounded-2xl border border-line shadow-2xs">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-fg tracking-tight">
             Platform Live Tracking
           </h1>
-          <p className="text-slate-500 text-xs sm:text-sm mt-1">
+          <p className="text-muted text-xs sm:text-sm mt-1">
             Nationwide satellite telemetry command center for all partner shop drone operations
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 flex items-center gap-2">
-            <RefreshCw className="w-3.5 h-3.5 text-emerald-600 animate-spin" style={{ animationDuration: '8s' }} />
+          <div className="bg-surface-2 px-3.5 py-2 rounded-xl border border-line text-xs font-bold text-fg-muted flex items-center gap-2">
+            <RefreshCw className="w-3.5 h-3.5 text-emerald-400 animate-spin" style={{ animationDuration: '8s' }} />
             <span>Synced: {lastSyncSeconds}s ago</span>
           </div>
 
           <button
             onClick={() => setShowEmergencyModal(true)}
-            className="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+            className="bg-rose-600 hover:bg-rose-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
           >
             <ShieldAlert className="w-4 h-4" />
             <span>Emergency Alert</span>
@@ -129,10 +121,10 @@ function SuperAdminTracking() {
         {/* Left Column: Active Drone Cards List (4 cols desktop) */}
         <div className="lg:col-span-4 space-y-3">
           <div className="flex items-center justify-between px-1">
-            <h3 className="text-xs font-black uppercase text-slate-500 tracking-wider">
+            <h3 className="text-xs font-semibold uppercase text-muted tracking-wider">
               All Monitored Drones ({filteredDrones.length})
             </h3>
-            <span className="text-[11px] font-bold text-emerald-600">Select to focus</span>
+            <span className="text-[11px] font-bold text-emerald-400">Select to focus</span>
           </div>
 
           <TrackingDroneList

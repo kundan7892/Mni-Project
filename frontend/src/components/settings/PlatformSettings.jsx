@@ -23,98 +23,98 @@ function PlatformSettings() {
   }
 
   return (
-    <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-2xs space-y-6">
+    <div className="bg-surface p-6 sm:p-8 rounded-2xl border border-line shadow-2xs space-y-6">
       
       {toastMsg && (
-        <div className="bg-emerald-50 text-emerald-800 p-3 rounded-2xl border border-emerald-200 text-xs font-bold flex items-center gap-2 animate-fadeIn">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="bg-emerald-500/10 text-emerald-400 p-3 rounded-2xl border border-emerald-500/25 text-xs font-bold flex items-center gap-2 animate-fadeIn">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{toastMsg}</span>
         </div>
       )}
 
-      <div className="pb-4 border-b border-slate-100">
-        <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-          <Building2 className="w-4 h-4 text-emerald-600" />
+      <div className="pb-4 border-b border-line">
+        <h3 className="text-base font-semibold text-fg flex items-center gap-2">
+          <Building2 className="w-4 h-4 text-emerald-400" />
           <span>Global Platform Parameters & Financial Rates</span>
         </h3>
-        <p className="text-xs text-slate-400 font-medium">Configure platform name, support contacts, GST tax rate, and shop commission percentage.</p>
+        <p className="text-xs text-subtle font-medium">Configure platform name, support contacts, GST tax rate, and shop commission percentage.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           
           <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-700">Platform Name</label>
+            <label className="text-xs font-bold text-fg-muted">Platform Name</label>
             <input
               type="text"
               name="platformName"
               value={formData.platformName || ''}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 focus:border-emerald-600 rounded-xl text-xs font-semibold text-slate-900 outline-hidden"
+              className="w-full px-4 py-2.5 bg-surface-2 border border-line focus:border-emerald-500/40 rounded-xl text-xs font-semibold text-fg outline-hidden"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-700">Support Email</label>
+            <label className="text-xs font-bold text-fg-muted">Support Email</label>
             <input
               type="email"
               name="supportEmail"
               value={formData.supportEmail || ''}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 focus:border-emerald-600 rounded-xl text-xs font-semibold text-slate-900 outline-hidden"
+              className="w-full px-4 py-2.5 bg-surface-2 border border-line focus:border-emerald-500/40 rounded-xl text-xs font-semibold text-fg outline-hidden"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-700">Support Phone</label>
+            <label className="text-xs font-bold text-fg-muted">Support Phone</label>
             <input
               type="text"
               name="supportPhone"
               value={formData.supportPhone || ''}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 focus:border-emerald-600 rounded-xl text-xs font-semibold text-slate-900 outline-hidden"
+              className="w-full px-4 py-2.5 bg-surface-2 border border-line focus:border-emerald-500/40 rounded-xl text-xs font-semibold text-fg outline-hidden"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-700">Currency</label>
+            <label className="text-xs font-bold text-fg-muted">Currency</label>
             <input
               type="text"
               name="currency"
               value={formData.currency || ''}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 focus:border-emerald-600 rounded-xl text-xs font-semibold text-slate-900 outline-hidden"
+              className="w-full px-4 py-2.5 bg-surface-2 border border-line focus:border-emerald-500/40 rounded-xl text-xs font-semibold text-fg outline-hidden"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-700">GST Tax Rate (%)</label>
+            <label className="text-xs font-bold text-fg-muted">GST Tax Rate (%)</label>
             <input
               type="number"
               name="taxPercentage"
               value={formData.taxPercentage || ''}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 focus:border-emerald-600 rounded-xl text-xs font-semibold text-slate-900 outline-hidden"
+              className="w-full px-4 py-2.5 bg-surface-2 border border-line focus:border-emerald-500/40 rounded-xl text-xs font-semibold text-fg outline-hidden"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-700">Platform Commission Fee (%)</label>
+            <label className="text-xs font-bold text-fg-muted">Platform Commission Fee (%)</label>
             <input
               type="number"
               name="platformFee"
               value={formData.platformFee || ''}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 focus:border-emerald-600 rounded-xl text-xs font-semibold text-slate-900 outline-hidden"
+              className="w-full px-4 py-2.5 bg-surface-2 border border-line focus:border-emerald-500/40 rounded-xl text-xs font-semibold text-fg outline-hidden"
             />
           </div>
 
         </div>
 
-        <div className="pt-4 border-t border-slate-100 flex justify-end">
+        <div className="pt-4 border-t border-line flex justify-end">
           <button
             type="submit"
-            className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition-all shadow-md cursor-pointer flex items-center gap-1.5"
+            className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-600 transition-all shadow-md cursor-pointer flex items-center gap-1.5"
           >
             <Save className="w-4 h-4" />
             <span>Save Platform Settings</span>

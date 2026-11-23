@@ -41,17 +41,17 @@ function Contact() {
   }
 
   return (
-    <div className="space-y-16 pb-20 pt-28 bg-[#050508]">
+    <div className="space-y-16 pb-20 pt-28 bg-canvas">
 
       {/* Page Header */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-        <span className="inline-block text-xs font-bold uppercase tracking-widest text-cyan-400 bg-cyan-400/10 px-4 py-1.5 rounded-full border border-cyan-400/20">
+        <span className="inline-block text-xs font-bold uppercase tracking-wide text-accent-ink bg-accent/10 px-4 py-1.5 rounded-full border border-accent/20">
           Get In Touch
         </span>
-        <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
-          Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">DroneHub</span>
+        <h1 className="text-4xl sm:text-5xl font-semibold text-white tracking-tight">
+          Contact <span className="">DroneHub</span>
         </h1>
-        <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-lg text-subtle max-w-2xl mx-auto leading-relaxed">
           Have questions about renting a drone, registering your rental shop, or fleet partnerships? Send us a message!
         </p>
       </section>
@@ -61,44 +61,44 @@ function Contact() {
 
           {/* Contact Info Sidebar */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-black/80 border border-purple-500/30 backdrop-blur-xl p-8 rounded-3xl space-y-8 shadow-xl glow-purple">
+            <div className="bg-black/80 border border-accent/30 backdrop-blur-md p-8 rounded-2xl space-y-8 shadow-lg ">
               <div>
-                <h3 className="text-2xl font-extrabold text-white">Contact Information</h3>
-                <p className="text-slate-500 text-sm mt-1">Our support team responds within 24 business hours.</p>
+                <h3 className="text-2xl font-semibold text-white">Contact Information</h3>
+                <p className="text-muted text-sm mt-1">Our support team responds within 24 business hours.</p>
               </div>
 
               <div className="space-y-6 text-sm">
 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/30 text-purple-400 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-accent/20 border border-accent/30 text-accent-ink flex items-center justify-center shrink-0">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-xs text-slate-500 font-medium block uppercase tracking-wider">Email Us</span>
-                    <a href="mailto:support@dronehub.com" className="text-white font-semibold hover:text-cyan-400 transition-colors">
+                    <span className="text-xs text-muted font-medium block uppercase tracking-wider">Email Us</span>
+                    <a href="mailto:support@dronehub.com" className="text-white font-semibold hover:text-accent-ink transition-colors">
                       support@dronehub.com
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/30 text-purple-400 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-accent/20 border border-accent/30 text-accent-ink flex items-center justify-center shrink-0">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-xs text-slate-500 font-medium block uppercase tracking-wider">Call Support</span>
-                    <a href="tel:+18005553766" className="text-white font-semibold hover:text-cyan-400 transition-colors">
+                    <span className="text-xs text-muted font-medium block uppercase tracking-wider">Call Support</span>
+                    <a href="tel:+18005553766" className="text-white font-semibold hover:text-accent-ink transition-colors">
                       +1 (800) 555-DRONE
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/30 text-purple-400 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-accent/20 border border-accent/30 text-accent-ink flex items-center justify-center shrink-0">
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-xs text-slate-500 font-medium block uppercase tracking-wider">Head Office</span>
+                    <span className="text-xs text-muted font-medium block uppercase tracking-wider">Head Office</span>
                     <p className="text-white font-semibold">
                       Silicon Valley Aviation Hub<br />
                       Palo Alto, CA 94301
@@ -107,11 +107,11 @@ function Contact() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/30 text-purple-400 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-accent/20 border border-accent/30 text-accent-ink flex items-center justify-center shrink-0">
                     <Clock className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-xs text-slate-500 font-medium block uppercase tracking-wider">Business Hours</span>
+                    <span className="text-xs text-muted font-medium block uppercase tracking-wider">Business Hours</span>
                     <p className="text-white font-semibold">
                       Mon – Sat: 8:00 AM – 8:00 PM EST
                     </p>
@@ -123,15 +123,15 @@ function Contact() {
           </div>
 
           {/* Contact Form */}
-          <div className="lg:col-span-7 bg-black/80 border border-purple-500/30 backdrop-blur-xl p-8 sm:p-10 rounded-3xl shadow-xl">
+          <div className="lg:col-span-7 bg-black/80 border border-accent/30 backdrop-blur-md p-8 sm:p-10 rounded-2xl shadow-lg">
 
             {/* Success Toast Banner */}
             {submitted && (
-              <div className="mb-6 p-4 rounded-xl bg-emerald-900/20 border border-emerald-500/30 text-emerald-400 flex items-center gap-3">
+              <div className="mb-6 p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center gap-3">
                 <CheckCircle2 className="w-6 h-6 shrink-0" />
                 <div>
                   <h4 className="text-sm font-bold">Thank You! Message Received.</h4>
-                  <p className="text-xs text-emerald-500">We have logged your query and will reply to your email shortly.</p>
+                  <p className="text-xs text-emerald-400">We have logged your query and will reply to your email shortly.</p>
                 </div>
               </div>
             )}
@@ -141,7 +141,7 @@ function Contact() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-semibold text-subtle uppercase tracking-wider mb-2">
                     Full Name *
                   </label>
                   <input
@@ -151,12 +151,12 @@ function Contact() {
                     value={formData.fullName}
                     onChange={handleChange}
                     placeholder="e.g. Alex Johnson"
-                    className="w-full px-4 py-3 rounded-xl bg-black/60 border border-purple-500/30 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 focus:outline-none text-white placeholder-slate-600 text-sm transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-black/60 border border-accent/30 focus:border-accent focus:ring-2 focus:ring-accent/40 focus:outline-none text-white placeholder-subtle text-sm transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-semibold text-subtle uppercase tracking-wider mb-2">
                     Email Address *
                   </label>
                   <input
@@ -166,13 +166,13 @@ function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="alex@example.com"
-                    className="w-full px-4 py-3 rounded-xl bg-black/60 border border-purple-500/30 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 focus:outline-none text-white placeholder-slate-600 text-sm transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-black/60 border border-accent/30 focus:border-accent focus:ring-2 focus:ring-accent/40 focus:outline-none text-white placeholder-subtle text-sm transition-all"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-subtle uppercase tracking-wider mb-2">
                   Subject
                 </label>
                 <input
@@ -181,12 +181,12 @@ function Contact() {
                   value={formData.subject}
                   onChange={handleChange}
                   placeholder="e.g. Inquiry regarding rental shop onboarding"
-                  className="w-full px-4 py-3 rounded-xl bg-black/60 border border-purple-500/30 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 focus:outline-none text-white placeholder-slate-600 text-sm transition-all"
+                  className="w-full px-4 py-3 rounded-xl bg-black/60 border border-accent/30 focus:border-accent focus:ring-2 focus:ring-accent/40 focus:outline-none text-white placeholder-subtle text-sm transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-subtle uppercase tracking-wider mb-2">
                   Message *
                 </label>
                 <textarea
@@ -196,13 +196,13 @@ function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   placeholder="Describe your question or drone rental requirements..."
-                  className="w-full px-4 py-3 rounded-xl bg-black/60 border border-purple-500/30 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 focus:outline-none text-white placeholder-slate-600 text-sm transition-all resize-none"
+                  className="w-full px-4 py-3 rounded-xl bg-black/60 border border-accent/30 focus:border-accent focus:ring-2 focus:ring-accent/40 focus:outline-none text-white placeholder-subtle text-sm transition-all resize-none"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-purple-500/25 transition-all glow-purple cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-accent text-white font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all cursor-pointer"
               >
                 <span>Submit Message</span>
                 <Send className="w-4 h-4" />

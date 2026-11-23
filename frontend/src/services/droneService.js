@@ -27,6 +27,7 @@ export const droneService = {
     if (params.page) queryParams.append('page', params.page);
     if (params.limit) queryParams.append('limit', params.limit);
     if (params.ownerId) queryParams.append('ownerId', params.ownerId);
+    if (params.includeUnlisted) queryParams.append('includeUnlisted', 'true');
 
     const queryString = queryParams.toString();
     const endpoint = queryString ? `/drones?${queryString}` : '/drones';
@@ -41,6 +42,14 @@ export const droneService = {
   async getDroneById(id) {
     const response = await apiClient(`/drones/${id}`, { method: 'GET' });
     return response.data?.drone;
+  },
+
+  /**
+   * Date ranges already reserved (approved or active rentals)
+   */
+  async getAvailability(id) {
+    const response = await apiClient(`/drones/${id}/availability`, { method: 'GET' });
+    return response.data?.reserved || [];
   },
 
   /**

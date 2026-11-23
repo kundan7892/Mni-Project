@@ -136,7 +136,7 @@ export function useTelemetrySimulator(rentalKey = "RNT-101", fallbackData = null
       targetLat: prev.originLat,
       targetLng: prev.originLng
     }))
-    setCommandNotification("🚀 Command Transmitted: Auto Return-To-Home (RTH) Activated.")
+    setCommandNotification("Command Transmitted: Auto Return-To-Home (RTH) Activated.")
     setTimeout(() => setCommandNotification(null), 4000)
   }
 
@@ -147,7 +147,7 @@ export function useTelemetrySimulator(rentalKey = "RNT-101", fallbackData = null
       statusType: "standby",
       speed: 0
     }))
-    setCommandNotification("⏸️ Command Transmitted: Drone Position Hold Engaged.")
+    setCommandNotification("Command Transmitted: Drone Position Hold Engaged.")
     setTimeout(() => setCommandNotification(null), 4000)
   }
 
@@ -157,12 +157,12 @@ export function useTelemetrySimulator(rentalKey = "RNT-101", fallbackData = null
       statusText: "Initiating Controlled Landing",
       statusType: "landing"
     }))
-    setCommandNotification("🛬 Command Transmitted: Immediate Controlled Landing Initiated.")
+    setCommandNotification("Command Transmitted: Immediate Controlled Landing Initiated.")
     setTimeout(() => setCommandNotification(null), 4000)
   }
 
   const triggerSnapshot = () => {
-    setCommandNotification("📷 Remote FPV Snapshot Captured & Saved to Flight Logs!")
+    setCommandNotification("Remote FPV Snapshot Captured & Saved to Flight Logs!")
     setTimeout(() => setCommandNotification(null), 4000)
   }
 

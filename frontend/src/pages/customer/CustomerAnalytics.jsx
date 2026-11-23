@@ -59,14 +59,6 @@ function CustomerAnalytics() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       
-      {/* SECURITY NOTICE BANNER */}
-      <div className="bg-slate-900 text-slate-300 p-3 rounded-2xl border border-slate-800 text-[11px] font-mono flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-blue-400 animate-ping" />
-          <span>🔒 <strong>CUSTOMER PRIVATE STREAM:</strong> Analytics isolated for customer #{currentUser?.id || 3} ({currentUser?.name || "Rahul Sharma"}).</span>
-        </div>
-        <span className="text-slate-500 hidden sm:inline">Encrypted Customer Data</span>
-      </div>
 
       {/* HEADER */}
       <AnalyticsHeader
@@ -160,17 +152,17 @@ function CustomerAnalytics() {
         />
 
         {/* PERFORMANCE TABLE */}
-        <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-2xs space-y-4">
+        <div className="bg-surface rounded-2xl border border-line p-6 shadow-2xs space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-base font-black text-slate-900">My Rental Performance</h3>
-            <span className="text-xs font-bold text-slate-400">
+            <h3 className="text-base font-semibold text-fg">My Rental Performance</h3>
+            <span className="text-xs font-bold text-subtle">
               Showing {filteredRentals.length} Rentals
             </span>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-200">
+              <thead className="bg-surface-2 text-muted font-bold uppercase tracking-wider border-b border-line">
                 <tr>
                   <th className="py-3 px-4">Booking ID</th>
                   <th className="py-3 px-4">Drone Model</th>
@@ -181,20 +173,20 @@ function CustomerAnalytics() {
                   <th className="py-3 px-4 text-right">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+              <tbody className="divide-y divide-line font-medium text-fg-muted">
                 {filteredRentals.map((r) => (
-                  <tr key={r.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="py-3.5 px-4 font-mono font-bold text-blue-600">{r.id}</td>
-                    <td className="py-3.5 px-4 font-bold text-slate-900">{r.drone}</td>
-                    <td className="py-3.5 px-4 text-slate-500">{r.category}</td>
-                    <td className="py-3.5 px-4 text-slate-600">{r.date}</td>
-                    <td className="py-3.5 px-4 font-bold text-slate-800">{r.duration}</td>
-                    <td className="py-3.5 px-4 font-mono font-black text-slate-900">₹{r.amount.toLocaleString()}</td>
+                  <tr key={r.id} className="hover:bg-surface-2 transition-colors">
+                    <td className="py-3.5 px-4 font-mono font-bold text-accent-ink">{r.id}</td>
+                    <td className="py-3.5 px-4 font-bold text-fg">{r.drone}</td>
+                    <td className="py-3.5 px-4 text-muted">{r.category}</td>
+                    <td className="py-3.5 px-4 text-muted">{r.date}</td>
+                    <td className="py-3.5 px-4 font-bold text-fg">{r.duration}</td>
+                    <td className="py-3.5 px-4 font-mono font-semibold text-fg">₹{r.amount.toLocaleString()}</td>
                     <td className="py-3.5 px-4 text-right">
-                      <span className={`inline-flex items-center gap-1 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${
+                      <span className={`inline-flex items-center gap-1 text-[10px] font-semibold px-2.5 py-0.5 rounded-full border ${
                         r.status === 'Active'
-                          ? 'bg-blue-50 text-blue-700 border-blue-200'
-                          : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          ? 'bg-accent/10 text-accent-ink border-accent/25'
+                          : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
                       }`}>
                         {r.status}
                       </span>

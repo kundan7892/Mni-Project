@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Drone from '../models/Drone.js';
+import Booking from '../models/Booking.js';
 import { sendSuccess, sendError } from '../utils/apiResponse.js';
 
 /**
@@ -16,6 +17,8 @@ export const createDrone = async (req, res, next) => {
       category,
       description,
       image,
+      images,
+      isListed,
       pricePerHour,
       pricePerDay,
       securityDeposit,
@@ -26,6 +29,8 @@ export const createDrone = async (req, res, next) => {
       location,
       specifications
     } = req.body;
+
+    const gallery = Array.isArray(images) ? images.filter((u) => typeof u === 'string' && u) : [];
 
     // SECURITY: Use authenticated user ID, never trust client-supplied ownerId
     const ownerId = req.user._id;
@@ -47,14 +52,17 @@ export const createDrone = async (req, res, next) => {
       description: description || '',
       image:
         image ||
+        gallery[0] ||
         'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=800&q=80',
+      images: gallery,
+      isListed: isListed !== false,
       pricePerHour: resolvedPricePerHour,
       pricePerDay: resolvedPricePerDay,
-      securityDeposit: Number(securityDeposit) || 5000,
+      securityDeposit: securityDeposit !== undefined && securityDeposit !== '' ? Number(securityDeposit) : 5000,
       batteryLevel: batteryLevel !== undefined ? Number(batteryLevel) : 100,
       status: initialStatus,
       ownerId,
-      shopName: req.user.shopName || shopName || 'SkyRent Bengaluru',
+      shopName: shopName || req.user.shopName || 'DroneHub',
       location: location || 'Bengaluru',
       specifications: {
         camera: specifications?.camera || req.body.camera || '4K',
@@ -62,6 +70,7 @@ export const createDrone = async (req, res, next) => {
         speed: specifications?.speed || req.body.speed || '75 km/h',
         weight: specifications?.weight || req.body.weight || '958 g',
         gps: specifications?.gps ?? req.body.gps ?? true,
+        maxRange: Number(specifications?.maxRange || req.body.maxRange || 10),
         sensors: specifications?.sensors || ['Obstacle Sensing', 'Return to Home']
       }
     });
@@ -98,9 +107,19 @@ export const getDrones = async (req, res, next) => {
 
     const query = {};
 
+    // Unlisted products are only visible to shop owners / admins managing the catalogue
+    const canSeeUnlisted =
+      req.query.includeUnlisted === 'true' &&
+      req.user &&
+      ['owner', 'shop-owner', 'admin', 'super-admin'].includes(req.user.role);
+    if (!canSeeUnlisted) query.isListed = { $ne: false };
+    // A shop owner managing the catalogue only sees their own fleet
+    if (canSeeUnlisted && ['owner', 'shop-owner'].includes(req.user.role)) query.ownerId = req.user._id;
+
     // 1. Search Query: Matches drone name, model, or brand
     if (search && search.trim()) {
-      const searchRegex = new RegExp(search.trim(), 'i');
+      const escaped = search.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const searchRegex = new RegExp(escaped, 'i');
       query.$or = [{ name: searchRegex }, { model: searchRegex }, { brand: searchRegex }];
     }
 
@@ -147,7 +166,7 @@ export const getDrones = async (req, res, next) => {
 
     // 8. Pagination Setup
     const pageNum = Math.max(1, parseInt(page, 10) || 1);
-    const limitNum = Math.min(100, Math.max(1, parseInt(limit, 10) || 12));
+    const limitNum = Math.min(200, Math.max(1, parseInt(limit, 10) || 12));
     const skip = (pageNum - 1) * limitNum;
 
     const total = await Drone.countDocuments(query);
@@ -257,6 +276,8 @@ export const updateDrone = async (req, res, next) => {
       'category',
       'description',
       'image',
+      'images',
+      'isListed',
       'pricePerHour',
       'pricePerDay',
       'securityDeposit',
@@ -270,7 +291,13 @@ export const updateDrone = async (req, res, next) => {
 
     allowedUpdates.forEach((field) => {
       if (req.body[field] !== undefined) {
-        if (field === 'status') {
+        if (field === 'specifications') {
+          drone.specifications = { ...(drone.specifications?.toObject?.() || {}), ...req.body.specifications };
+        } else if (field === 'images') {
+          drone.images = Array.isArray(req.body.images)
+            ? req.body.images.filter((u) => typeof u === 'string' && u)
+            : drone.images;
+        } else if (field === 'status') {
           drone.status = req.body.status.toLowerCase();
           drone.availability =
             drone.status.charAt(0).toUpperCase() + drone.status.slice(1);
@@ -359,6 +386,18 @@ export const deleteDrone = async (req, res, next) => {
       });
     }
 
+    const upcoming = await Booking.countDocuments({
+      droneId: drone._id,
+      bookingStatus: { $in: ['approved', 'confirmed', 'active'] },
+      endDate: { $gt: new Date() }
+    });
+    if (upcoming > 0) {
+      return sendError(res, {
+        statusCode: 400,
+        message: `This drone has ${upcoming} upcoming confirmed rental(s). Hide it from the catalogue instead, or cancel those rentals first.`
+      });
+    }
+
     await drone.deleteOne();
 
     return sendSuccess(res, {
@@ -370,3 +409,33 @@ export const deleteDrone = async (req, res, next) => {
   }
 };
 
+
+/**
+ * @route   GET /api/drones/:id/availability
+ * @desc    Date ranges already reserved for this drone (approved or active rentals)
+ * @access  Public
+ */
+export const getDroneAvailability = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return sendError(res, { statusCode: 400, message: 'Invalid drone identifier format.' });
+    }
+    const bookings = await Booking.find({
+      droneId: id,
+      bookingStatus: { $in: ['approved', 'confirmed', 'active'] },
+      endDate: { $gt: new Date() }
+    })
+      .select('startDate endDate bookingStatus')
+      .sort({ startDate: 1 });
+
+    return sendSuccess(res, {
+      message: 'Availability retrieved.',
+      data: {
+        reserved: bookings.map((b) => ({ startDate: b.startDate, endDate: b.endDate, status: b.bookingStatus }))
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};

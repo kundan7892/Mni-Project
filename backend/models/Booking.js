@@ -7,7 +7,9 @@ const bookingSchema = new mongoose.Schema(
       unique: true,
       index: true,
       default: function () {
-        return `DRN-${Math.floor(1000 + Math.random() * 9000)}`;
+        const stamp = Date.now().toString(36).slice(-4).toUpperCase();
+        const rand = Math.floor(Math.random() * 36 * 36).toString(36).padStart(2, '0').toUpperCase();
+        return `DRN-${stamp}${rand}`;
       }
     },
     customerId: {
@@ -119,6 +121,33 @@ const bookingSchema = new mongoose.Schema(
       default: 'pending',
       lowercase: true,
       index: true
+    },
+    addonsTotal: {
+      type: Number,
+      default: 0
+    },
+    documents: {
+      type: [
+        {
+          _id: false,
+          type: { type: String },
+          name: String,
+          url: String
+        }
+      ],
+      default: []
+    },
+    statusHistory: {
+      type: [
+        {
+          _id: false,
+          status: String,
+          at: { type: Date, default: Date.now },
+          by: String,
+          note: String
+        }
+      ],
+      default: []
     },
     rejectionReason: {
       type: String,

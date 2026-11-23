@@ -15,6 +15,8 @@ import telemetryRoutes from './routes/telemetryRoutes.js';
 import flightRoutes from './routes/flightRoutes.js';
 import alertRoutes from './routes/alertRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
+import uploadRoutes, { UPLOAD_DIR } from './routes/uploadRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 import { notFoundHandler, errorHandler } from './middleware/errorMiddleware.js';
 import { sendSuccess } from './utils/apiResponse.js';
 
@@ -60,6 +62,9 @@ if (NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 
+// Uploaded catalogue images and customer documents
+app.use('/uploads', express.static(UPLOAD_DIR, { maxAge: '7d' }));
+
 // 4. Base API Welcome Route
 app.get('/', (req, res) => {
   return sendSuccess(res, {
@@ -83,6 +88,8 @@ app.use('/api/telemetry', telemetryRoutes);
 app.use('/api/flights', flightRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/uploads', uploadRoutes);
+app.use('/api/admin', adminRoutes);
 
 // 6. Centralized Error Handling Middlewares
 app.use(notFoundHandler);

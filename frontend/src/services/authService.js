@@ -56,6 +56,17 @@ export const authService = {
   },
 
   /**
+   * Signed-in user cached in localStorage (or null)
+   */
+  getStoredUser() {
+    try {
+      return JSON.parse(localStorage.getItem('dronehub_user') || 'null');
+    } catch {
+      return null;
+    }
+  },
+
+  /**
    * Log out user & clear saved token
    */
   async logout() {

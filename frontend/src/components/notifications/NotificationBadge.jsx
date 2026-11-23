@@ -10,7 +10,7 @@ function NotificationBadge({ count = 0, size = "md" }) {
   const displayCount = count > 99 ? '99+' : count
 
   return (
-    <span className="inline-flex items-center justify-center bg-rose-600 text-white font-mono font-black text-[10px] min-w-5 h-5 px-1.5 rounded-full ring-2 ring-white shadow-xs animate-pulse">
+    <span className="inline-flex items-center justify-center bg-rose-600 text-white font-mono font-semibold text-[10px] min-w-5 h-5 px-1.5 rounded-full ring-2 ring-white shadow-xs animate-pulse">
       {displayCount}
     </span>
   )

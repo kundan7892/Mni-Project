@@ -28,26 +28,26 @@ function FlightHistoryChart({ drone }) {
   ]
 
   return (
-    <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-2xs space-y-4">
+    <div className="bg-surface p-5 rounded-2xl border border-line shadow-2xs space-y-4">
       
       {/* Header with Switcher Tabs */}
       <div className="flex items-center justify-between">
         <div>
-          <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">
-            <Activity className="w-4 h-4 text-purple-600" />
+          <h4 className="text-sm font-semibold text-fg flex items-center gap-2">
+            <Activity className="w-4 h-4 text-accent-ink" />
             <span>Flight Telemetry Analytics</span>
           </h4>
-          <p className="text-[11px] text-slate-400">Historical performance metrics</p>
+          <p className="text-[11px] text-subtle">Historical performance metrics</p>
         </div>
 
         {/* Tab Buttons */}
-        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl">
+        <div className="flex items-center gap-1 bg-surface-2 p-1 rounded-xl">
           <button
             onClick={() => setActiveTab('battery')}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
               activeTab === 'battery'
-                ? 'bg-white text-emerald-700 shadow-xs'
-                : 'text-slate-500 hover:text-slate-800'
+                ? 'bg-surface text-emerald-400 shadow-xs'
+                : 'text-muted hover:text-fg'
             }`}
           >
             <Battery className="w-3.5 h-3.5" />
@@ -56,10 +56,10 @@ function FlightHistoryChart({ drone }) {
 
           <button
             onClick={() => setActiveTab('speed')}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
               activeTab === 'speed'
-                ? 'bg-white text-blue-700 shadow-xs'
-                : 'text-slate-500 hover:text-slate-800'
+                ? 'bg-surface text-accent-ink shadow-xs'
+                : 'text-muted hover:text-fg'
             }`}
           >
             <Gauge className="w-3.5 h-3.5" />
@@ -75,35 +75,35 @@ function FlightHistoryChart({ drone }) {
             <AreaChart data={batteryData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="batteryGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10B981" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#10B981" stopOpacity={0.0} />
+                  <stop offset="5%" stopColor="#34d399" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="#34d399" stopOpacity={0.0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
-              <XAxis dataKey="time" stroke="#94A3B8" fontSize={10} tickLine={false} />
-              <YAxis stroke="#94A3B8" fontSize={10} tickLine={false} domain={[0, 100]} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#26262b" />
+              <XAxis dataKey="time" stroke="#9898a2" fontSize={10} tickLine={false} />
+              <YAxis stroke="#9898a2" fontSize={10} tickLine={false} domain={[0, 100]} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#0F172A', color: '#FFF', borderRadius: '12px', fontSize: '11px', border: 'none' }}
+                contentStyle={{ backgroundColor: '#111113', color: '#FFF', borderRadius: '12px', fontSize: '11px', border: 'none' }}
                 formatter={(val) => [`${val}%`, 'Battery']}
               />
-              <Area type="monotone" dataKey="battery" stroke="#10B981" strokeWidth={2.5} fillOpacity={1} fill="url(#batteryGrad)" />
+              <Area type="monotone" dataKey="battery" stroke="#34d399" strokeWidth={2.5} fillOpacity={1} fill="url(#batteryGrad)" />
             </AreaChart>
           ) : (
             <AreaChart data={speedData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="speedGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.0} />
+                  <stop offset="5%" stopColor="#5b5bd6" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="#5b5bd6" stopOpacity={0.0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
-              <XAxis dataKey="time" stroke="#94A3B8" fontSize={10} tickLine={false} />
-              <YAxis stroke="#94A3B8" fontSize={10} tickLine={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#26262b" />
+              <XAxis dataKey="time" stroke="#9898a2" fontSize={10} tickLine={false} />
+              <YAxis stroke="#9898a2" fontSize={10} tickLine={false} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#0F172A', color: '#FFF', borderRadius: '12px', fontSize: '11px', border: 'none' }}
+                contentStyle={{ backgroundColor: '#111113', color: '#FFF', borderRadius: '12px', fontSize: '11px', border: 'none' }}
                 formatter={(val) => [`${val} km/h`, 'Speed']}
               />
-              <Area type="monotone" dataKey="speed" stroke="#3B82F6" strokeWidth={2.5} fillOpacity={1} fill="url(#speedGrad)" />
+              <Area type="monotone" dataKey="speed" stroke="#5b5bd6" strokeWidth={2.5} fillOpacity={1} fill="url(#speedGrad)" />
             </AreaChart>
           )}
         </ResponsiveContainer>

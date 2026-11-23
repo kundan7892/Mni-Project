@@ -31,17 +31,17 @@ function HowItWorks() {
   ]
 
   return (
-    <div className="space-y-16 pb-20 pt-28 bg-[#050508]">
+    <div className="space-y-16 pb-20 pt-28 bg-canvas">
 
       {/* Page Header */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-        <span className="inline-block text-xs font-bold uppercase tracking-widest text-cyan-400 bg-cyan-400/10 px-4 py-1.5 rounded-full border border-cyan-400/20">
+        <span className="inline-block text-xs font-bold uppercase tracking-wide text-accent-ink bg-accent/10 px-4 py-1.5 rounded-full border border-accent/20">
           Transparent Operational Blueprint
         </span>
-        <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
-          How <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">DroneHub</span> Works
+        <h1 className="text-4xl sm:text-5xl font-semibold text-white tracking-tight">
+          How <span className="">DroneHub</span> Works
         </h1>
-        <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-lg text-subtle max-w-2xl mx-auto leading-relaxed">
           Learn how our three-role ecosystem coordinates renters, certified shop owners, and system administrators smoothly.
         </p>
       </section>
@@ -51,14 +51,14 @@ function HowItWorks() {
 
         {/* Tab Buttons */}
         <div className="flex justify-center">
-          <div className="bg-black/60 border border-purple-500/20 p-1.5 rounded-2xl flex flex-wrap gap-2 max-w-2xl w-full justify-center backdrop-blur-sm">
+          <div className="bg-black/60 border border-accent/20 p-1.5 rounded-2xl flex flex-wrap gap-2 max-w-2xl w-full justify-center backdrop-blur-sm">
 
             <button
               onClick={() => setActiveTab('customers')}
               className={`flex-1 min-w-[140px] flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold transition-all cursor-pointer ${
                 activeTab === 'customers'
-                  ? 'bg-gradient-to-r from-purple-600 to-cyan-600 text-white shadow-lg shadow-purple-500/25'
-                  : 'text-slate-500 hover:text-slate-300 hover:bg-purple-900/20'
+                  ? 'bg-accent   text-white shadow-lg '
+                  : 'text-muted hover:text-fg-muted hover:bg-accent/15'
               }`}
             >
               <Users className="w-4 h-4" />
@@ -69,8 +69,8 @@ function HowItWorks() {
               onClick={() => setActiveTab('shopOwners')}
               className={`flex-1 min-w-[140px] flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold transition-all cursor-pointer ${
                 activeTab === 'shopOwners'
-                  ? 'bg-gradient-to-r from-purple-600 to-cyan-600 text-white shadow-lg shadow-purple-500/25'
-                  : 'text-slate-500 hover:text-slate-300 hover:bg-purple-900/20'
+                  ? 'bg-accent   text-white shadow-lg '
+                  : 'text-muted hover:text-fg-muted hover:bg-accent/15'
               }`}
             >
               <Store className="w-4 h-4" />
@@ -81,8 +81,8 @@ function HowItWorks() {
               onClick={() => setActiveTab('admin')}
               className={`flex-1 min-w-[140px] flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold transition-all cursor-pointer ${
                 activeTab === 'admin'
-                  ? 'bg-gradient-to-r from-purple-600 to-cyan-600 text-white shadow-lg shadow-purple-500/25'
-                  : 'text-slate-500 hover:text-slate-300 hover:bg-purple-900/20'
+                  ? 'bg-accent   text-white shadow-lg '
+                  : 'text-muted hover:text-fg-muted hover:bg-accent/15'
               }`}
             >
               <ShieldCheck className="w-4 h-4" />
@@ -98,25 +98,25 @@ function HowItWorks() {
           {/* CUSTOMER WORKFLOW */}
           {activeTab === 'customers' && (
             <div className="space-y-8">
-              <div className="bg-black/60 border border-purple-500/20 p-6 rounded-2xl flex items-center gap-4 backdrop-blur-sm">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-cyan-600 text-white flex items-center justify-center shrink-0">
+              <div className="bg-black/60 border border-accent/20 p-6 rounded-2xl flex items-center gap-4 backdrop-blur-sm">
+                <div className="w-12 h-12 rounded-xl bg-accent text-white flex items-center justify-center shrink-0">
                   <Users className="w-6 h-6" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white">Customer & Pilot Workflow</h3>
-                  <p className="text-sm text-slate-500">6 simple steps to rent top-rated drones for your creative or industrial project.</p>
+                  <p className="text-sm text-muted">6 simple steps to rent top-rated drones for your creative or industrial project.</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {customerSteps.map((step) => (
-                  <div key={step.num} className="group bg-black/60 border border-purple-500/20 hover:border-cyan-400/40 p-6 rounded-2xl backdrop-blur-sm space-y-3 relative transition-all hover:-translate-y-1">
+                  <div key={step.num} className="group bg-black/60 border border-accent/20 hover:border-accent/40 p-6 rounded-2xl backdrop-blur-sm space-y-3 relative transition-all hover:-translate-y-1">
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">{step.num}</span>
-                      <CheckCircle2 className="w-5 h-5 text-purple-500 group-hover:text-cyan-400 transition-colors" />
+                      <span className="text-2xl font-semibold ">{step.num}</span>
+                      <CheckCircle2 className="w-5 h-5 text-accent-ink group-hover:text-accent-ink transition-colors" />
                     </div>
                     <h4 className="text-base font-bold text-white">{step.title}</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed">{step.desc}</p>
+                    <p className="text-xs text-muted leading-relaxed">{step.desc}</p>
                   </div>
                 ))}
               </div>
@@ -126,25 +126,25 @@ function HowItWorks() {
           {/* SHOP OWNER WORKFLOW */}
           {activeTab === 'shopOwners' && (
             <div className="space-y-8">
-              <div className="bg-black/60 border border-purple-500/20 p-6 rounded-2xl flex items-center gap-4 backdrop-blur-sm">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-cyan-600 text-white flex items-center justify-center shrink-0">
+              <div className="bg-black/60 border border-accent/20 p-6 rounded-2xl flex items-center gap-4 backdrop-blur-sm">
+                <div className="w-12 h-12 rounded-xl bg-accent text-white flex items-center justify-center shrink-0">
                   <Store className="w-6 h-6" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white">Shop Owner & Host Workflow</h3>
-                  <p className="text-sm text-slate-500">Monetize your drone fleet with store management tools.</p>
+                  <p className="text-sm text-muted">Monetize your drone fleet with store management tools.</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {shopOwnerSteps.map((step) => (
-                  <div key={step.num} className="group bg-black/60 border border-purple-500/20 hover:border-cyan-400/40 p-6 rounded-2xl backdrop-blur-sm space-y-3 relative transition-all hover:-translate-y-1">
+                  <div key={step.num} className="group bg-black/60 border border-accent/20 hover:border-accent/40 p-6 rounded-2xl backdrop-blur-sm space-y-3 relative transition-all hover:-translate-y-1">
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">{step.num}</span>
-                      <CheckCircle2 className="w-5 h-5 text-purple-500 group-hover:text-cyan-400 transition-colors" />
+                      <span className="text-2xl font-semibold ">{step.num}</span>
+                      <CheckCircle2 className="w-5 h-5 text-accent-ink group-hover:text-accent-ink transition-colors" />
                     </div>
                     <h4 className="text-base font-bold text-white">{step.title}</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed">{step.desc}</p>
+                    <p className="text-xs text-muted leading-relaxed">{step.desc}</p>
                   </div>
                 ))}
               </div>
@@ -154,25 +154,25 @@ function HowItWorks() {
           {/* ADMIN WORKFLOW */}
           {activeTab === 'admin' && (
             <div className="space-y-8">
-              <div className="bg-black/60 border border-purple-500/20 p-6 rounded-2xl flex items-center gap-4 backdrop-blur-sm">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-cyan-600 text-white flex items-center justify-center shrink-0">
+              <div className="bg-black/60 border border-accent/20 p-6 rounded-2xl flex items-center gap-4 backdrop-blur-sm">
+                <div className="w-12 h-12 rounded-xl bg-accent text-white flex items-center justify-center shrink-0">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white">Super Admin Workflow</h3>
-                  <p className="text-sm text-slate-500">Full operational oversight, shop verification, and system telemetry.</p>
+                  <p className="text-sm text-muted">Full operational oversight, shop verification, and system telemetry.</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {adminSteps.map((step) => (
-                  <div key={step.num} className="group bg-black/60 border border-purple-500/20 hover:border-cyan-400/40 p-6 rounded-2xl backdrop-blur-sm space-y-3 relative transition-all hover:-translate-y-1">
+                  <div key={step.num} className="group bg-black/60 border border-accent/20 hover:border-accent/40 p-6 rounded-2xl backdrop-blur-sm space-y-3 relative transition-all hover:-translate-y-1">
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">{step.num}</span>
-                      <CheckCircle2 className="w-5 h-5 text-purple-500 group-hover:text-cyan-400 transition-colors" />
+                      <span className="text-2xl font-semibold ">{step.num}</span>
+                      <CheckCircle2 className="w-5 h-5 text-accent-ink group-hover:text-accent-ink transition-colors" />
                     </div>
                     <h4 className="text-base font-bold text-white">{step.title}</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed">{step.desc}</p>
+                    <p className="text-xs text-muted leading-relaxed">{step.desc}</p>
                   </div>
                 ))}
               </div>
@@ -184,24 +184,24 @@ function HowItWorks() {
 
       {/* Callout */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative bg-black border border-purple-500/30 p-8 sm:p-12 rounded-3xl text-center space-y-6 overflow-hidden glow-purple">
-          <div className="absolute top-0 right-0 -mt-12 -mr-12 w-56 h-56 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 -mb-12 -ml-12 w-56 h-56 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative bg-black border border-accent/30 p-8 sm:p-12 rounded-2xl text-center space-y-6 overflow-hidden ">
+          <div className="absolute top-0 right-0 -mt-12 -mr-12 w-56 h-56 bg-accent/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 -mb-12 -ml-12 w-56 h-56 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute inset-0 bg-grid opacity-20" />
           <div className="relative z-10 space-y-6">
-            <div className="inline-flex items-center gap-2 bg-purple-900/30 border border-purple-500/30 text-purple-300 px-4 py-1.5 rounded-full text-sm font-semibold">
-              <Zap className="w-4 h-4 text-cyan-400" />
+            <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent-ink px-4 py-1.5 rounded-full text-sm font-semibold">
+              <Zap className="w-4 h-4 text-accent-ink" />
               <span>Start Exploring</span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-white">Ready to explore available rental drones?</h3>
-            <p className="text-slate-400 text-sm max-w-xl mx-auto">
+            <h3 className="text-2xl sm:text-3xl font-semibold text-white">Ready to explore available rental drones?</h3>
+            <p className="text-subtle text-sm max-w-xl mx-auto">
               Browse verified listings or reach out to our support team for specialized enterprise fleet requests.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-              <Link to="/drones" className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-bold px-6 py-3 rounded-xl transition-all shadow-lg shadow-purple-500/25">
+              <Link to="/drones" className="w-full sm:w-auto bg-accent text-white font-bold px-6 py-3 rounded-xl transition-all shadow-lg ">
                 Browse Marketplace
               </Link>
-              <Link to="/contact" className="w-full sm:w-auto border border-purple-500/40 hover:border-cyan-400/50 text-slate-300 hover:text-cyan-400 font-semibold px-6 py-3 rounded-xl transition-all backdrop-blur-sm hover:bg-cyan-400/5">
+              <Link to="/contact" className="w-full sm:w-auto border border-accent/40 hover:border-accent/50 text-fg-muted hover:text-accent-ink font-semibold px-6 py-3 rounded-xl transition-all backdrop-blur-sm hover:bg-accent/5">
                 Contact Support
               </Link>
             </div>

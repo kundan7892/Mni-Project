@@ -264,10 +264,10 @@ export const userGrowthData = [
 
 // Booking Status Pie Data
 export const bookingStatusDistribution = [
-  { name: "Completed", value: 65, color: "#10b981" },
-  { name: "Active", value: 18, color: "#3b82f6" },
-  { name: "Pending", value: 12, color: "#f59e0b" },
-  { name: "Cancelled", value: 5, color: "#ef4444" }
+  { name: "Completed", value: 65, color: "#34d399" },
+  { name: "Active", value: 18, color: "#5b5bd6" },
+  { name: "Pending", value: 12, color: "#fbbf24" },
+  { name: "Cancelled", value: 5, color: "#fb7185" }
 ]
 
 // Admin Platform Timeline Activities

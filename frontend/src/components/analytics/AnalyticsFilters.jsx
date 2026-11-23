@@ -21,18 +21,18 @@ function AnalyticsFilters({
   categoriesList = ['Camera Drone', 'Survey & Mapping', 'Agricultural Spraying', 'FPV & Cinematic', 'Industrial Heavy Lift']
 }) {
   return (
-    <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs space-y-3 lg:space-y-0 lg:flex lg:items-center lg:gap-3">
+    <div className="bg-surface p-4 rounded-2xl border border-line shadow-2xs space-y-3 lg:space-y-0 lg:flex lg:items-center lg:gap-3">
       
       {/* Search Input */}
       {onSearchChange && (
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-subtle" />
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Filter records by name, ID, or specs..."
-            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 focus:border-blue-600 focus:bg-white rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 transition-all outline-hidden"
+            className="w-full pl-10 pr-4 py-2 bg-surface-2 border border-line focus:border-accent focus:bg-surface rounded-xl text-xs font-semibold text-fg placeholder-subtle transition-all outline-hidden"
           />
         </div>
       )}
@@ -42,12 +42,12 @@ function AnalyticsFilters({
         
         {/* Date Range Dropdown */}
         {onDateRangeChange && (
-          <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5">
-            <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          <div className="flex items-center gap-1.5 bg-surface-2 border border-line rounded-xl px-2.5 py-1.5">
+            <Calendar className="w-3.5 h-3.5 text-subtle shrink-0" />
             <select
               value={dateRange}
               onChange={(e) => onDateRangeChange(e.target.value)}
-              className="bg-transparent text-xs font-bold text-slate-700 focus:outline-hidden cursor-pointer w-full"
+              className="bg-transparent text-xs font-bold text-fg-muted focus:outline-hidden cursor-pointer w-full"
             >
               <option value="Today">Today</option>
               <option value="This Week">This Week</option>
@@ -61,12 +61,12 @@ function AnalyticsFilters({
 
         {/* Status Dropdown */}
         {onStatusChange && (
-          <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5">
-            <Radio className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          <div className="flex items-center gap-1.5 bg-surface-2 border border-line rounded-xl px-2.5 py-1.5">
+            <Radio className="w-3.5 h-3.5 text-subtle shrink-0" />
             <select
               value={statusFilter}
               onChange={(e) => onStatusChange(e.target.value)}
-              className="bg-transparent text-xs font-bold text-slate-700 focus:outline-hidden cursor-pointer w-full"
+              className="bg-transparent text-xs font-bold text-fg-muted focus:outline-hidden cursor-pointer w-full"
             >
               <option value="All">All Statuses</option>
               <option value="Active">Active</option>
@@ -79,12 +79,12 @@ function AnalyticsFilters({
 
         {/* Category Dropdown */}
         {onCategoryChange && (
-          <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5">
-            <Tag className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          <div className="flex items-center gap-1.5 bg-surface-2 border border-line rounded-xl px-2.5 py-1.5">
+            <Tag className="w-3.5 h-3.5 text-subtle shrink-0" />
             <select
               value={categoryFilter}
               onChange={(e) => onCategoryChange(e.target.value)}
-              className="bg-transparent text-xs font-bold text-slate-700 focus:outline-hidden cursor-pointer w-full"
+              className="bg-transparent text-xs font-bold text-fg-muted focus:outline-hidden cursor-pointer w-full"
             >
               <option value="All">All Categories</option>
               {categoriesList.map((cat) => (
@@ -96,12 +96,12 @@ function AnalyticsFilters({
 
         {/* Admin Shop Dropdown */}
         {showShopFilter && onShopChange && (
-          <div className="flex items-center gap-1.5 bg-purple-50 border border-purple-200 rounded-xl px-2.5 py-1.5">
-            <Building2 className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+          <div className="flex items-center gap-1.5 bg-accent/10 border border-accent/25 rounded-xl px-2.5 py-1.5">
+            <Building2 className="w-3.5 h-3.5 text-accent-ink shrink-0" />
             <select
               value={shopFilter}
               onChange={(e) => onShopChange(e.target.value)}
-              className="bg-transparent text-xs font-bold text-purple-900 focus:outline-hidden cursor-pointer w-full"
+              className="bg-transparent text-xs font-bold text-accent-ink focus:outline-hidden cursor-pointer w-full"
             >
               <option value="All">All Partner Shops</option>
               {shopsList.map((shop) => (

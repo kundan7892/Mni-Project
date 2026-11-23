@@ -13,18 +13,18 @@ function RevenueDistributionChart({
   dataKey = "revenue",
   nameKey = "category"
 }) {
-  const defaultColors = ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#EC4899', '#06B6D4']
+  const defaultColors = ['#5b5bd6', '#34d399', '#8b8ce8', '#fbbf24', '#c4c5f7', '#a8aaf4']
 
   return (
-    <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-2xs space-y-4">
+    <div className="bg-surface p-6 rounded-2xl border border-line shadow-2xs space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-            <PieIcon className="w-4 h-4 text-blue-600" />
+          <h3 className="text-base font-semibold text-fg flex items-center gap-2">
+            <PieIcon className="w-4 h-4 text-accent-ink" />
             <span>{title}</span>
           </h3>
-          <p className="text-xs text-slate-400 font-medium">{subtitle}</p>
+          <p className="text-xs text-subtle font-medium">{subtitle}</p>
         </div>
       </div>
 
@@ -47,7 +47,7 @@ function RevenueDistributionChart({
               ))}
             </Pie>
             <Tooltip
-              contentStyle={{ backgroundColor: '#0F172A', color: '#FFF', borderRadius: '14px', fontSize: '12px', border: 'none', padding: '10px 14px' }}
+              contentStyle={{ backgroundColor: '#111113', color: '#FFF', borderRadius: '14px', fontSize: '12px', border: 'none', padding: '10px 14px' }}
               formatter={(val) => [`₹${val.toLocaleString()}`, 'Revenue']}
             />
             <Legend verticalAlign="bottom" height={40} wrapperStyle={{ fontSize: '11px', fontWeight: 'bold' }} />

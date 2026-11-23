@@ -43,17 +43,17 @@ function ShopOwnerProfile() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-fg tracking-tight">
             Shop Storefront Profile
           </h1>
-          <p className="text-slate-500 text-xs sm:text-sm">
+          <p className="text-muted text-xs sm:text-sm">
             Manage your public shop listing details, operating status, and store location.
           </p>
         </div>
 
         <button
           onClick={() => setIsEditing(!isEditing)}
-          className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-sm transition-all cursor-pointer"
+          className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-sm transition-all cursor-pointer"
         >
           <Edit className="w-4 h-4" />
           <span>{isEditing ? 'Cancel Edit' : 'Edit Shop Profile'}</span>
@@ -61,21 +61,21 @@ function ShopOwnerProfile() {
       </div>
 
       {successMsg && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-xs font-bold flex items-center gap-2 animate-in fade-in duration-200">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="p-4 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 rounded-2xl text-xs font-bold flex items-center gap-2 animate-in fade-in duration-200">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{successMsg}</span>
         </div>
       )}
 
       {/* SHOP STATUS TOGGLE CARD */}
-      <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-2xs flex items-center justify-between gap-4">
+      <div className="bg-surface p-5 rounded-2xl border border-line shadow-2xs flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-3 rounded-2xl bg-purple-50 text-purple-600">
+          <div className="p-3 rounded-2xl bg-accent/10 text-accent-ink">
             <Power className="w-5 h-5" />
           </div>
           <div>
-            <div className="font-bold text-slate-900 text-sm">Shop Operating Status</div>
-            <div className="text-xs text-slate-500">Toggle whether your shop is accepting new rental bookings.</div>
+            <div className="font-bold text-fg text-sm">Shop Operating Status</div>
+            <div className="text-xs text-muted">Toggle whether your shop is accepting new rental bookings.</div>
           </div>
         </div>
 
@@ -86,35 +86,35 @@ function ShopOwnerProfile() {
             setSuccessMsg(`Shop status changed to '${e.target.value}'.`)
             setTimeout(() => setSuccessMsg(null), 3000)
           }}
-          className={`py-2 px-4 rounded-xl text-xs font-black cursor-pointer border ${
+          className={`py-2 px-4 rounded-xl text-xs font-semibold cursor-pointer border ${
             shopStatus === 'Open'
-              ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
-              : 'bg-rose-50 text-rose-700 border-rose-300'
+              ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
+              : 'bg-rose-500/10 text-rose-400 border-rose-500/25'
           }`}
         >
-          <option value="Open">🟢 Open for Rentals</option>
-          <option value="Closed">🔴 Closed</option>
-          <option value="Temporarily Unavailable">🟡 Temporarily Unavailable</option>
+          <option value="Open">Open for Rentals</option>
+          <option value="Closed">Closed</option>
+          <option value="Temporarily Unavailable">Temporarily Unavailable</option>
         </select>
       </div>
 
       {/* MAIN PROFILE CARD */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-2xs space-y-8">
+      <div className="bg-surface rounded-2xl border border-line p-6 sm:p-10 shadow-2xs space-y-8">
         
         {/* Banner */}
-        <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-200/80">
+        <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-surface-2 rounded-2xl border border-line">
           <img
             src={shopData.logo}
             alt={shopData.name}
-            className="w-24 h-24 rounded-3xl object-cover border-2 border-white shadow-md shrink-0"
+            className="w-24 h-24 rounded-2xl object-cover border-2 border-white shadow-md shrink-0"
           />
           <div className="space-y-1 text-center sm:text-left">
-            <div className="inline-flex items-center gap-1.5 bg-purple-100 text-purple-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-purple-200">
-              <ShieldCheck className="w-3.5 h-3.5 text-purple-600" />
+            <div className="inline-flex items-center gap-1.5 bg-accent/10 text-accent-ink text-[10px] font-semibold px-2.5 py-0.5 rounded-full border border-accent/25">
+              <ShieldCheck className="w-3.5 h-3.5 text-accent-ink" />
               <span>Verified Storefront (Shop ID: #{shopId})</span>
             </div>
-            <h2 className="text-2xl font-black text-slate-900">{shopData.name}</h2>
-            <p className="text-slate-500 text-xs">{shopData.location}</p>
+            <h2 className="text-2xl font-semibold text-fg">{shopData.name}</h2>
+            <p className="text-muted text-xs">{shopData.location}</p>
           </div>
         </div>
 
@@ -124,7 +124,7 @@ function ShopOwnerProfile() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             
             <div className="space-y-1.5 sm:col-span-2">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
                 Shop Name
               </label>
               {isEditing ? (
@@ -132,18 +132,18 @@ function ShopOwnerProfile() {
                   type="text"
                   value={shopData.name}
                   onChange={(e) => setShopData({ ...shopData, name: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl py-3 px-4 text-sm font-semibold text-slate-800"
+                  className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-3 px-4 text-sm font-semibold text-fg"
                   required
                 />
               ) : (
-                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 font-bold text-slate-900 text-sm">
+                <div className="p-3.5 bg-surface-2 rounded-xl border border-line font-bold text-fg text-sm">
                   {shopData.name}
                 </div>
               )}
             </div>
 
             <div className="space-y-1.5 sm:col-span-2">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
                 Shop Description
               </label>
               {isEditing ? (
@@ -151,17 +151,17 @@ function ShopOwnerProfile() {
                   rows={3}
                   value={shopData.description}
                   onChange={(e) => setShopData({ ...shopData, description: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl p-3 text-xs font-semibold text-slate-800"
+                  className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl p-3 text-xs font-semibold text-fg"
                 />
               ) : (
-                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 text-slate-700 leading-relaxed font-medium">
+                <div className="p-3.5 bg-surface-2 rounded-xl border border-line text-fg-muted leading-relaxed font-medium">
                   {shopData.description}
                 </div>
               )}
             </div>
 
             <div className="space-y-1.5">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
                 Phone Number
               </label>
               {isEditing ? (
@@ -169,26 +169,26 @@ function ShopOwnerProfile() {
                   type="text"
                   value={shopData.phone}
                   onChange={(e) => setShopData({ ...shopData, phone: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl py-3 px-4 text-sm font-semibold text-slate-800"
+                  className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-3 px-4 text-sm font-semibold text-fg"
                 />
               ) : (
-                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 font-bold text-slate-900">
+                <div className="p-3.5 bg-surface-2 rounded-xl border border-line font-bold text-fg">
                   {shopData.phone}
                 </div>
               )}
             </div>
 
             <div className="space-y-1.5">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
                 Email Address
               </label>
-              <div className="p-3.5 bg-slate-100 rounded-xl border border-slate-200 font-medium text-slate-500">
+              <div className="p-3.5 bg-surface-2 rounded-xl border border-line font-medium text-muted">
                 {shopData.email} (Owner Primary)
               </div>
             </div>
 
             <div className="space-y-1.5 sm:col-span-2">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
                 Physical Store Address
               </label>
               {isEditing ? (
@@ -196,17 +196,17 @@ function ShopOwnerProfile() {
                   type="text"
                   value={shopData.address}
                   onChange={(e) => setShopData({ ...shopData, address: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl py-3 px-4 text-sm font-semibold text-slate-800"
+                  className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-3 px-4 text-sm font-semibold text-fg"
                 />
               ) : (
-                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 font-bold text-slate-900">
+                <div className="p-3.5 bg-surface-2 rounded-xl border border-line font-bold text-fg">
                   {shopData.address}
                 </div>
               )}
             </div>
 
             <div className="space-y-1.5">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
                 Operating Hours
               </label>
               {isEditing ? (
@@ -214,17 +214,17 @@ function ShopOwnerProfile() {
                   type="text"
                   value={shopData.operatingHours}
                   onChange={(e) => setShopData({ ...shopData, operatingHours: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl py-3 px-4 text-sm font-semibold text-slate-800"
+                  className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-3 px-4 text-sm font-semibold text-fg"
                 />
               ) : (
-                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 font-bold text-slate-900">
+                <div className="p-3.5 bg-surface-2 rounded-xl border border-line font-bold text-fg">
                   {shopData.operatingHours}
                 </div>
               )}
             </div>
 
             <div className="space-y-1.5">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
                 Website URL
               </label>
               {isEditing ? (
@@ -232,10 +232,10 @@ function ShopOwnerProfile() {
                   type="url"
                   value={shopData.website}
                   onChange={(e) => setShopData({ ...shopData, website: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl py-3 px-4 text-sm font-semibold text-slate-800"
+                  className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-3 px-4 text-sm font-semibold text-fg"
                 />
               ) : (
-                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 font-bold text-purple-600">
+                <div className="p-3.5 bg-surface-2 rounded-xl border border-line font-bold text-accent-ink">
                   {shopData.website}
                 </div>
               )}
@@ -247,7 +247,7 @@ function ShopOwnerProfile() {
             <div className="pt-4 flex justify-end">
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-7 py-3 rounded-xl text-xs shadow-md transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-600 text-white font-bold px-7 py-3 rounded-xl text-xs shadow-md transition-all cursor-pointer"
               >
                 <Save className="w-4 h-4" />
                 <span>Save Shop Profile</span>

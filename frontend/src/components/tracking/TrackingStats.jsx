@@ -17,28 +17,28 @@ function TrackingStats({ drones = [] }) {
       title: "Active Drones",
       count: totalActive,
       icon: Radio,
-      bgColor: "bg-blue-50 text-blue-700 border-blue-200",
-      iconBg: "bg-blue-600 text-white"
+      bgColor: "bg-accent/10 text-accent-ink border-accent/25",
+      iconBg: "bg-accent text-white"
     },
     {
       title: "In Flight",
       count: inFlightCount,
       icon: Navigation,
-      bgColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
+      bgColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/25",
       iconBg: "bg-emerald-600 text-white"
     },
     {
       title: "Low Battery",
       count: lowBatteryCount,
       icon: BatteryWarning,
-      bgColor: "bg-amber-50 text-amber-800 border-amber-200",
+      bgColor: "bg-amber-500/10 text-amber-400 border-amber-500/25",
       iconBg: "bg-amber-500 text-white"
     },
     {
       title: "Offline",
       count: offlineCount,
       icon: WifiOff,
-      bgColor: "bg-rose-50 text-rose-700 border-rose-200",
+      bgColor: "bg-rose-500/10 text-rose-400 border-rose-500/25",
       iconBg: "bg-rose-600 text-white"
     }
   ]
@@ -53,8 +53,8 @@ function TrackingStats({ drones = [] }) {
             className={`p-4 rounded-2xl border ${card.bgColor} shadow-2xs flex items-center justify-between transition-all hover:shadow-md`}
           >
             <div>
-              <span className="text-xs font-semibold block text-slate-500">{card.title}</span>
-              <span className="text-2xl font-black tracking-tight font-mono">{card.count}</span>
+              <span className="text-xs font-semibold block text-muted">{card.title}</span>
+              <span className="text-2xl font-semibold tracking-tight font-mono">{card.count}</span>
             </div>
             <div className={`p-2.5 rounded-xl shadow-xs ${card.iconBg}`}>
               <Icon className="w-5 h-5" />

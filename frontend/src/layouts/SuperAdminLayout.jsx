@@ -1,37 +1,62 @@
-import React, { useState } from 'react'
-import { Outlet } from 'react-router-dom'
-import ProtectedRoute from '../components/ProtectedRoute'
-import SuperAdminSidebar from '../components/admin/SuperAdminSidebar'
-import SuperAdminHeader from '../components/admin/SuperAdminHeader'
+import React from 'react'
+import {
+  LayoutDashboard, Inbox, ClipboardList, Package, Users, BarChart2, Radio, Store, UserCheck,
+  CreditCard, FileText, Star, AlertCircle, Bell, Files
+} from 'lucide-react'
+import DashboardShell from '../components/dashboard/DashboardShell'
+
+const NAV = [
+  {
+    items: [{ label: 'Overview', path: '/admin/dashboard', icon: LayoutDashboard }]
+  },
+  {
+    title: 'Rentals',
+    items: [
+      { label: 'Requests', path: '/admin/requests', icon: Inbox, badgeKey: 'pending' },
+      { label: 'Orders', path: '/admin/orders', icon: ClipboardList },
+      { label: 'Live tracking', path: '/admin/tracking', icon: Radio }
+    ]
+  },
+  {
+    title: 'Store',
+    items: [
+      { label: 'Catalogue', path: '/admin/catalogue', icon: Package },
+      { label: 'Customers', path: '/admin/customers', icon: Users },
+      { label: 'Analytics', path: '/admin/analytics', icon: BarChart2 }
+    ]
+  },
+  {
+    title: 'Marketplace',
+    items: [
+      { label: 'Shops', path: '/admin/shops', icon: Store },
+      { label: 'Shop owners', path: '/admin/shop-owners', icon: UserCheck },
+      { label: 'Payments', path: '/admin/payments', icon: CreditCard },
+      { label: 'Reviews', path: '/admin/reviews', icon: Star },
+      { label: 'Complaints', path: '/admin/complaints', icon: AlertCircle }
+    ]
+  },
+  {
+    title: 'More',
+    items: [
+      { label: 'Reports', path: '/admin/reports', icon: FileText },
+      { label: 'Documents', path: '/admin/documents', icon: Files },
+      { label: 'Notifications', path: '/admin/notifications', icon: Bell }
+    ]
+  }
+]
 
 function SuperAdminLayout({ children }) {
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
-
   return (
-    <ProtectedRoute allowedRoles={['super-admin']}>
-      <div className="min-h-screen bg-slate-50 flex font-sans text-slate-800">
-        
-        {/* Sidebar */}
-        <SuperAdminSidebar
-          isOpen={isMobileSidebarOpen}
-          onClose={() => setIsMobileSidebarOpen(false)}
-        />
-
-        {/* Workspace */}
-        <div className="flex-1 flex flex-col min-w-0">
-          
-          <SuperAdminHeader
-            onMobileMenuToggle={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
-          />
-
-          <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-8">
-            {children || <Outlet />}
-          </main>
-
-        </div>
-
-      </div>
-    </ProtectedRoute>
+    <DashboardShell
+      nav={NAV}
+      roleLabel="Admin"
+      basePath="/admin"
+      notificationRole="super-admin"
+      notificationsPath="/admin/notifications"
+      showPendingBadge
+    >
+      {children}
+    </DashboardShell>
   )
 }
 

@@ -84,6 +84,15 @@ const droneSchema = new mongoose.Schema(
       default:
         'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=800&q=80'
     },
+    images: {
+      type: [String],
+      default: []
+    },
+    isListed: {
+      type: Boolean,
+      default: true,
+      index: true
+    },
     pricePerHour: {
       type: Number,
       default: function () {

@@ -11,7 +11,7 @@ import SignalIndicator from './SignalIndicator'
 function DroneTelemetry({ drone }) {
   if (!drone) {
     return (
-      <div className="bg-white p-6 rounded-3xl border border-slate-200 text-center text-slate-400 text-xs font-bold">
+      <div className="bg-surface p-6 rounded-2xl border border-line text-center text-subtle text-xs font-bold">
         Select a drone to inspect telemetry
       </div>
     )
@@ -23,52 +23,52 @@ function DroneTelemetry({ drone }) {
       value: `${drone.speed} km/h`,
       sub: "Ground Speed",
       icon: Gauge,
-      color: "text-blue-600 bg-blue-50 border-blue-100"
+      color: "text-accent-ink bg-accent/10 border-accent/25"
     },
     {
       label: "Flight Altitude",
       value: `${drone.altitude} m`,
       sub: "Above Ground Level",
       icon: ArrowUp,
-      color: "text-purple-600 bg-purple-50 border-purple-100"
+      color: "text-accent-ink bg-accent/10 border-accent/25"
     },
     {
       label: "Distance Remaining",
       value: `${drone.distance} km`,
       sub: "To Destination",
       icon: MapPin,
-      color: "text-indigo-600 bg-indigo-50 border-indigo-100"
+      color: "text-accent-ink bg-accent/10 border-accent/25"
     },
     {
       label: "Flight Time Elapsed",
       value: `${drone.flightTime} min`,
       sub: "Mission Duration",
       icon: Clock,
-      color: "text-teal-600 bg-teal-50 border-teal-100"
+      color: "text-accent-ink bg-accent/10 border-accent/25"
     },
     {
       label: "Estimated Arrival (ETA)",
       value: drone.eta || "18 min",
       sub: "Destination ETA",
       icon: Timer,
-      color: "text-emerald-600 bg-emerald-50 border-emerald-100"
+      color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/25"
     }
   ]
 
   return (
-    <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-2xs space-y-6">
+    <div className="bg-surface p-5 sm:p-6 rounded-2xl border border-line shadow-2xs space-y-6">
       
       {/* Telemetry Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+      <div className="flex items-center justify-between pb-4 border-b border-line">
         <div>
-          <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-            <Zap className="w-4 h-4 text-blue-600" />
+          <h3 className="text-base font-semibold text-fg flex items-center gap-2">
+            <Zap className="w-4 h-4 text-accent-ink" />
             <span>Telemetry Dashboard — {drone.droneName}</span>
           </h3>
-          <p className="text-xs text-slate-400 font-medium">
-            Booking: <strong className="font-mono text-slate-700">{drone.bookingId}</strong>
+          <p className="text-xs text-subtle font-medium">
+            Booking: <strong className="font-mono text-fg-muted">{drone.bookingId}</strong>
             {drone.heading !== undefined && (
-              <span className="ml-2 text-slate-500 font-mono">
+              <span className="ml-2 text-muted font-mono">
                 • Heading: {drone.heading}°
               </span>
             )}
@@ -77,8 +77,8 @@ function DroneTelemetry({ drone }) {
 
         <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border flex items-center gap-1 ${
           drone.telemetrySource === 'real'
-            ? 'text-emerald-600 bg-emerald-50 border-emerald-200'
-            : 'text-amber-700 bg-amber-50 border-amber-300'
+            ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/25'
+            : 'text-amber-400 bg-amber-500/10 border-amber-500/25'
         }`}>
           <span className={`w-1.5 h-1.5 rounded-full animate-ping ${
             drone.telemetrySource === 'real' ? 'bg-emerald-500' : 'bg-amber-500'
@@ -91,16 +91,16 @@ function DroneTelemetry({ drone }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         
         {/* Battery Telemetry Card */}
-        <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 space-y-2">
-          <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+        <div className="bg-surface-2 p-4 rounded-2xl border border-line space-y-2">
+          <div className="text-xs font-bold text-muted uppercase tracking-wider">
             Battery Telemetry
           </div>
           <BatteryIndicator battery={drone.battery ?? drone.batteryLevel ?? 100} showDetails={true} />
         </div>
 
         {/* Signal Telemetry Card */}
-        <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 space-y-2">
-          <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+        <div className="bg-surface-2 p-4 rounded-2xl border border-line space-y-2">
+          <div className="text-xs font-bold text-muted uppercase tracking-wider">
             Signal Transmission
           </div>
           <SignalIndicator signal={drone.signal} showLabel={true} />
@@ -118,15 +118,15 @@ function DroneTelemetry({ drone }) {
               className={`p-3.5 rounded-2xl border ${m.color} space-y-1 transition-all hover:scale-102`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                <span className="text-[10px] font-bold text-muted uppercase tracking-wider">
                   {m.label}
                 </span>
                 <Icon className="w-3.5 h-3.5 opacity-80" />
               </div>
-              <div className="text-lg font-black tracking-tight font-mono">
+              <div className="text-lg font-semibold tracking-tight font-mono">
                 {m.value}
               </div>
-              <div className="text-[9px] text-slate-400 font-medium">
+              <div className="text-[9px] text-subtle font-medium">
                 {m.sub}
               </div>
             </div>

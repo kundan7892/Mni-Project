@@ -35,7 +35,6 @@ import AccessDeniedPage from './pages/auth/AccessDeniedPage'
 // Customer Dashboard Pages
 import CustomerOverview from './pages/customer/CustomerOverview'
 import CustomerRentals from './pages/customer/CustomerRentals'
-import CustomerBookings from './pages/customer/CustomerBookings'
 import CustomerTracking from './pages/customer/CustomerTracking'
 import CustomerAnalytics from './pages/customer/CustomerAnalytics'
 import CustomerReports from './pages/customer/CustomerReports'
@@ -47,13 +46,8 @@ import CustomerProfile from './pages/customer/CustomerProfile'
 import CustomerSettings from './pages/customer/CustomerSettings'
 
 // Shop Owner Dashboard Pages
-import ShopOwnerOverview from './pages/owner/ShopOwnerOverview'
-import ShopOwnerDrones from './pages/owner/ShopOwnerDrones'
-import ShopOwnerBookings from './pages/owner/ShopOwnerBookings'
-import ShopOwnerRentals from './pages/owner/ShopOwnerRentals'
 import ShopOwnerCustomers from './pages/owner/ShopOwnerCustomers'
 import ShopOwnerTracking from './pages/owner/ShopOwnerTracking'
-import OwnerAnalytics from './pages/owner/OwnerAnalytics'
 import OwnerReports from './pages/owner/OwnerReports'
 import ShopOwnerDocuments from './pages/owner/ShopOwnerDocuments'
 import ShopOwnerPayments from './pages/owner/ShopOwnerPayments'
@@ -63,15 +57,9 @@ import ShopOwnerProfile from './pages/owner/ShopOwnerProfile'
 import ShopOwnerSettings from './pages/owner/ShopOwnerSettings'
 
 // Super Admin Dashboard Pages
-import SuperAdminOverview from './pages/admin/SuperAdminOverview'
 import SuperAdminShops from './pages/admin/SuperAdminShops'
 import SuperAdminShopOwners from './pages/admin/SuperAdminShopOwners'
-import SuperAdminCustomers from './pages/admin/SuperAdminCustomers'
-import SuperAdminDrones from './pages/admin/SuperAdminDrones'
-import SuperAdminBookings from './pages/admin/SuperAdminBookings'
-import SuperAdminRentals from './pages/admin/SuperAdminRentals'
 import SuperAdminTracking from './pages/admin/SuperAdminTracking'
-import AdminAnalytics from './pages/admin/AdminAnalytics'
 import AdminReports from './pages/admin/AdminReports'
 import SuperAdminDocuments from './pages/admin/SuperAdminDocuments'
 import SuperAdminPayments from './pages/admin/SuperAdminPayments'
@@ -81,13 +69,21 @@ import SuperAdminNotifications from './pages/admin/SuperAdminNotifications'
 import SuperAdminProfile from './pages/admin/SuperAdminProfile'
 import SuperAdminSettings from './pages/admin/SuperAdminSettings'
 
+// Shared management pages (admin sees everything, shop owners see their own fleet)
+import ManageOverview from './pages/manage/ManageOverview'
+import RentalRequests from './pages/manage/RentalRequests'
+import Orders from './pages/manage/Orders'
+import Catalogue from './pages/manage/Catalogue'
+import ManageAnalytics from './pages/manage/ManageAnalytics'
+import Customers from './pages/manage/Customers'
+
 // Layout wrapper component to conditionally hide public Navbar & Footer inside dashboard routes
 function AppLayout() {
   const location = useLocation()
   const isDashboardRoute = location.pathname.startsWith('/user/') || location.pathname.startsWith('/admin/') || location.pathname.startsWith('/owner/') || location.pathname.startsWith('/customer/')
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-emerald-600 selection:text-white">
+    <div className="min-h-screen bg-canvas text-fg flex flex-col">
       
       {/* Top Public Navigation (Hidden on Dashboard routes) */}
       {!isDashboardRoute && <Navbar />}
@@ -127,7 +123,7 @@ function AppLayout() {
                   <Routes>
                     <Route path="dashboard" element={<CustomerOverview />} />
                     <Route path="rentals" element={<CustomerRentals />} />
-                    <Route path="bookings" element={<CustomerBookings />} />
+                    <Route path="bookings" element={<Navigate to="/user/rentals" replace />} />
                     <Route path="tracking" element={<CustomerTracking />} />
                     <Route path="analytics" element={<CustomerAnalytics />} />
                     <Route path="reports" element={<CustomerReports />} />
@@ -151,13 +147,17 @@ function AppLayout() {
               <ProtectedRoute allowedRoles={['shop-owner']}>
                 <ShopOwnerLayout>
                   <Routes>
-                    <Route path="dashboard" element={<ShopOwnerOverview />} />
-                    <Route path="drones" element={<ShopOwnerDrones />} />
-                    <Route path="bookings" element={<ShopOwnerBookings />} />
-                    <Route path="rentals" element={<ShopOwnerRentals />} />
+                    <Route path="dashboard" element={<ManageOverview basePath="/owner" />} />
+                    <Route path="requests" element={<RentalRequests />} />
+                    <Route path="orders" element={<Orders />} />
+                    <Route path="catalogue" element={<Catalogue />} />
+                    <Route path="profile" element={<Navigate to="/owner/shop-profile" replace />} />
+                    <Route path="drones" element={<Navigate to="/owner/catalogue" replace />} />
+                    <Route path="bookings" element={<Navigate to="/owner/requests" replace />} />
+                    <Route path="rentals" element={<Navigate to="/owner/orders" replace />} />
                     <Route path="customers" element={<ShopOwnerCustomers />} />
                     <Route path="tracking" element={<ShopOwnerTracking />} />
-                    <Route path="analytics" element={<OwnerAnalytics />} />
+                    <Route path="analytics" element={<ManageAnalytics />} />
                     <Route path="reports" element={<OwnerReports />} />
                     <Route path="documents" element={<ShopOwnerDocuments />} />
                     <Route path="payments" element={<ShopOwnerPayments />} />
@@ -179,15 +179,18 @@ function AppLayout() {
               <ProtectedRoute allowedRoles={['super-admin']}>
                 <SuperAdminLayout>
                   <Routes>
-                    <Route path="dashboard" element={<SuperAdminOverview />} />
+                    <Route path="dashboard" element={<ManageOverview basePath="/admin" />} />
+                    <Route path="requests" element={<RentalRequests />} />
+                    <Route path="orders" element={<Orders />} />
+                    <Route path="catalogue" element={<Catalogue />} />
                     <Route path="shops" element={<SuperAdminShops />} />
                     <Route path="shop-owners" element={<SuperAdminShopOwners />} />
-                    <Route path="customers" element={<SuperAdminCustomers />} />
-                    <Route path="drones" element={<SuperAdminDrones />} />
-                    <Route path="bookings" element={<SuperAdminBookings />} />
-                    <Route path="rentals" element={<SuperAdminRentals />} />
+                    <Route path="customers" element={<Customers />} />
+                    <Route path="drones" element={<Navigate to="/admin/catalogue" replace />} />
+                    <Route path="bookings" element={<Navigate to="/admin/requests" replace />} />
+                    <Route path="rentals" element={<Navigate to="/admin/orders" replace />} />
                     <Route path="tracking" element={<SuperAdminTracking />} />
-                    <Route path="analytics" element={<AdminAnalytics />} />
+                    <Route path="analytics" element={<ManageAnalytics />} />
                     <Route path="reports" element={<AdminReports />} />
                     <Route path="documents" element={<SuperAdminDocuments />} />
                     <Route path="payments" element={<SuperAdminPayments />} />

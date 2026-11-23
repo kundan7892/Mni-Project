@@ -62,18 +62,18 @@ function SuperAdminOverview() {
     <div className="space-y-8">
       
       {/* 1. WELCOME BANNER */}
-      <div className="relative bg-gradient-to-r from-slate-950 via-slate-900 to-emerald-950 text-white rounded-3xl p-6 sm:p-10 shadow-2xl overflow-hidden">
+      <div className="relative bg-surface text-white rounded-2xl p-6 sm:p-10 shadow-lg overflow-hidden">
         <div className="relative z-10 max-w-2xl space-y-4">
-          <div className="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-300 text-xs font-bold px-3.5 py-1 rounded-full border border-emerald-400/30">
+          <div className="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-300 text-xs font-bold px-3.5 py-1 rounded-full border border-emerald-500/30">
             <Sparkles className="w-4 h-4 text-emerald-400" />
             <span>Platform Master Command Center</span>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
+          <h1 className="text-2xl sm:text-4xl font-semibold tracking-tight text-white">
             DroneHub Super Administration
           </h1>
 
-          <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+          <p className="text-fg-muted text-xs sm:text-sm leading-relaxed">
             Monitor platform-wide revenue, multi-shop storefront clearance, customer growth, live drone dispatches, and unresolved complaints.
           </p>
 
@@ -87,14 +87,14 @@ function SuperAdminOverview() {
             </Link>
             <Link
               to="/admin/reports"
-              className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-5 py-3 rounded-xl text-xs border border-slate-700 transition-colors"
+              className="inline-flex items-center gap-2 bg-surface-2 hover:bg-surface-3 text-fg-muted font-bold px-5 py-3 rounded-xl text-xs border border-line transition-colors"
             >
               <span>View Analytics</span>
             </Link>
           </div>
         </div>
 
-        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-72 h-72 bg-emerald-600/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-72 h-72 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
       </div>
 
       {/* 2. EIGHT PLATFORM STATISTICS CARDS */}
@@ -169,13 +169,13 @@ function SuperAdminOverview() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* PLATFORM REVENUE CHART (7 Cols) */}
-        <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200 p-6 shadow-2xs space-y-4">
+        <div className="lg:col-span-7 bg-surface rounded-2xl border border-line p-6 shadow-2xs space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-bold text-slate-900">Platform Gross Revenue</h3>
-              <p className="text-xs text-slate-500">6-month total rental billing volume</p>
+              <h3 className="text-lg font-bold text-fg">Platform Gross Revenue</h3>
+              <p className="text-xs text-muted">6-month total rental billing volume</p>
             </div>
-            <TrendingUp className="w-5 h-5 text-emerald-600" />
+            <TrendingUp className="w-5 h-5 text-emerald-400" />
           </div>
 
           <div className="h-64 w-full pt-2">
@@ -183,31 +183,31 @@ function SuperAdminOverview() {
               <AreaChart data={platformRevenueData}>
                 <defs>
                   <linearGradient id="adminRevGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#34d399" stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor="#34d399" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="month" tickLine={false} tick={{ fontSize: 11, fill: '#64748b' }} />
-                <YAxis tickLine={false} tick={{ fontSize: 11, fill: '#64748b' }} formatter={(v) => `₹${v/100000}L`} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#26262b" />
+                <XAxis dataKey="month" tickLine={false} tick={{ fontSize: 11, fill: '#9898a2' }} />
+                <YAxis tickLine={false} tick={{ fontSize: 11, fill: '#9898a2' }} formatter={(v) => `₹${v/100000}L`} />
                 <Tooltip
-                  contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', fontSize: '12px' }}
+                  contentStyle={{ borderRadius: '12px', border: '1px solid #26262b', fontSize: '12px' }}
                   formatter={(val) => [`₹${val.toLocaleString('en-IN')}`, 'Gross Revenue']}
                 />
-                <Area type="monotone" dataKey="revenue" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#adminRevGrad)" />
+                <Area type="monotone" dataKey="revenue" stroke="#34d399" strokeWidth={3} fillOpacity={1} fill="url(#adminRevGrad)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* BOOKING STATUS DISTRIBUTION DONUT (5 Cols) */}
-        <div className="lg:col-span-5 bg-white rounded-3xl border border-slate-200 p-6 shadow-2xs space-y-4">
+        <div className="lg:col-span-5 bg-surface rounded-2xl border border-line p-6 shadow-2xs space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-bold text-slate-900">Booking Analytics</h3>
-              <p className="text-xs text-slate-500">Platform status breakdown</p>
+              <h3 className="text-lg font-bold text-fg">Booking Analytics</h3>
+              <p className="text-xs text-muted">Platform status breakdown</p>
             </div>
-            <PieChartIcon className="w-5 h-5 text-purple-600" />
+            <PieChartIcon className="w-5 h-5 text-accent-ink" />
           </div>
 
           <div className="h-64 w-full flex items-center justify-center">
@@ -235,7 +235,7 @@ function SuperAdminOverview() {
             {bookingStatusDistribution.map((item) => (
               <div key={item.name} className="flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
-                <span className="text-slate-700">{item.name}: {item.value}%</span>
+                <span className="text-fg-muted">{item.name}: {item.value}%</span>
               </div>
             ))}
           </div>
@@ -244,24 +244,24 @@ function SuperAdminOverview() {
       </div>
 
       {/* 4. USER GROWTH CHART */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-2xs space-y-4">
+      <div className="bg-surface rounded-2xl border border-line p-6 shadow-2xs space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-bold text-slate-900">User Growth Trends</h3>
-            <p className="text-xs text-slate-500">Customer registrations vs Shop Owner onboarding</p>
+            <h3 className="text-lg font-bold text-fg">User Growth Trends</h3>
+            <p className="text-xs text-muted">Customer registrations vs Shop Owner onboarding</p>
           </div>
-          <Users className="w-5 h-5 text-indigo-600" />
+          <Users className="w-5 h-5 text-accent-ink" />
         </div>
 
         <div className="h-60 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={userGrowthData}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-              <XAxis dataKey="month" tickLine={false} tick={{ fontSize: 11, fill: '#64748b' }} />
-              <YAxis tickLine={false} tick={{ fontSize: 11, fill: '#64748b' }} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#26262b" />
+              <XAxis dataKey="month" tickLine={false} tick={{ fontSize: 11, fill: '#9898a2' }} />
+              <YAxis tickLine={false} tick={{ fontSize: 11, fill: '#9898a2' }} />
               <Tooltip />
-              <Line type="monotone" dataKey="customers" stroke="#6366f1" strokeWidth={3} name="Customers" />
-              <Line type="monotone" dataKey="shopOwners" stroke="#10b981" strokeWidth={3} name="Shop Owners" />
+              <Line type="monotone" dataKey="customers" stroke="#8b8ce8" strokeWidth={3} name="Customers" />
+              <Line type="monotone" dataKey="shopOwners" stroke="#34d399" strokeWidth={3} name="Shop Owners" />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -271,42 +271,42 @@ function SuperAdminOverview() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* ADMIN ACTION ALERTS (6 Cols) */}
-        <div className="lg:col-span-6 bg-slate-900 text-white rounded-3xl p-6 shadow-xl space-y-4">
+        <div className="lg:col-span-6 bg-surface text-white rounded-2xl p-6 shadow-lg space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold text-white flex items-center gap-2">
               <AlertCircle className="w-5 h-5 text-amber-400" />
               <span>Pending Action Desk</span>
             </h3>
-            <span className="bg-amber-500/20 text-amber-300 text-xs font-bold px-2.5 py-0.5 rounded-full border border-amber-400/30">
+            <span className="bg-amber-500/20 text-amber-300 text-xs font-bold px-2.5 py-0.5 rounded-full border border-amber-500/30">
               Requires Review
             </span>
           </div>
 
           <div className="space-y-3 text-xs">
-            <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 flex items-center justify-between gap-3">
+            <div className="bg-surface-2/80 p-4 rounded-2xl border border-line flex items-center justify-between gap-3">
               <div>
                 <div className="font-bold text-white">Pending Shop Approvals</div>
-                <div className="text-slate-400">5 new drone shops waiting for storefront verification clearance.</div>
+                <div className="text-subtle">5 new drone shops waiting for storefront verification clearance.</div>
               </div>
               <Link to="/admin/shops" className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-2 rounded-xl shrink-0">
                 Review
               </Link>
             </div>
 
-            <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 flex items-center justify-between gap-3">
+            <div className="bg-surface-2/80 p-4 rounded-2xl border border-line flex items-center justify-between gap-3">
               <div>
                 <div className="font-bold text-white">Pending Compliance Documents</div>
-                <div className="text-slate-400">12 trade licenses and pilot certificates require approval.</div>
+                <div className="text-subtle">12 trade licenses and pilot certificates require approval.</div>
               </div>
-              <Link to="/admin/documents" className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3.5 py-2 rounded-xl shrink-0">
+              <Link to="/admin/documents" className="bg-accent hover:bg-accent text-white font-bold px-3.5 py-2 rounded-xl shrink-0">
                 Inspect
               </Link>
             </div>
 
-            <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 flex items-center justify-between gap-3">
+            <div className="bg-surface-2/80 p-4 rounded-2xl border border-line flex items-center justify-between gap-3">
               <div>
                 <div className="font-bold text-white">Unresolved Customer Complaints</div>
-                <div className="text-slate-400">3 support tickets flagged for admin escalation.</div>
+                <div className="text-subtle">3 support tickets flagged for admin escalation.</div>
               </div>
               <Link to="/admin/complaints" className="bg-rose-600 hover:bg-rose-500 text-white font-bold px-3.5 py-2 rounded-xl shrink-0">
                 Resolve
@@ -316,20 +316,20 @@ function SuperAdminOverview() {
         </div>
 
         {/* PLATFORM ACTIVITY TIMELINE (6 Cols) */}
-        <div className="lg:col-span-6 bg-white rounded-3xl border border-slate-200 p-6 shadow-2xs space-y-4">
-          <h3 className="text-lg font-bold text-slate-900">
+        <div className="lg:col-span-6 bg-surface rounded-2xl border border-line p-6 shadow-2xs space-y-4">
+          <h3 className="text-lg font-bold text-fg">
             Recent Platform Activity Audit Log
           </h3>
 
-          <div className="space-y-4 relative pl-4 border-l-2 border-slate-200 ml-2">
+          <div className="space-y-4 relative pl-4 border-l-2 border-line ml-2">
             {adminActivities.map((act) => (
               <div key={act.id} className="relative pl-6 space-y-1">
                 <span className="absolute -left-[25px] top-1.5 w-3 h-3 rounded-full bg-emerald-600 ring-4 ring-white" />
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-slate-900 text-sm">{act.title}</span>
-                  <span className="text-slate-400 font-medium">{act.time}</span>
+                  <span className="font-bold text-fg text-sm">{act.title}</span>
+                  <span className="text-subtle font-medium">{act.time}</span>
                 </div>
-                <p className="text-xs text-slate-600">{act.desc}</p>
+                <p className="text-xs text-muted">{act.desc}</p>
               </div>
             ))}
           </div>

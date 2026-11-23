@@ -42,16 +42,16 @@ function AdminReports() {
       date: "Updated Today",
       headers: ["Rank", "Shop Name", "City", "Fleet Drones", "Registered Customers", "Total Bookings", "Gross Revenue", "Rating"],
       rows: [
-        { "Rank": "🥇 #1", "Shop Name": "SkyRent Bengaluru", "City": "Bengaluru, KA", "Fleet Drones": 24, "Registered Customers": 142, "Total Bookings": 184, "Gross Revenue": "₹18,45,000", "Rating": "4.9 ★" },
-        { "Rank": "🥈 #2", "Shop Name": "AeroTech Mumbai", "City": "Mumbai, MH", "Fleet Drones": 18, "Registered Customers": 118, "Total Bookings": 142, "Gross Revenue": "₹14,20,000", "Rating": "4.8 ★" },
-        { "Rank": "🥉 #3", "Shop Name": "GeoSpatial Fleet Delhi", "City": "New Delhi, DL", "Fleet Drones": 15, "Registered Customers": 94, "Total Bookings": 98, "Gross Revenue": "₹9,80,000", "Rating": "4.6 ★" },
-        { "Rank": "#4", "Shop Name": "SkyFleet Hyderabad", "City": "Hyderabad, TS", "Fleet Drones": 12, "Registered Customers": 76, "Total Bookings": 82, "Gross Revenue": "₹7,80,000", "Rating": "4.5 ★" }
+        { "Rank": "#1", "Shop Name": "SkyRent Bengaluru", "City": "Bengaluru, KA", "Fleet Drones": 24, "Registered Customers": 142, "Total Bookings": 184, "Gross Revenue": "₹18,45,000", "Rating": "4.9 " },
+        { "Rank": "#2", "Shop Name": "AeroTech Mumbai", "City": "Mumbai, MH", "Fleet Drones": 18, "Registered Customers": 118, "Total Bookings": 142, "Gross Revenue": "₹14,20,000", "Rating": "4.8 " },
+        { "Rank": "#3", "Shop Name": "GeoSpatial Fleet Delhi", "City": "New Delhi, DL", "Fleet Drones": 15, "Registered Customers": 94, "Total Bookings": 98, "Gross Revenue": "₹9,80,000", "Rating": "4.6 " },
+        { "Rank": "#4", "Shop Name": "SkyFleet Hyderabad", "City": "Hyderabad, TS", "Fleet Drones": 12, "Registered Customers": 76, "Total Bookings": 82, "Gross Revenue": "₹7,80,000", "Rating": "4.5 " }
       ],
       summaryCards: [
         { label: "Active Partner Shops", value: "24 Stores", sub: "Nationwide" },
         { label: "Top Shop Revenue", value: "₹18,45,000", sub: "SkyRent Bengaluru" },
         { label: "Avg Fleet / Shop", value: "16 Drones", sub: "Inventory size" },
-        { label: "Platform Rating", value: "4.8 ★★★★★", sub: "Avg store rating" }
+        { label: "Platform Rating", value: "4.8 / 5", sub: "Avg store rating" }
       ]
     },
     {
@@ -109,17 +109,17 @@ function AdminReports() {
     <div className="space-y-6 max-w-7xl mx-auto">
       
       {/* HEADER */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-2xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface p-6 rounded-2xl border border-line shadow-2xs">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-semibold text-fg tracking-tight">
               Platform Executive Reports
             </h1>
-            <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 uppercase">
+            <span className="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/25 uppercase">
               System Wide Audits
             </span>
           </div>
-          <p className="text-slate-500 text-xs sm:text-sm mt-1">
+          <p className="text-muted text-xs sm:text-sm mt-1">
             Generate, preview, and download nationwide revenue statements, store rankings, customer acquisition logs, and drone fleet audits.
           </p>
         </div>
@@ -127,7 +127,7 @@ function AdminReports() {
         <button
           type="button"
           onClick={() => setIsGeneratorOpen(true)}
-          className="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md cursor-pointer shrink-0 self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md cursor-pointer shrink-0 self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>Generate New Report</span>

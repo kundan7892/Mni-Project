@@ -79,14 +79,6 @@ function AdminAnalytics() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       
-      {/* SECURITY NOTICE BANNER */}
-      <div className="bg-slate-900 text-emerald-300 p-3 rounded-2xl border border-slate-800 text-[11px] font-mono flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-          <span>👑 <strong>SUPER ADMIN COMMAND CENTER:</strong> Nationwide platform telemetry and revenue analytics.</span>
-        </div>
-        <span className="text-slate-400 hidden sm:inline">All Partner Shops Active</span>
-      </div>
 
       {/* HEADER */}
       <AnalyticsHeader

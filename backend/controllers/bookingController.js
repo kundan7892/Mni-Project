@@ -2,11 +2,104 @@ import mongoose from 'mongoose';
 import Booking from '../models/Booking.js';
 import Drone from '../models/Drone.js';
 import { sendSuccess, sendError } from '../utils/apiResponse.js';
+import { calculateQuote } from '../utils/pricing.js';
+
+const BLOCKING_STATUSES = ['approved', 'confirmed', 'active'];
+
+const isAdminRole = (role) => role === 'admin' || role === 'super-admin';
+const isOwnerRole = (role) => role === 'owner' || role === 'shop-owner';
+
+/**
+ * Allowed booking lifecycle transitions:
+ * pending -> approved | rejected | cancelled
+ * approved -> active (handed over) | cancelled
+ * active -> completed (returned)
+ */
+const TRANSITIONS = {
+  pending: ['approved', 'rejected', 'cancelled'],
+  approved: ['active', 'cancelled'],
+  confirmed: ['active', 'cancelled'],
+  active: ['completed'],
+  completed: [],
+  rejected: [],
+  cancelled: []
+};
+
+const findBooking = (id) =>
+  mongoose.Types.ObjectId.isValid(id)
+    ? Booking.findById(id)
+    : Booking.findOne({ bookingNumber: id });
+
+const populateBooking = (query) =>
+  query
+    .populate('customerId', 'name email phone profileImage')
+    .populate(
+      'droneId',
+      'name brand model image images pricePerHour pricePerDay category specifications status batteryLevel location'
+    )
+    .populate('ownerId', 'name email phone');
+
+const findConflict = (droneId, start, end, excludeId) =>
+  Booking.findOne({
+    ...(excludeId && { _id: { $ne: excludeId } }),
+    droneId,
+    bookingStatus: { $in: BLOCKING_STATUSES },
+    startDate: { $lt: end },
+    endDate: { $gt: start }
+  });
+
+const formatDay = (date) => new Date(date).toISOString().split('T')[0];
+
+const parseRange = (startDate, endDate) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+    return { error: 'Invalid start or end date format.' };
+  }
+  if (end <= start) {
+    return { error: 'Rental end date must be after the start date.' };
+  }
+  // Allow bookings that start "today" in any timezone
+  if (start < new Date(Date.now() - 24 * 60 * 60 * 1000)) {
+    return { error: 'Booking start date cannot be in the past.' };
+  }
+  return { start, end };
+};
+
+/**
+ * @route   POST /api/bookings/quote
+ * @desc    Price a rental and check availability without creating it
+ * @access  Private
+ */
+export const quoteBooking = async (req, res, next) => {
+  try {
+    const { droneId, startDate, endDate, selectedAddons = [] } = req.body;
+    const range = parseRange(startDate, endDate);
+    if (range.error) return sendError(res, { statusCode: 400, message: range.error });
+
+    const drone = await Drone.findById(droneId);
+    if (!drone) return sendError(res, { statusCode: 404, message: 'Drone not found.' });
+
+    const conflict = await findConflict(drone._id, range.start, range.end);
+    return sendSuccess(res, {
+      message: 'Quote calculated.',
+      data: {
+        quote: calculateQuote(drone, range.start, range.end, selectedAddons),
+        available: !conflict,
+        conflict: conflict
+          ? { startDate: conflict.startDate, endDate: conflict.endDate }
+          : null
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 /**
  * @route   POST /api/bookings
- * @desc    Create a new drone rental reservation
- * @access  Private (Customer or Admin)
+ * @desc    Submit a rental request (starts as "pending" until approved)
+ * @access  Private
  */
 export const createBooking = async (req, res, next) => {
   try {
@@ -16,132 +109,80 @@ export const createBooking = async (req, res, next) => {
       endDate,
       selectedAddons = [],
       customerInfo = {},
+      documents = [],
       notes = ''
     } = req.body;
 
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const now = new Date();
+    const range = parseRange(startDate, endDate);
+    if (range.error) return sendError(res, { statusCode: 400, message: range.error });
+    const { start, end } = range;
 
-    // 1. Validate Date Chronology & Bounds
-    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-      return sendError(res, {
-        statusCode: 400,
-        message: 'Invalid start or end date format.'
-      });
-    }
-
-    if (end <= start) {
-      return sendError(res, {
-        statusCode: 400,
-        message: 'Rental end date must be strictly after the start date.'
-      });
-    }
-
-    // Allow a 10-minute grace window for clock drift
-    const tenMinutesAgo = new Date(now.getTime() - 10 * 60 * 1000);
-    if (start < tenMinutesAgo) {
-      return sendError(res, {
-        statusCode: 400,
-        message: 'Booking start date cannot be set in the past.'
-      });
-    }
-
-    // 2. Fetch Drone & Verify Existence & Operational Status
     const drone = await Drone.findById(droneId);
-    if (!drone) {
-      return sendError(res, {
-        statusCode: 404,
-        message: 'The requested drone was not found.'
-      });
+    if (!drone || drone.isListed === false) {
+      return sendError(res, { statusCode: 404, message: 'The requested drone was not found.' });
     }
-
-    if (drone.status === 'maintenance') {
+    if (drone.status === 'maintenance' || drone.status === 'offline') {
       return sendError(res, {
         statusCode: 400,
-        message: `Drone '${drone.name}' is currently scheduled for maintenance and cannot be reserved.`
+        message: `${drone.name} is currently ${drone.status} and cannot be reserved.`
       });
     }
 
-    if (drone.status === 'offline') {
-      return sendError(res, {
-        statusCode: 400,
-        message: `Drone '${drone.name}' is currently offline and unavailable for booking.`
-      });
-    }
-
-    // 3. Database Consistency Check: Prevent Overlapping Bookings for the Same Drone
-    const overlappingBooking = await Booking.findOne({
-      droneId: drone._id,
-      bookingStatus: { $in: ['approved', 'active', 'confirmed'] },
-      $or: [
-        { startDate: { $lt: end }, endDate: { $gt: start } }
-      ]
-    });
-
-    if (overlappingBooking) {
-      const bookedStart = overlappingBooking.startDate.toISOString().split('T')[0];
-      const bookedEnd = overlappingBooking.endDate.toISOString().split('T')[0];
+    const conflict = await findConflict(drone._id, start, end);
+    if (conflict) {
       return sendError(res, {
         statusCode: 409,
-        message: `This drone is already booked from ${bookedStart} to ${bookedEnd}. Please select alternative dates or another drone.`
+        message: `${drone.name} is already booked from ${formatDay(conflict.startDate)} to ${formatDay(conflict.endDate)}. Please choose other dates.`
       });
     }
 
-    // 4. Calculate Rental Duration & Pricing
-    const diffMs = end.getTime() - start.getTime();
-    const durationHours = Math.max(1, Math.ceil(diffMs / (1000 * 60 * 60)));
-    const durationDays = Math.max(1, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+    const quote = calculateQuote(drone, start, end, selectedAddons);
 
-    // Calculate base cost: use daily rate if >= 24 hours, else hourly
-    let baseRentalCost = 0;
-    if (durationHours < 24 && drone.pricePerHour > 0) {
-      baseRentalCost = durationHours * drone.pricePerHour;
-    } else {
-      baseRentalCost = durationDays * drone.pricePerDay;
-    }
+    const cleanDocuments = (Array.isArray(documents) ? documents : [])
+      .filter((d) => d && typeof d.url === 'string')
+      .slice(0, 8)
+      .map((d) => ({ type: String(d.type || 'document'), name: String(d.name || ''), url: d.url }));
 
-    // Calculate add-on cost
-    const addonsCost = (selectedAddons?.length || 0) * 500;
-    const totalPrice = baseRentalCost + addonsCost;
-    const securityDeposit = drone.securityDeposit || 5000;
+    const info = {
+      fullName: customerInfo.fullName || req.user.name,
+      email: customerInfo.email || req.user.email,
+      phone: customerInfo.phone || req.user.phone || '',
+      address: customerInfo.address || '',
+      city: customerInfo.city || '',
+      state: customerInfo.state || '',
+      pinCode: customerInfo.pinCode || '',
+      purpose: customerInfo.purpose || '',
+      experience: customerInfo.experience || ''
+    };
 
-    // 5. Create Booking Document in MongoDB
     const booking = await Booking.create({
       customerId: req.user._id,
-      customerName: customerInfo.fullName || req.user.name,
-      customerEmail: customerInfo.email || req.user.email,
-      customerPhone: customerInfo.phone || req.user.phone || '',
+      customerName: info.fullName,
+      customerEmail: info.email,
+      customerPhone: info.phone,
       droneId: drone._id,
       droneName: drone.name,
       ownerId: drone.ownerId,
-      shopName: drone.shopName || 'SkyRent Bengaluru',
+      shopName: drone.shopName,
       startDate: start,
       endDate: end,
-      durationHours,
-      durationDays,
-      totalPrice,
-      securityDeposit,
-      selectedAddons,
-      customerInfo: {
-        fullName: customerInfo.fullName || req.user.name,
-        email: customerInfo.email || req.user.email,
-        phone: customerInfo.phone || req.user.phone || '',
-        address: customerInfo.address || '',
-        city: customerInfo.city || '',
-        state: customerInfo.state || '',
-        pinCode: customerInfo.pinCode || '',
-        purpose: customerInfo.purpose || 'Aerial Photography',
-        experience: customerInfo.experience || 'Intermediate'
-      },
+      durationHours: quote.durationHours,
+      durationDays: quote.durationDays,
+      totalPrice: quote.totalPrice,
+      addonsTotal: quote.addonsTotal,
+      securityDeposit: quote.securityDeposit,
+      selectedAddons: quote.selectedAddons,
+      customerInfo: info,
+      documents: cleanDocuments,
       bookingStatus: 'pending',
       paymentStatus: 'pending',
-      notes
+      notes,
+      statusHistory: [{ status: 'pending', by: req.user.name, note: 'Request submitted' }]
     });
 
     return sendSuccess(res, {
       statusCode: 201,
-      message: 'Drone booking request submitted successfully. Awaiting shop owner approval.',
+      message: 'Rental request submitted. You will be notified once it is approved.',
       data: { booking }
     });
   } catch (error) {
@@ -151,79 +192,82 @@ export const createBooking = async (req, res, next) => {
 
 /**
  * @route   GET /api/bookings
- * @desc    Get bookings scoped by role (Customer sees own, Owner sees own drones, Admin sees all)
- * @access  Private (Authenticated)
+ * @desc    Bookings scoped by role (customer: own, owner: own fleet, admin: all)
+ * @access  Private
  */
 export const getBookings = async (req, res, next) => {
   try {
-    const { status, search, page = 1, limit = 20, droneId } = req.query;
+    const { status, search, page = 1, limit = 20, droneId, paymentStatus } = req.query;
     const userRole = req.user.role;
     const query = {};
 
-    // 1. Enforce Strict Multi-Tenant Scoping by Authenticated Identity
     if (userRole === 'customer') {
       query.customerId = req.user._id;
-    } else if (userRole === 'owner' || userRole === 'shop-owner') {
+    } else if (isOwnerRole(userRole)) {
       query.ownerId = req.user._id;
-    } else if (userRole === 'admin' || userRole === 'super-admin') {
-      // Admins can see all, with optional owner/customer query filter
-      if (req.query.customerId && mongoose.Types.ObjectId.isValid(req.query.customerId)) {
-        query.customerId = req.query.customerId;
+    } else if (isAdminRole(userRole)) {
+      if (mongoose.Types.ObjectId.isValid(req.query.customerId)) {
+        query.customerId = new mongoose.Types.ObjectId(req.query.customerId);
       }
-      if (req.query.ownerId && mongoose.Types.ObjectId.isValid(req.query.ownerId)) {
-        query.ownerId = req.query.ownerId;
+      if (mongoose.Types.ObjectId.isValid(req.query.ownerId)) {
+        query.ownerId = new mongoose.Types.ObjectId(req.query.ownerId);
       }
     }
 
-    // 2. Drone filter
     if (droneId && mongoose.Types.ObjectId.isValid(droneId)) {
-      query.droneId = droneId;
+      query.droneId = new mongoose.Types.ObjectId(droneId);
     }
 
-    // 3. Status filter
+    // Status tab counts ignore the status filter itself
+    const countQuery = { ...query };
+
     if (status && status !== 'All' && status !== 'all') {
-      query.bookingStatus = status.trim().toLowerCase();
+      const statuses = String(status)
+        .split(',')
+        .map((s) => s.trim().toLowerCase())
+        .filter(Boolean);
+      query.bookingStatus = statuses.length > 1 ? { $in: statuses } : statuses[0];
     }
 
-    // 4. Text search filter
+    if (paymentStatus && paymentStatus !== 'all') query.paymentStatus = paymentStatus.toLowerCase();
+
     if (search && search.trim()) {
-      const searchRegex = new RegExp(search.trim(), 'i');
+      const escaped = search.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const searchRegex = new RegExp(escaped, 'i');
       query.$or = [
         { bookingNumber: searchRegex },
         { customerName: searchRegex },
+        { customerEmail: searchRegex },
         { droneName: searchRegex },
         { shopName: searchRegex }
       ];
     }
 
-    // 5. Pagination
     const pageNum = Math.max(1, parseInt(page, 10) || 1);
-    const limitNum = Math.min(100, Math.max(1, parseInt(limit, 10) || 20));
-    const skip = (pageNum - 1) * limitNum;
+    const limitNum = Math.min(200, Math.max(1, parseInt(limit, 10) || 20));
 
-    const total = await Booking.countDocuments(query);
-    const bookings = await Booking.find(query)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limitNum)
-      .populate('customerId', 'name email phone avatar')
-      .populate('droneId', 'name brand model image pricePerHour pricePerDay category specifications status')
-      .populate('ownerId', 'name email phone');
+    const [total, bookings, statusCounts] = await Promise.all([
+      Booking.countDocuments(query),
+      populateBooking(
+        Booking.find(query)
+          .sort({ createdAt: -1 })
+          .skip((pageNum - 1) * limitNum)
+          .limit(limitNum)
+      ),
+      Booking.aggregate([
+        { $match: countQuery },
+        { $group: { _id: '$bookingStatus', count: { $sum: 1 } } }
+      ])
+    ]);
 
     const totalPages = Math.ceil(total / limitNum);
 
     return sendSuccess(res, {
-      statusCode: 200,
       message: 'Bookings retrieved successfully.',
       data: {
         bookings,
-        pagination: {
-          total,
-          page: pageNum,
-          limit: limitNum,
-          totalPages,
-          hasMore: pageNum < totalPages
-        }
+        counts: Object.fromEntries(statusCounts.map((c) => [c._id, c.count])),
+        pagination: { total, page: pageNum, limit: limitNum, totalPages, hasMore: pageNum < totalPages }
       }
     });
   } catch (error) {
@@ -231,54 +275,29 @@ export const getBookings = async (req, res, next) => {
   }
 };
 
+const canManage = (booking, user) =>
+  isAdminRole(user.role) || booking.ownerId?.toString() === user._id.toString();
+
 /**
  * @route   GET /api/bookings/:id
- * @desc    Get detailed booking record by ID or bookingNumber
- * @access  Private (Authenticated Customer/Owner/Admin with ownership check)
+ * @access  Private (customer who booked, owning shop, or admin)
  */
 export const getBookingById = async (req, res, next) => {
   try {
-    const { id } = req.params;
-
-    let booking;
-    if (mongoose.Types.ObjectId.isValid(id)) {
-      booking = await Booking.findById(id)
-        .populate('customerId', 'name email phone avatar')
-        .populate('droneId', 'name brand model image pricePerHour pricePerDay specifications status batteryLevel')
-        .populate('ownerId', 'name email phone');
-    } else {
-      // Lookup by readable booking number (e.g. "DRN-8492")
-      booking = await Booking.findOne({ bookingNumber: id })
-        .populate('customerId', 'name email phone avatar')
-        .populate('droneId', 'name brand model image pricePerHour pricePerDay specifications status batteryLevel')
-        .populate('ownerId', 'name email phone');
-    }
-
+    const booking = await populateBooking(findBooking(req.params.id));
     if (!booking) {
-      return sendError(res, {
-        statusCode: 404,
-        message: `Booking not found with reference '${id}'.`
-      });
+      return sendError(res, { statusCode: 404, message: `Booking '${req.params.id}' not found.` });
     }
 
-    // SECURITY CHECK: Verify access rights
     const userId = req.user._id.toString();
-    const isCustomer = booking.customerId?._id?.toString() === userId || booking.customerId?.toString() === userId;
-    const isOwner = booking.ownerId?._id?.toString() === userId || booking.ownerId?.toString() === userId;
-    const isAdmin = req.user.role === 'admin' || req.user.role === 'super-admin';
+    const isCustomer = (booking.customerId?._id || booking.customerId)?.toString() === userId;
+    const isOwner = (booking.ownerId?._id || booking.ownerId)?.toString() === userId;
 
-    if (!isCustomer && !isOwner && !isAdmin) {
-      return sendError(res, {
-        statusCode: 403,
-        message: 'Forbidden: You do not have authorization to view this booking.'
-      });
+    if (!isCustomer && !isOwner && !isAdminRole(req.user.role)) {
+      return sendError(res, { statusCode: 403, message: 'You do not have access to this booking.' });
     }
 
-    return sendSuccess(res, {
-      statusCode: 200,
-      message: 'Booking details retrieved successfully.',
-      data: { booking }
-    });
+    return sendSuccess(res, { message: 'Booking retrieved.', data: { booking } });
   } catch (error) {
     next(error);
   }
@@ -286,93 +305,112 @@ export const getBookingById = async (req, res, next) => {
 
 /**
  * @route   PATCH /api/bookings/:id/status
- * @desc    Approve, reject, or update booking status (Shop Owner or Admin)
+ * @desc    Move a booking through its lifecycle (owner of the drone or admin)
  * @access  Private (Shop Owner or Admin)
  */
 export const updateBookingStatus = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const { status, rejectionReason } = req.body;
+    const { status, rejectionReason, note } = req.body;
+    let nextStatus = String(status).trim().toLowerCase();
+    if (nextStatus === 'confirmed') nextStatus = 'approved';
 
-    const normalizedStatus = status.trim().toLowerCase();
+    const booking = await findBooking(req.params.id);
+    if (!booking) return sendError(res, { statusCode: 404, message: 'Booking not found.' });
 
-    const booking = mongoose.Types.ObjectId.isValid(id)
-      ? await Booking.findById(id)
-      : await Booking.findOne({ bookingNumber: id });
-    if (!booking) {
-      return sendError(res, {
-        statusCode: 404,
-        message: 'Booking not found.'
-      });
-    }
-
-    // SECURITY: Ensure owner owns the drone or is admin
-    const isOwner = booking.ownerId.toString() === req.user._id.toString();
-    const isAdmin = req.user.role === 'admin' || req.user.role === 'super-admin';
-
-    if (!isOwner && !isAdmin) {
+    if (!canManage(booking, req.user)) {
       return sendError(res, {
         statusCode: 403,
-        message: 'Forbidden: You can only manage bookings for your own shop fleet.'
+        message: 'You can only manage bookings for your own fleet.'
       });
     }
 
-    // STATE MACHINE VALIDATION
-    if (booking.bookingStatus === 'cancelled') {
+    const allowed = TRANSITIONS[booking.bookingStatus] || [];
+    if (!allowed.includes(nextStatus)) {
       return sendError(res, {
         statusCode: 400,
-        message: 'Cannot update the status of a cancelled booking.'
+        message: `A ${booking.bookingStatus} booking cannot be changed to ${nextStatus}.`
       });
     }
 
-    if (booking.bookingStatus === 'completed') {
-      return sendError(res, {
-        statusCode: 400,
-        message: 'Cannot update the status of an already completed booking.'
-      });
-    }
-
-    // If approving, re-check for double-booking conflicts
-    if (normalizedStatus === 'approved' || normalizedStatus === 'confirmed') {
-      const conflict = await Booking.findOne({
-        _id: { $ne: booking._id },
-        droneId: booking.droneId,
-        bookingStatus: { $in: ['approved', 'active', 'confirmed'] },
-        startDate: { $lt: booking.endDate },
-        endDate: { $gt: booking.startDate }
-      });
-
+    if (nextStatus === 'approved') {
+      const conflict = await findConflict(booking.droneId, booking.startDate, booking.endDate, booking._id);
       if (conflict) {
         return sendError(res, {
           statusCode: 409,
-          message: `Cannot approve: Drone has a conflicting approved booking (#${conflict.bookingNumber}) for these dates.`
+          message: `Cannot approve: it overlaps approved booking #${conflict.bookingNumber}.`
         });
       }
-
-      booking.bookingStatus = 'approved';
-    } else if (normalizedStatus === 'rejected') {
-      booking.bookingStatus = 'rejected';
-      if (rejectionReason) {
-        booking.rejectionReason = rejectionReason;
-      }
-    } else if (normalizedStatus === 'active') {
-      booking.bookingStatus = 'active';
-      // Mark drone as rented in fleet
-      await Drone.findByIdAndUpdate(booking.droneId, { status: 'rented' });
-    } else if (normalizedStatus === 'completed') {
-      booking.bookingStatus = 'completed';
-      // Release drone back to available in fleet
-      await Drone.findByIdAndUpdate(booking.droneId, { status: 'available' });
-    } else {
-      booking.bookingStatus = normalizedStatus;
     }
 
+    if (nextStatus === 'rejected') {
+      booking.rejectionReason = rejectionReason || note || '';
+    }
+
+    if (nextStatus === 'cancelled') {
+      booking.cancellationReason = note || 'Cancelled by shop';
+      if (booking.paymentStatus === 'paid') booking.paymentStatus = 'refunded';
+    }
+
+    if (nextStatus === 'active') {
+      await Drone.findByIdAndUpdate(booking.droneId, { status: 'rented', availability: 'Rented' });
+    }
+
+    if (nextStatus === 'completed') {
+      const otherActive = await Booking.exists({
+        _id: { $ne: booking._id },
+        droneId: booking.droneId,
+        bookingStatus: 'active'
+      });
+      if (!otherActive) {
+        await Drone.findOneAndUpdate(
+          { _id: booking.droneId, status: 'rented' },
+          { status: 'available', availability: 'Available' }
+        );
+      }
+      if (booking.paymentStatus === 'pending') booking.paymentStatus = 'paid';
+    }
+
+    booking.bookingStatus = nextStatus;
+    booking.statusHistory.push({
+      status: nextStatus,
+      by: req.user.name,
+      note: rejectionReason || note || ''
+    });
     await booking.save();
 
     return sendSuccess(res, {
-      statusCode: 200,
-      message: `Booking #${booking.bookingNumber} status updated to '${booking.bookingStatus}'.`,
-      data: { booking }
+      message: `Booking #${booking.bookingNumber} is now ${nextStatus}.`,
+      data: { booking: await populateBooking(Booking.findById(booking._id)) }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @route   PATCH /api/bookings/:id/payment
+ * @desc    Record payment state (owner of the drone or admin)
+ */
+export const updatePaymentStatus = async (req, res, next) => {
+  try {
+    const paymentStatus = String(req.body.paymentStatus || '').toLowerCase();
+    if (!['pending', 'paid', 'refunded', 'failed'].includes(paymentStatus)) {
+      return sendError(res, { statusCode: 400, message: 'Invalid payment status.' });
+    }
+
+    const booking = await findBooking(req.params.id);
+    if (!booking) return sendError(res, { statusCode: 404, message: 'Booking not found.' });
+    if (!canManage(booking, req.user)) {
+      return sendError(res, { statusCode: 403, message: 'You cannot manage this booking.' });
+    }
+
+    booking.paymentStatus = paymentStatus;
+    booking.statusHistory.push({ status: booking.bookingStatus, by: req.user.name, note: `Payment marked ${paymentStatus}` });
+    await booking.save();
+
+    return sendSuccess(res, {
+      message: `Payment marked as ${paymentStatus}.`,
+      data: { booking: await populateBooking(Booking.findById(booking._id)) }
     });
   } catch (error) {
     next(error);
@@ -381,71 +419,38 @@ export const updateBookingStatus = async (req, res, next) => {
 
 /**
  * @route   PATCH /api/bookings/:id/cancel
- * @desc    Cancel an eligible booking
- * @access  Private (Customer who booked it, Shop Owner, or Admin)
+ * @desc    Customer (or shop/admin) cancels a booking that has not started
  */
 export const cancelBooking = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const { reason = 'Cancelled by user' } = req.body;
+    const { reason = 'Cancelled by customer' } = req.body;
+    const booking = await findBooking(req.params.id);
+    if (!booking) return sendError(res, { statusCode: 404, message: 'Booking not found.' });
 
-    const booking = mongoose.Types.ObjectId.isValid(id)
-      ? await Booking.findById(id)
-      : await Booking.findOne({ bookingNumber: id });
-    if (!booking) {
-      return sendError(res, {
-        statusCode: 404,
-        message: 'Booking not found.'
-      });
+    const isCustomer = booking.customerId.toString() === req.user._id.toString();
+    if (!isCustomer && !canManage(booking, req.user)) {
+      return sendError(res, { statusCode: 403, message: 'You cannot cancel this booking.' });
     }
 
-    // SECURITY CHECK: Must be customer who made it, shop owner, or admin
-    const userId = req.user._id.toString();
-    const isCustomer = booking.customerId.toString() === userId;
-    const isOwner = booking.ownerId.toString() === userId;
-    const isAdmin = req.user.role === 'admin' || req.user.role === 'super-admin';
-
-    if (!isCustomer && !isOwner && !isAdmin) {
-      return sendError(res, {
-        statusCode: 403,
-        message: 'Forbidden: You do not have permission to cancel this booking.'
-      });
-    }
-
-    // ELIGIBILITY CHECK
-    if (booking.bookingStatus === 'cancelled') {
+    if (!['pending', 'approved', 'confirmed'].includes(booking.bookingStatus)) {
       return sendError(res, {
         statusCode: 400,
-        message: 'Booking is already cancelled.'
+        message:
+          booking.bookingStatus === 'active'
+            ? 'This rental is in progress and cannot be cancelled. Please contact the shop.'
+            : `A ${booking.bookingStatus} booking cannot be cancelled.`
       });
     }
 
-    if (booking.bookingStatus === 'completed') {
-      return sendError(res, {
-        statusCode: 400,
-        message: 'Completed bookings cannot be cancelled.'
-      });
-    }
-
-    if (booking.bookingStatus === 'active') {
-      return sendError(res, {
-        statusCode: 400,
-        message: 'Cannot cancel an active rental in progress. Please contact the shop owner for return procedures.'
-      });
-    }
-
-    // Update booking status
     booking.bookingStatus = 'cancelled';
     booking.cancellationReason = reason;
+    if (booking.paymentStatus === 'paid') booking.paymentStatus = 'refunded';
+    booking.statusHistory.push({ status: 'cancelled', by: req.user.name, note: reason });
     await booking.save();
 
-    // Release drone if it was reserved
-    await Drone.findByIdAndUpdate(booking.droneId, { status: 'available' });
-
     return sendSuccess(res, {
-      statusCode: 200,
-      message: `Booking #${booking.bookingNumber} cancelled successfully.`,
-      data: { booking }
+      message: `Booking #${booking.bookingNumber} cancelled.`,
+      data: { booking: await populateBooking(Booking.findById(booking._id)) }
     });
   } catch (error) {
     next(error);

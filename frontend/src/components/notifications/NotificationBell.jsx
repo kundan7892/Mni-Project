@@ -44,7 +44,7 @@ function NotificationBell({ role = 'customer', userId = 3, shopId = 101, viewAll
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-slate-700 transition-colors cursor-pointer"
+        className="relative p-2.5 rounded-xl bg-surface-2 hover:bg-surface-3 text-fg-muted transition-colors cursor-pointer"
         aria-label="Open notifications menu"
         title="Notifications"
       >

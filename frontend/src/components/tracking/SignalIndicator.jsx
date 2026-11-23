@@ -19,10 +19,10 @@ function SignalIndicator({ signal = 100, showLabel = true }) {
   }
 
   const getColor = () => {
-    if (isOffline) return 'text-rose-600'
-    if (isWeak) return 'text-amber-600'
-    if (isFair) return 'text-blue-600'
-    return 'text-emerald-600'
+    if (isOffline) return 'text-rose-400'
+    if (isWeak) return 'text-amber-400'
+    if (isFair) return 'text-accent-ink'
+    return 'text-emerald-400'
   }
 
   return (
@@ -30,18 +30,18 @@ function SignalIndicator({ signal = 100, showLabel = true }) {
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-1.5 font-bold">
           {isOffline ? (
-            <WifiOff className="w-4 h-4 text-rose-600 animate-pulse" />
+            <WifiOff className="w-4 h-4 text-rose-400 animate-pulse" />
           ) : (
             <Wifi className={`w-4 h-4 ${getColor()}`} />
           )}
-          <span className={`text-sm font-extrabold ${getColor()}`}>
+          <span className={`text-sm font-semibold ${getColor()}`}>
             {signal}%
           </span>
         </div>
         {showLabel && (
-          <span className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full ${
-            isOffline ? 'bg-rose-100 text-rose-800' :
-            isWeak ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-700'
+          <span className={`text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full ${
+            isOffline ? 'bg-rose-500/10 text-rose-400' :
+            isWeak ? 'bg-amber-500/10 text-amber-400' : 'bg-surface-2 text-fg-muted'
           }`}>
             {getLabel()}
           </span>
@@ -56,7 +56,7 @@ function SignalIndicator({ signal = 100, showLabel = true }) {
             className={`w-full rounded-xs transition-colors ${
               signal >= threshold
                 ? isWeak ? 'bg-amber-500' : isOffline ? 'bg-rose-500' : 'bg-emerald-500'
-                : 'bg-slate-200'
+                : 'bg-surface-3'
             }`}
             style={{ height: `${(idx + 1) * 25}%` }}
           />

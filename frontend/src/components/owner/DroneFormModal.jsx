@@ -69,27 +69,27 @@ function DroneFormModal({ isOpen, onClose, onSave, droneToEdit }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-slate-950/70 backdrop-blur-xs transition-opacity"
+        className="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity"
         onClick={onClose}
       />
 
       {/* Modal Box */}
-      <div className="relative z-10 w-full max-w-3xl bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col animate-in zoom-in-95 duration-200">
+      <div className="relative z-10 w-full max-w-3xl bg-surface rounded-2xl border border-line shadow-lg overflow-hidden max-h-[90vh] flex flex-col animate-in zoom-in-95 duration-200">
         
         {/* Header */}
-        <div className="p-5 sm:p-6 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div className="p-5 sm:p-6 border-b border-line flex items-center justify-between bg-surface-2">
           <div>
-            <h2 className="text-xl font-black text-slate-900">
+            <h2 className="text-xl font-semibold text-fg">
               {droneToEdit ? 'Edit Shop Drone Inventory' : 'Add New Drone to Fleet'}
             </h2>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-muted">
               {droneToEdit ? `Updating metadata for ${droneToEdit.name}` : 'Fill in hardware specifications and pricing details.'}
             </p>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-200 rounded-xl transition-colors cursor-pointer"
+            className="p-2 text-subtle hover:text-fg-muted hover:bg-surface-3 rounded-xl transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -102,28 +102,28 @@ function DroneFormModal({ isOpen, onClose, onSave, droneToEdit }) {
             
             {/* Name */}
             <div className="space-y-1 sm:col-span-2">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
-                Drone Name <span className="text-rose-500">*</span>
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
+                Drone Name <span className="text-rose-400">*</span>
               </label>
               <input
                 type="text"
                 placeholder="e.g. Mavic 3 Pro Cine"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 focus:bg-white rounded-xl py-2.5 px-3 text-xs font-semibold text-slate-800"
+                className="w-full bg-surface-2 border border-line focus:border-accent focus:bg-surface rounded-xl py-2.5 px-3 text-xs font-semibold text-fg"
                 required
               />
             </div>
 
             {/* Brand */}
             <div className="space-y-1">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
                 Brand
               </label>
               <select
                 value={formData.brand}
                 onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl py-2.5 px-3 text-xs font-semibold text-slate-800"
+                className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-2.5 px-3 text-xs font-semibold text-fg"
               >
                 <option value="DJI">DJI</option>
                 <option value="Autel">Autel</option>
@@ -134,13 +134,13 @@ function DroneFormModal({ isOpen, onClose, onSave, droneToEdit }) {
 
             {/* Category */}
             <div className="space-y-1">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
                 Category
               </label>
               <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl py-2.5 px-3 text-xs font-semibold text-slate-800"
+                className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-2.5 px-3 text-xs font-semibold text-fg"
               >
                 <option value="Photography">Photography</option>
                 <option value="Videography">Videography</option>
@@ -155,7 +155,7 @@ function DroneFormModal({ isOpen, onClose, onSave, droneToEdit }) {
 
             {/* Model */}
             <div className="space-y-1">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
                 Model Number / Specs
               </label>
               <input
@@ -163,19 +163,19 @@ function DroneFormModal({ isOpen, onClose, onSave, droneToEdit }) {
                 placeholder="e.g. Mavic 3 Pro Hasselblad"
                 value={formData.model}
                 onChange={(e) => setFormData({ ...formData, model: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl py-2.5 px-3 text-xs font-semibold text-slate-800"
+                className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-2.5 px-3 text-xs font-semibold text-fg"
               />
             </div>
 
             {/* Status */}
             <div className="space-y-1">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
                 Rental Status
               </label>
               <select
                 value={formData.availability}
                 onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl py-2.5 px-3 text-xs font-semibold text-slate-800"
+                className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-2.5 px-3 text-xs font-semibold text-fg"
               >
                 <option value="Available">Available</option>
                 <option value="Currently Rented">Currently Rented</option>
@@ -186,40 +186,40 @@ function DroneFormModal({ isOpen, onClose, onSave, droneToEdit }) {
 
             {/* Pricing */}
             <div className="space-y-1">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
-                Rental Price / Day (₹) <span className="text-rose-500">*</span>
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
+                Rental Price / Day (₹) <span className="text-rose-400">*</span>
               </label>
               <input
                 type="number"
                 value={formData.pricePerDay}
                 onChange={(e) => setFormData({ ...formData, pricePerDay: Number(e.target.value) })}
-                className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl py-2.5 px-3 text-xs font-semibold text-slate-800"
+                className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-2.5 px-3 text-xs font-semibold text-fg"
                 required
               />
             </div>
 
             <div className="space-y-1">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
-                Security Deposit (₹) <span className="text-rose-500">*</span>
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
+                Security Deposit (₹) <span className="text-rose-400">*</span>
               </label>
               <input
                 type="number"
                 value={formData.securityDeposit}
                 onChange={(e) => setFormData({ ...formData, securityDeposit: Number(e.target.value) })}
-                className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl py-2.5 px-3 text-xs font-semibold text-slate-800"
+                className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-2.5 px-3 text-xs font-semibold text-fg"
                 required
               />
             </div>
 
             {/* Camera */}
             <div className="space-y-1">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
                 Camera Resolution
               </label>
               <select
                 value={formData.camera}
                 onChange={(e) => setFormData({ ...formData, camera: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl py-2.5 px-3 text-xs font-semibold text-slate-800"
+                className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-2.5 px-3 text-xs font-semibold text-fg"
               >
                 <option value="4K">4K HDR</option>
                 <option value="5.1K">5.1K Hasselblad</option>
@@ -229,44 +229,44 @@ function DroneFormModal({ isOpen, onClose, onSave, droneToEdit }) {
 
             {/* Flight Time */}
             <div className="space-y-1">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
                 Flight Time (Mins)
               </label>
               <input
                 type="number"
                 value={formData.flightTime}
                 onChange={(e) => setFormData({ ...formData, flightTime: Number(e.target.value) })}
-                className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl py-2.5 px-3 text-xs font-semibold text-slate-800"
+                className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-2.5 px-3 text-xs font-semibold text-fg"
               />
             </div>
 
             {/* Image URL */}
             <div className="space-y-1 sm:col-span-2">
-              <label className="block font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block font-bold text-fg-muted uppercase tracking-wider">
                 Image URL (Unsplash or direct image link)
               </label>
               <input
                 type="url"
                 value={formData.image}
                 onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-300 focus:border-purple-600 rounded-xl py-2.5 px-3 text-xs font-semibold text-slate-800"
+                className="w-full bg-surface-2 border border-line focus:border-accent rounded-xl py-2.5 px-3 text-xs font-semibold text-fg"
               />
             </div>
 
           </div>
 
           {/* Action Buttons */}
-          <div className="pt-4 border-t border-slate-200 flex items-center justify-end gap-3">
+          <div className="pt-4 border-t border-line flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-6 py-2.5 rounded-xl text-xs transition-colors cursor-pointer"
+              className="bg-surface-2 hover:bg-surface-3 text-fg-muted font-bold px-6 py-2.5 rounded-xl text-xs transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold px-7 py-2.5 rounded-xl text-xs shadow-md transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-bold px-7 py-2.5 rounded-xl text-xs shadow-md transition-all cursor-pointer"
             >
               <Save className="w-4 h-4" />
               <span>{droneToEdit ? 'Save Changes' : 'Add Drone to Fleet'}</span>

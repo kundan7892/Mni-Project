@@ -20,26 +20,26 @@ function AppearanceSettings() {
   }
 
   return (
-    <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-2xs space-y-6">
+    <div className="bg-surface p-6 sm:p-8 rounded-2xl border border-line shadow-2xs space-y-6">
       
       {toastMsg && (
-        <div className="bg-emerald-50 text-emerald-800 p-3 rounded-2xl border border-emerald-200 text-xs font-bold flex items-center gap-2 animate-fadeIn">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="bg-emerald-500/10 text-emerald-400 p-3 rounded-2xl border border-emerald-500/25 text-xs font-bold flex items-center gap-2 animate-fadeIn">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{toastMsg}</span>
         </div>
       )}
 
-      <div className="pb-4 border-b border-slate-100">
-        <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-          <Sun className="w-4 h-4 text-amber-500" />
+      <div className="pb-4 border-b border-line">
+        <h3 className="text-base font-semibold text-fg flex items-center gap-2">
+          <Sun className="w-4 h-4 text-amber-400" />
           <span>Appearance & Language Preferences</span>
         </h3>
-        <p className="text-xs text-slate-400 font-medium">Customize interface theme, display density, and platform language.</p>
+        <p className="text-xs text-subtle font-medium">Customize interface theme, display density, and platform language.</p>
       </div>
 
       {/* Theme Selector */}
       <div className="space-y-3">
-        <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">Interface Theme</label>
+        <label className="text-xs font-bold text-fg-muted uppercase tracking-wider block">Interface Theme</label>
         <div className="grid grid-cols-3 gap-3">
           
           <button
@@ -47,12 +47,12 @@ function AppearanceSettings() {
             onClick={() => handleSelectTheme('light')}
             className={`p-4 rounded-2xl border text-center space-y-2 transition-all cursor-pointer ${
               theme === 'light'
-                ? 'bg-blue-50 border-blue-500 text-blue-700 shadow-2xs ring-2 ring-blue-500/20'
-                : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300'
+                ? 'bg-accent/10 border-accent text-accent-ink shadow-2xs ring-2 ring-accent/40'
+                : 'bg-surface-2 border-line text-muted hover:border-line'
             }`}
           >
-            <Sun className="w-6 h-6 mx-auto text-amber-500" />
-            <div className="text-xs font-extrabold">Light Mode</div>
+            <Sun className="w-6 h-6 mx-auto text-amber-400" />
+            <div className="text-xs font-semibold">Light Mode</div>
           </button>
 
           <button
@@ -60,12 +60,12 @@ function AppearanceSettings() {
             onClick={() => handleSelectTheme('dark')}
             className={`p-4 rounded-2xl border text-center space-y-2 transition-all cursor-pointer ${
               theme === 'dark'
-                ? 'bg-slate-900 border-blue-500 text-white shadow-2xs ring-2 ring-blue-500/20'
-                : 'bg-slate-900/90 border-slate-800 text-slate-300 hover:border-slate-700'
+                ? 'bg-surface border-accent text-white shadow-2xs ring-2 ring-accent/40'
+                : 'bg-black/90 border-line text-fg-muted hover:border-line'
             }`}
           >
-            <Moon className="w-6 h-6 mx-auto text-blue-400" />
-            <div className="text-xs font-extrabold">Dark Mode</div>
+            <Moon className="w-6 h-6 mx-auto text-accent-ink" />
+            <div className="text-xs font-semibold">Dark Mode</div>
           </button>
 
           <button
@@ -73,22 +73,22 @@ function AppearanceSettings() {
             onClick={() => handleSelectTheme('system')}
             className={`p-4 rounded-2xl border text-center space-y-2 transition-all cursor-pointer ${
               theme === 'system'
-                ? 'bg-purple-50 border-purple-500 text-purple-700 shadow-2xs ring-2 ring-purple-500/20'
-                : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300'
+                ? 'bg-accent/10 border-accent text-accent-ink shadow-2xs ring-2 ring-accent/40'
+                : 'bg-surface-2 border-line text-muted hover:border-line'
             }`}
           >
-            <Monitor className="w-6 h-6 mx-auto text-purple-600" />
-            <div className="text-xs font-extrabold">System Match</div>
+            <Monitor className="w-6 h-6 mx-auto text-accent-ink" />
+            <div className="text-xs font-semibold">System Match</div>
           </button>
 
         </div>
       </div>
 
       {/* Language Selector */}
-      <div className="pt-4 border-t border-slate-100 space-y-3">
-        <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">Display Language</label>
+      <div className="pt-4 border-t border-line space-y-3">
+        <label className="text-xs font-bold text-fg-muted uppercase tracking-wider block">Display Language</label>
         <div className="flex items-center gap-3 max-w-xs">
-          <Globe className="w-4 h-4 text-slate-400 shrink-0" />
+          <Globe className="w-4 h-4 text-subtle shrink-0" />
           <select
             value={language}
             onChange={(e) => {
@@ -96,7 +96,7 @@ function AppearanceSettings() {
               setToastMsg(`Language set to ${e.target.value}`)
               setTimeout(() => setToastMsg(''), 2500)
             }}
-            className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 cursor-pointer"
+            className="w-full p-2.5 bg-surface-2 border border-line rounded-xl text-xs font-bold text-fg cursor-pointer"
           >
             <option value="English">English (United States)</option>
             <option value="Hindi">Hindi (हिंदी)</option>
