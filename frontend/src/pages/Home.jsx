@@ -395,7 +395,7 @@ function DroneVideoSection() {
       <div className="relative w-full" style={{ paddingBottom: '52%' }}>
         <iframe
           className="absolute inset-0 w-full h-full"
-          src="https://www.youtube.com/embed/kPfMcMX7n8M?autoplay=1&mute=1&loop=1&playlist=kPfMcMX7n8M&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1"
+          src="https://www.youtube.com/embed/kcfs1-ryKWE?autoplay=1&mute=1&loop=1&playlist=kcfs1-ryKWE&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1"
           title="Drone Agriculture in Action"
           frameBorder="0"
           allow="autoplay; encrypted-media"
