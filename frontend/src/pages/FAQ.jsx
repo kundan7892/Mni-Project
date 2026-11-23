@@ -24,7 +24,7 @@ function FAQ() {
   )
 
   return (
-    <div className="space-y-16 pb-20 pt-8 bg-[#050508]">
+    <div className="space-y-16 pb-20 pt-28 bg-[#050508]">
 
       {/* Header Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">

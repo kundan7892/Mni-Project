@@ -6,7 +6,7 @@ import { roleBenefitsData } from '../data/mockData'
 // About Component: Public page highlighting DroneHub mission, vision, and role benefits
 function About() {
   return (
-    <div className="space-y-20 pb-20 pt-8 bg-[#050508]">
+    <div className="space-y-20 pb-20 pt-28 bg-[#050508]">
 
       {/* Hero Header */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
