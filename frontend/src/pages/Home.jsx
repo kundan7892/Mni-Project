@@ -450,38 +450,83 @@ function ProductShowcase() {
   }
 
   return (
-    <section className="bg-[#050508] py-10 overflow-hidden">
+    <section className="relative bg-[#050508] py-12 overflow-hidden">
+      {/* Subtle background glow */}
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[300px] rounded-full blur-[140px] pointer-events-none opacity-25"
+        style={{ background: 'radial-gradient(ellipse, rgba(0,240,255,0.12) 0%, rgba(0,102,255,0.05) 50%, transparent 70%)' }}
+      />
+
       {/* Header */}
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 flex items-end justify-between mb-5">
-        <div>
-          <span
-            className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#00f0ff]"
-            style={{ fontFamily: 'JetBrains Mono, monospace' }}
-          >
-            Our Fleet
-          </span>
-          <h2
-            className="text-[36px] sm:text-[44px] font-bold text-white mt-2 tracking-tight leading-tight"
-            style={{ fontFamily: 'Space Grotesk, sans-serif' }}
-          >
-            Drones Built for<br />Every Mission
-          </h2>
-        </div>
-        <div className="hidden sm:flex items-center gap-2">
-          <button
-            onClick={() => scrollBy(-1)}
-            disabled={!canScrollLeft}
-            className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/40 disabled:opacity-20 transition-all"
-          >
-            <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>chevron_left</span>
-          </button>
-          <button
-            onClick={() => scrollBy(1)}
-            disabled={!canScrollRight}
-            className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/40 disabled:opacity-20 transition-all"
-          >
-            <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>chevron_right</span>
-          </button>
+      <div className="relative max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 mb-8">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-white/[0.06]">
+          {/* Left: Title & Subtitle */}
+          <div className="max-w-xl">
+            <div
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00f0ff]/10 border border-[#00f0ff]/20 text-[#00f0ff] text-[11px] font-semibold mb-3"
+              style={{ fontFamily: 'JetBrains Mono, monospace' }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00f0ff] animate-pulse" />
+              OUR FLEET · COMMERCIAL & ENTERPRISE
+            </div>
+            <h2
+              className="text-[34px] sm:text-[44px] font-bold text-white tracking-tight leading-[1.1]"
+              style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+            >
+              Drones Built for{' '}
+              <span style={{ color: '#00f0ff', textShadow: '0 0 35px rgba(0,240,255,0.35)' }}>
+                Every Mission
+              </span>
+            </h2>
+            <p className="text-[14px] text-white/50 mt-3 leading-relaxed max-w-lg">
+              Engineered for endurance, cinematic optics, and industrial payload. Certified and ready for deployment.
+            </p>
+          </div>
+
+          {/* Middle & Right: Key Capabilities + Controls */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:gap-6">
+            {/* Quick feature highlights */}
+            <div className="hidden xl:flex flex-col gap-1.5 text-[11px] text-white/60" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#00f0ff]" />
+                <span>6K Cinema & Thermal Imaging</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#4ae176]" />
+                <span>Up to 50 Min Extended Flight</span>
+              </div>
+            </div>
+
+            {/* Actions: View All Button + Arrow Controls */}
+            <div className="flex items-center gap-3">
+              <Link
+                to="/drones"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-white/15 hover:border-[#00f0ff]/40 bg-white/[0.04] hover:bg-[#00f0ff]/10 text-white hover:text-[#00f0ff] text-[12px] font-medium transition-all"
+              >
+                <span>View All Fleet</span>
+                <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>arrow_forward</span>
+              </Link>
+
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={() => scrollBy(-1)}
+                  disabled={!canScrollLeft}
+                  className="w-9 h-9 rounded-full border border-white/15 bg-white/[0.03] flex items-center justify-center text-white/60 hover:text-white hover:border-[#00f0ff]/50 hover:bg-[#00f0ff]/10 disabled:opacity-20 disabled:hover:border-white/15 disabled:hover:bg-transparent transition-all cursor-pointer"
+                  aria-label="Previous"
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>chevron_left</span>
+                </button>
+                <button
+                  onClick={() => scrollBy(1)}
+                  disabled={!canScrollRight}
+                  className="w-9 h-9 rounded-full border border-white/15 bg-white/[0.03] flex items-center justify-center text-white/60 hover:text-white hover:border-[#00f0ff]/50 hover:bg-[#00f0ff]/10 disabled:opacity-20 disabled:hover:border-white/15 disabled:hover:bg-transparent transition-all cursor-pointer"
+                  aria-label="Next"
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>chevron_right</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
