@@ -208,28 +208,45 @@ function DroneMarketplace() {
   }, [filteredAndSortedDrones, visibleCount])
 
   return (
-    <div className="space-y-10 pb-24 pt-6 bg-[#050508]">
+    <div className="space-y-10 pb-24 bg-[#050508]">
 
       {/* 1. PAGE HEADER */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 bg-purple-900/30 border border-purple-500/30 text-purple-300 px-4 py-1.5 rounded-full text-xs font-bold">
-            <Sparkles className="w-4 h-4 text-cyan-400" />
-            <span>Multi-Shop Drone Marketplace</span>
+      <section className="relative overflow-hidden">
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0d18] to-[#050508]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] rounded-full blur-[120px] pointer-events-none opacity-30"
+          style={{ background: 'radial-gradient(ellipse, rgba(0,240,255,0.15) 0%, rgba(100,0,255,0.08) 50%, transparent 70%)' }}
+        />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12 space-y-6">
+          <div className="text-center max-w-3xl mx-auto space-y-4">
+            <span
+              className="inline-flex items-center gap-2 border border-white/10 text-white/50 px-4 py-1.5 rounded-full text-[11px] font-semibold"
+              style={{ fontFamily: 'JetBrains Mono, monospace' }}
+            >
+              <Sparkles className="w-3 h-3 text-[#00f0ff]" />
+              Drone Fleet Marketplace
+            </span>
+
+            <h1
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight"
+              style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+            >
+              Explore{' '}
+              <span style={{ color: '#00f0ff', textShadow: '0 0 40px rgba(0,240,255,0.4)' }}>
+                Drones
+              </span>
+            </h1>
+
+            <p className="text-white/40 text-[15px] max-w-xl mx-auto leading-relaxed">
+              Find the perfect drone for photography, agriculture, surveying, filmmaking, and more.
+            </p>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
-            Explore <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Drones</span>
-          </h1>
-
-          <p className="text-slate-400 text-base sm:text-lg">
-            Find the perfect drone for photography, agriculture, surveying, filmmaking, and more.
-          </p>
-        </div>
-
-        {/* Search Bar Container */}
-        <div className="max-w-2xl mx-auto pt-2">
-          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          {/* Search Bar Container */}
+          <div className="max-w-2xl mx-auto pt-2">
+            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          </div>
         </div>
       </section>
 
