@@ -1,6 +1,62 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import { handleLocalRequest } from './localApi';
 
 const baseURL = import.meta.env.VITE_API_URL || '/api';
+
+/*
+ * Backend selection.
+ * VITE_API_MODE=server -> always use the Express + MongoDB backend
+ * VITE_API_MODE=local  -> always use the in-browser API (services/localApi.js)
+ * unset (default)      -> use the backend if /api/health reports a connected database,
+ *                         otherwise fall back to the in-browser API.
+ */
+const API_MODE = (import.meta.env.VITE_API_MODE || 'auto').toLowerCase();
+let modePromise = null;
+
+export function getApiMode() {
+  if (!modePromise) {
+    modePromise =
+      API_MODE === 'local' || API_MODE === 'server'
+        ? Promise.resolve(API_MODE)
+        : (async () => {
+            try {
+              const controller = new AbortController();
+              const timer = setTimeout(() => controller.abort(), 2500);
+              const res = await fetch(`${baseURL}/health`, { signal: controller.signal });
+              clearTimeout(timer);
+              const json = await res.json();
+              return json?.success && json?.data?.database?.connected ? 'server' : 'local';
+            } catch {
+              return 'local';
+            }
+          })();
+    modePromise.then((mode) => {
+      if (mode === 'local') console.info('DroneHub: backend not available, using in-browser data (localStorage).');
+    });
+  }
+  return modePromise;
+}
+
+const networkAdapter = axios.getAdapter(axios.defaults.adapter);
+
+async function localAdapter(config) {
+  const headers = config.headers;
+  const authorization = typeof headers?.get === 'function' ? headers.get('Authorization') : headers?.Authorization;
+  try {
+    const { status, body } = await handleLocalRequest({
+      method: config.method,
+      url: config.url,
+      params: config.params,
+      data: config.data,
+      headers: { Authorization: authorization }
+    });
+    return { data: body, status, statusText: 'OK', headers: {}, config, request: {} };
+  } catch (err) {
+    const status = err.status || 500;
+    const response = { data: { success: false, message: err.message }, status, statusText: 'Error', headers: {}, config, request: {} };
+    throw new AxiosError(err.message, String(status), config, {}, response);
+  }
+}
 
 /**
  * Reusable Axios Client Instance for DRONEHUB
@@ -10,7 +66,8 @@ const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json'
   },
-  timeout: 15000
+  timeout: 15000,
+  adapter: async (config) => ((await getApiMode()) === 'local' ? localAdapter(config) : networkAdapter(config))
 });
 
 // Request Interceptor: Automatically attach JWT Bearer Token

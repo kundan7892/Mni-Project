@@ -7,37 +7,59 @@ Drone rental website: customers browse the catalogue and request rentals; shop o
 
 ## Running locally
 
-```bash
-# 1. API (http://localhost:5000)
-cd backend
-npm install
-npm run dev
+### Quick start — no database needed
 
-# 2. Website (http://localhost:5173), in a second terminal
+```bash
 cd frontend
 npm install
-npm run dev
+npm run dev        # http://localhost:5173
 ```
 
-**No database setup is needed for development.** If `backend/.env` has no `MONGO_URI`, the backend
-starts a local MongoDB automatically (the binary is downloaded once on first start, ~100 MB) and stores
-its data in `backend/.data/`. An empty database is seeded with demo accounts, drones and bookings.
-Delete `backend/.data/` to start over.
+Without a backend, the site runs entirely in the browser (`frontend/src/services/localApi.js`):
+the 18-drone catalogue and demo bookings are built in, and everything — sign in, renting, approvals,
+catalogue edits, image uploads, analytics — works and is saved in the browser's `localStorage`.
+Because the data lives in one browser, sign in as admin and as customer **in the same browser** to see
+requests flow between them. Clear site data (or `localStorage.removeItem('dronehub_local_db_v1')`)
+to start over. This also works for a static deploy (e.g. Vercel) with no server.
 
-To use MongoDB Atlas (or any server) instead, copy `backend/.env.example` to `backend/.env` and set
-`MONGO_URI`. Set `SEED_IF_EMPTY=true` to seed an empty remote database. In `NODE_ENV=production` a
-`MONGO_URI` is required.
+### Full stack — Express + MongoDB
 
-Uploaded product images and customer documents are saved in `backend/uploads/` and served at `/uploads/...`.
+```bash
+cd backend
+npm install
+npm run dev        # http://localhost:5000
+```
+
+The frontend checks `/api/health` on load and uses the real backend automatically when it reports a
+connected database. Force a mode with `VITE_API_MODE=local` or `VITE_API_MODE=server` in `frontend/.env`.
+
+If `backend/.env` has no `MONGO_URI`, the backend starts a local MongoDB for development (binary
+downloaded once, ~100 MB) and stores data in `backend/.data/`. For MongoDB Atlas, copy
+`backend/.env.example` to `backend/.env` and set `MONGO_URI` (`SEED_IF_EMPTY=true` seeds an empty
+database). Uploaded files go to `backend/uploads/`.
 
 ## Demo accounts
 
-| Role | Email | Password |
-| --- | --- | --- |
-| Admin | admin@dronehub.com | admin123 |
-| Shop owner (SkyRent) | owner@dronehub.com | owner123 |
-| Shop owner (AeroTech) | owner2@dronehub.com | owner123 |
-| Customer | user@dronehub.com | user123 |
+Sign in at `/auth/login` and pick the matching role (Customer / Shop Owner / Admin).
+
+| Panel | URL after sign-in | Email | Password |
+| --- | --- | --- | --- |
+| Admin | `/admin/dashboard` | admin@dronehub.com | admin123 |
+| Shop owner — SkyRent Bengaluru | `/owner/dashboard` | owner@dronehub.com | owner123 |
+| Shop owner — AeroTech Mumbai | `/owner/dashboard` | owner2@dronehub.com | owner123 |
+| Customer | `/user/dashboard` | user@dronehub.com | user123 |
+| Customer (extra demo) | `/user/dashboard` | aarav@example.com | customer123 |
+| Customer (extra demo) | `/user/dashboard` | priya@example.com | customer123 |
+| Customer (extra demo) | `/user/dashboard` | rohan@example.com | customer123 |
+
+Admin accounts can't be created from the sign-up page. Change these passwords before deploying anywhere public.
+
+## Catalogue
+
+The catalogue starts with the 18 drones and prices from the original site
+(`frontend/src/data/drones.js`, mirrored in `backend/seeders/catalogue.js`). SkyRent drones belong to `owner@`, AeroTech drones to `owner2@`,
+and the rest to the admin. Drones the admin or a shop owner adds in **Catalogue** are stored in the
+database and appear in the store immediately (unless hidden).
 
 ## Rental flow
 
