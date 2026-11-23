@@ -78,6 +78,7 @@ const heroSlides = [
     image: '/drone-triple-lens.jpg',
     fallback: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=2070&q=85',
     bgColor: '#0a1520',
+    objectPosition: 'center 30%',
     tag: 'Triple-Lens Camera Drone',
     title: 'CineVision Pro',
     subtitle: 'Three Lenses. One Legend.',
@@ -152,12 +153,13 @@ function HeroSlider() {
             src={imgErrors[s.id] ? s.fallback : s.image}
             alt={s.title}
             className="w-full h-full object-cover"
+            style={{ objectPosition: s.objectPosition || 'center center' }}
             loading={i === 0 ? 'eager' : 'lazy'}
             onError={() => setImgErrors(prev => ({ ...prev, [s.id]: true }))}
           />
-          {/* Lighter overlay so image is visible */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-black/5" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent" />
+          {/* Softer overlay so images are clearly visible */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-black/5" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-transparent" />
         </div>
       ))}
 
