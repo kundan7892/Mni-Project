@@ -193,7 +193,7 @@ export const featuredDrones = [
   {
     id: 'd6',
     name: 'Avata FPV Explorer Kit',
-    brand: 'DJI',
+    brand: 'AeroVision',
     category: 'Videography',
     camera: '4K/60fps 155° Super-Wide',
     flightTime: '18 Mins',
@@ -202,6 +202,58 @@ export const featuredDrones = [
     reviewsCount: 84,
     image: 'https://images.unsplash.com/photo-1579829366248-204fe8413f31?auto=format&fit=crop&w=800&q=80',
     badge: 'Trending'
+  },
+  {
+    id: 'd7',
+    name: 'Aero X4 Pro',
+    brand: 'AeroHub',
+    category: 'Photography',
+    camera: '4K 60FPS Stabilised Camera',
+    flightTime: '35 Mins',
+    pricePerDay: 85,
+    rating: 4.8,
+    reviewsCount: 42,
+    image: '/drone-aero-x4-front.png',
+    badge: 'New Arrival'
+  },
+  {
+    id: 'd8',
+    name: 'Aero X4 Rear Edition',
+    brand: 'AeroHub',
+    category: 'Videography',
+    camera: '4K HDR + Dual Rear Sensors',
+    flightTime: '35 Mins',
+    pricePerDay: 85,
+    rating: 4.7,
+    reviewsCount: 31,
+    image: '/drone-aero-x4-rear.png',
+    badge: 'Popular'
+  },
+  {
+    id: 'd9',
+    name: 'Phantom Air Pro',
+    brand: 'AeroHub',
+    category: 'Mapping',
+    camera: '20MP 1-inch CMOS + RTK',
+    flightTime: '32 Mins',
+    pricePerDay: 110,
+    rating: 4.9,
+    reviewsCount: 58,
+    image: '/drone-phantom-top.png',
+    badge: 'High Accuracy'
+  },
+  {
+    id: 'd10',
+    name: 'Mini Scout Pro',
+    brand: 'AeroHub',
+    category: 'Photography',
+    camera: '4K 60FPS Ultra-Compact',
+    flightTime: '28 Mins',
+    pricePerDay: 45,
+    rating: 4.8,
+    reviewsCount: 97,
+    image: '/drone-mini-scout.png',
+    badge: 'Best Value'
   }
 ]
 
