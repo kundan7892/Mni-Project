@@ -75,71 +75,43 @@ const heroSlides = [
   },
   {
     id: 6,
-    image: '/drone-triple-lens.jpg',
-    fallback: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=2070&q=85',
-    bgColor: '#0d1a26',
+    image: '/drone-red-top.jpg',
+    fallback: '/drone-red-side.jpg',
+    bgColor: '#1a1a1a',
     objectPosition: 'center center',
     objectFit: 'contain',
-    tag: 'Triple-Lens Camera Drone',
-    title: 'CineVision Pro',
-    subtitle: 'Three Lenses. One Legend.',
-    description: 'Triple Hasselblad lenses for wide, medium and tele — capture cinematic perfection from every angle.',
+    tag: 'Industrial Inspection Drone',
+    title: 'Raptor X',
+    subtitle: 'Red. Ready. Ruthless.',
+    description: 'Military-grade body with red-accent motors. Built for infrastructure inspection and industrial surveillance.',
     cta: 'Rent Now',
     ctaLink: '/drones',
   },
   {
     id: 7,
-    image: '/drone-aero-x4-front.png',
-    fallback: '/drone-aero-x4-rear.png',
-    bgColor: '#f0f2f5',
+    image: '/drone-red-side.jpg',
+    fallback: '/drone-red-front.jpg',
+    bgColor: '#1a1a1a',
     objectPosition: 'center center',
     objectFit: 'contain',
-    tag: 'Professional Camera Drone',
-    title: 'Aero X4',
-    subtitle: 'Built to Dominate the Sky.',
-    description: 'Orange-tipped propellers, 4K stabilised camera and 35-min flight time — your creative powerhouse.',
-    cta: 'Rent Now',
+    tag: 'Heavy-Lift Payload Drone',
+    title: 'Raptor X — Tactical',
+    subtitle: 'Built for the Field.',
+    description: 'Side-mounted payload bay, retractable landing gear, and 50-min flight time under full load.',
+    cta: 'View Specs',
     ctaLink: '/drones',
   },
   {
     id: 8,
-    image: '/drone-aero-x4-rear.png',
-    fallback: '/drone-aero-x4-front.png',
-    bgColor: '#f0f2f5',
+    image: '/drone-red-front.jpg',
+    fallback: '/drone-red-top.jpg',
+    bgColor: '#1a1a1a',
     objectPosition: 'center center',
     objectFit: 'contain',
-    tag: 'Aero X4 — Rear View',
-    title: 'Aero X4',
-    subtitle: 'Every Angle. Every Shot.',
-    description: 'Smart obstacle avoidance, dual rear sensors, and intuitive auto-hover for flawless control.',
-    cta: 'Explore',
-    ctaLink: '/drones',
-  },
-  {
-    id: 9,
-    image: '/drone-phantom-top.png',
-    fallback: '/drone-aero-x4-front.png',
-    bgColor: '#f4f4f4',
-    objectPosition: 'center center',
-    objectFit: 'contain',
-    tag: 'Top-Down View — Folded Compact',
-    title: 'Phantom Air Pro',
-    subtitle: 'Precision From Every Altitude.',
-    description: 'Folds flat for easy transport. Unfolds in seconds for professional-grade imaging missions.',
-    cta: 'View Details',
-    ctaLink: '/drones',
-  },
-  {
-    id: 10,
-    image: '/drone-mini-scout.png',
-    fallback: '/drone-aero-x4-front.png',
-    bgColor: '#f2f4f6',
-    objectPosition: 'center center',
-    objectFit: 'contain',
-    tag: 'Ultra-Compact 4K 60FPS Drone',
-    title: 'Mini Scout Pro',
-    subtitle: 'Pocket-Sized. Pro Results.',
-    description: 'Under 250g. 4K at 60FPS. Carry it anywhere — mountains, cities, events. No limits.',
+    tag: 'Multi-Mission Combat Drone',
+    title: 'Raptor X — Stealth',
+    subtitle: 'Every Mission. Zero Compromise.',
+    description: 'Low-profile body, wide-angle 6K camera and AI-powered target tracking for every terrain.',
     cta: 'Book Now',
     ctaLink: '/drones',
   },
@@ -321,7 +293,7 @@ function DroneVideoSection() {
           style={{ fontFamily: 'JetBrains Mono, monospace' }}
         >
           <span className="w-1.5 h-1.5 rounded-full bg-[#00f0ff] animate-pulse" />
-          LIVE DEMO — WATCH IN ACTION
+          DRONES IN ACTION — Real Use Cases
         </span>
       </div>
 
@@ -329,7 +301,7 @@ function DroneVideoSection() {
       <div className="relative w-full" style={{ paddingBottom: '52%' }}>
         <iframe
           className="absolute inset-0 w-full h-full"
-          src="https://www.youtube.com/embed/D8oDMFQVP7Q?autoplay=1&mute=1&loop=1&playlist=D8oDMFQVP7Q&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1"
+          src="https://www.youtube.com/embed/r6aUo6fTOR0?autoplay=1&mute=1&loop=1&playlist=r6aUo6fTOR0&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1"
           title="Drone in Action"
           frameBorder="0"
           allow="autoplay; encrypted-media"
@@ -352,7 +324,7 @@ function DroneVideoSection() {
           </span>
         </h2>
         <p className="text-[13px] text-white/50 mt-2" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-          AI-Powered Navigation · 4K Cinematic · Real-time Telemetry
+          Agriculture Spraying · Search & Rescue · Infrastructure Inspection
         </p>
       </div>
     </section>

@@ -254,6 +254,45 @@ export const featuredDrones = [
     reviewsCount: 97,
     image: '/drone-mini-scout.png',
     badge: 'Best Value'
+  },
+  {
+    id: 'd11',
+    name: 'Raptor X Industrial',
+    brand: 'AeroHub',
+    category: 'Industrial Inspection',
+    camera: '6K Wide-Angle + Thermal',
+    flightTime: '50 Mins',
+    pricePerDay: 150,
+    rating: 4.9,
+    reviewsCount: 23,
+    image: '/drone-red-top.jpg',
+    badge: 'Heavy Duty'
+  },
+  {
+    id: 'd12',
+    name: 'Raptor X Tactical',
+    brand: 'AeroHub',
+    category: 'Industrial Inspection',
+    camera: 'AI Target Tracking + 6K',
+    flightTime: '50 Mins',
+    pricePerDay: 160,
+    rating: 4.8,
+    reviewsCount: 17,
+    image: '/drone-red-side.jpg',
+    badge: 'Pro Grade'
+  },
+  {
+    id: 'd13',
+    name: 'Raptor X Stealth',
+    brand: 'AeroHub',
+    category: 'Industrial Inspection',
+    camera: '6K Low-Profile Camera',
+    flightTime: '48 Mins',
+    pricePerDay: 155,
+    rating: 4.7,
+    reviewsCount: 12,
+    image: '/drone-red-front.jpg',
+    badge: 'New Arrival'
   }
 ]
 
