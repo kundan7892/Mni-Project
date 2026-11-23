@@ -75,29 +75,17 @@ const heroSlides = [
   },
   {
     id: 6,
-    image: '/drone-matrice.jpg',
+    image: '/drone-triple-lens.jpg',
     fallback: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=2070&q=85',
-    bgColor: '#1a0f28',
+    bgColor: '#0d1a26',
     objectPosition: 'center center',
+    objectFit: 'contain',
     tag: 'Triple-Lens Camera Drone',
     title: 'CineVision Pro',
-    subtitle: 'Always in Its Element.',
+    subtitle: 'Three Lenses. One Legend.',
     description: 'Triple Hasselblad lenses for wide, medium and tele — capture cinematic perfection from every angle.',
     cta: 'Rent Now',
     ctaLink: '/drones',
-  },
-  {
-    id: 7,
-    image: '/drone-dock.jpg',
-    fallback: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=2070&q=85',
-    bgColor: '#1a1a1a',
-    objectPosition: 'center center',
-    tag: "Smart Autonomous Docking Station",
-    title: 'AutoDock 4',
-    subtitle: 'Always There, Always Ready',
-    description: "Battery swapping dock — deploy your drone remotely with zero manual intervention.",
-    cta: 'Learn More',
-    ctaLink: '/how-it-works',
   },
 ]
 
@@ -165,8 +153,11 @@ function HeroSlider() {
           <img
             src={imgErrors[s.id] ? s.fallback : s.image}
             alt={s.title}
-            className="w-full h-full object-cover"
-            style={{ objectPosition: s.objectPosition || 'center center' }}
+            className="w-full h-full"
+            style={{
+              objectFit: s.objectFit || 'cover',
+              objectPosition: s.objectPosition || 'center center',
+            }}
             loading={i === 0 ? 'eager' : 'lazy'}
             onError={() => setImgErrors(prev => ({ ...prev, [s.id]: true }))}
           />
